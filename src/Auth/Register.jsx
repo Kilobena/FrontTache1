@@ -11,30 +11,28 @@ const RegisterForm = () => {
 
   const handleRegister = async () => {
     try {
-        if (profil.role === "Select Role") {
-            setMessage("Please select a role.");
-            setIsModalOpen(true); 
-            return;
-        }
-        const response = await auth.registerUser(profil);
-        console.log("hetha:"+response.status)
-        if (response.status === 201) {
-            setMessage("User registered successfully!"); 
+      if (profil.role === "Select Role") {
+        setMessage("Please select a role.");
+        setIsModalOpen(true); 
+        return;
+      }
+      const response = await auth.registerUser(profil);
+      if (response.status === 201) {
+        setMessage("User registered successfully!"); 
+      } else {
+        if (response.status === 200) {
+          setMessage("User already registered.");
         } else {
-            if (response.status === 200) {
-                setMessage("User already registered.");
-            } else {
-                setMessage(response.message); 
-            }
+          setMessage(response.message); 
         }
-        setIsModalOpen(true); 
+      }
+      setIsModalOpen(true); 
     } catch (error) {
-        setMessage("Error registering user. Please try again."); 
-        console.error(error);
-        setIsModalOpen(true); 
+      setMessage("Error registering user. Please try again."); 
+      console.error(error);
+      setIsModalOpen(true); 
     }
-};
-
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,17 +42,21 @@ const RegisterForm = () => {
     }));
   };
 
+  const handleReset = () => {
+    setProfil({ username: "", password: "", role: "Select Role" }); // Réinitialiser les champs
+  };
+
   const closeModal = () => {
     setIsModalOpen(false); 
   };
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
-      <div className="w-full">
-        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+      <div className="w-full h-full">
+        <h1 className="text-2xl font-bold bg-gray-700 text-white p-4 rounded w-full">
           Register User
         </h1>
-        <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
+        <div className="w-full max-w-lg bg-white p-6 rounded">
           <form>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -142,7 +144,8 @@ const RegisterForm = () => {
             <div className="flex flex-col space-y-2">
               <button
                 className="border border-black hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none"
-                type="reset"
+                type="button" // Change to type="button" to prevent form submission
+                onClick={handleReset} // Call reset handler
               >
                 RESET
               </button>
