@@ -11,10 +11,8 @@ function AppRoutes() {
     <Router>
       <Routes>
         <Route path="/" element={<RegisterForm />} />
-
         <Route path="/transferhistory" element={<TransferHistory />} />
         <Route path="/transferaction" element={<TransferForm />} />
-
         <Route path="/user" element={<ManageUser />} />
 
 

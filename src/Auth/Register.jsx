@@ -1,24 +1,14 @@
 import React, { useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
-
-import { useNavigate } from "react-router-dom";
-
-const RegisterForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-  return (
-    <div className="flex justify-center items-center h-screen w-full">
-      <div className="w-full h-full bg-white p-6 rounded">
-        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-
 import Auth from "../service/Auth.js";
-
+import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [profil, setProfil] = useState({ username: "", password: "", role: "Select Role" });
   const [message, setMessage] = useState(""); 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const auth = new Auth(); 
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
@@ -30,6 +20,8 @@ const RegisterForm = () => {
       const response = await auth.registerUser(profil);
       if (response.status === 201) {
         setMessage("User registered successfully!"); 
+        navigate("/user");
+
       } else {
         if (response.status === 200) {
           setMessage("User already registered.");

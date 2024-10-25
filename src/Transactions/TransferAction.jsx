@@ -13,10 +13,11 @@ const TransferForm = () => {
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
-      <div className="w-full h-full bg-white p-6 rounded">
-        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-          Transfer
-        </h1>
+    <div className="flex flex-col justify-start h-screen w-full">
+      {/* Apply similar header style as in Manage Users */}
+      <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+        Transfer
+      </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
 
           {/* User Selection */}

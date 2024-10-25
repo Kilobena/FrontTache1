@@ -6,14 +6,15 @@ const TransferHistory = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 w-full">
-      <div className="w-full h-full bg-white p-8">
-        <h1 className="text-3xl font-bold mb-8 bg-gray-700 text-white p-4 rounded w-full">
-          Transfer History
-        </h1>
+    <div className="flex justify-center items-center h-screen w-full">
+    <div className="flex flex-col justify-start h-screen w-full">
+      {/* Apply similar header style as in Manage Users */}
+      <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+        Transfer History
+      </h1>
         
         {/* Transaction Date Section */}
-        <div className="mb-8">
+        <div className="mb-8  pl-4">
           <label className="block font-medium mb-4 text-gray-800 text-lg">
             Transaction Date
           </label>
@@ -48,7 +49,7 @@ const TransferHistory = () => {
         </div>
 
         {/* Transfer To / From Section */}
-        <div className="mb-8">
+        <div className="mb-8 pl-4">
           <label className="block font-medium mb-2 text-gray-800 text-lg">Transfer To / From</label>
           <select className="w-1/4 p-2 border border-gray-300 rounded bg-white text-lg">
             <option>Select option</option>
@@ -57,7 +58,7 @@ const TransferHistory = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-4 mb-8">
+        <div className="flex space-x-4 mb-8 pl-4">
           <button
             className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/6"
             type="button"

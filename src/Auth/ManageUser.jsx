@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../service/Auth";
+import { useNavigate } from "react-router-dom/dist";
 
 const ManageUser = () => {
     const roles = ["admin", "user", "guest"];
@@ -8,6 +9,7 @@ const ManageUser = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const authApi = new Auth();
 
@@ -79,6 +81,15 @@ const ManageUser = () => {
             <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
                 Manage Users
             </h1>
+            {/* Add a button in the top right corner */}
+            <div className="flex justify-end mb-4 pr-5">
+                <button
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/7 "
+                        onClick={() => navigate('/transferhistory')} // Change the route as needed
+                >
+                    Transactions
+                </button>
+            </div>
             <div className="w-full max-w-lg bg-white px-9 rounded mt-6">
                 <h2 className="text-xl mb-4">Role</h2>
                 <div className="mb-4">
