@@ -1,11 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import RegisterForm from './Auth/Register';
+function AppRoutes() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<RegisterForm />} />
+      </Routes>
+    </Router>
+  );
+}
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-
-    <App />
-  </React.StrictMode>
-);
+export default AppRoutes;
