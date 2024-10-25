@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
+
+import { useNavigate } from "react-router-dom";
+
+const RegisterForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  return (
+    <div className="flex justify-center items-center h-screen w-full">
+      <div className="w-full h-full bg-white p-6 rounded">
+        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+
 import Auth from "../service/Auth.js";
 
 const RegisterForm = () => {
@@ -54,6 +65,7 @@ const RegisterForm = () => {
     <div className="flex justify-center items-center h-screen w-full">
       <div className="w-full h-full">
         <h1 className="text-2xl font-bold bg-gray-700 text-white p-4 rounded w-full">
+
           Register User
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded">
@@ -136,7 +148,9 @@ const RegisterForm = () => {
               <button
                 className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none"
                 type="button"
+
                 onClick={handleRegister}
+
               >
                 REGISTER USER
               </button>
