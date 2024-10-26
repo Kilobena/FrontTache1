@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Modal from "./Modal";
 import Login from "../Auth/LoginPage";
+import { useAuth } from "../providers/AuthContext"; 
 
 const HomePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { login } = useAuth(); 
 
     const handleLoginClick = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
+
+    const handleLoginSuccess = (userData) => {
+        login(userData);
+        handleCloseModal(); 
+    };
 
     return (
         <div className="relative min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-100 flex flex-col items-center text-gray-800">
@@ -58,7 +65,7 @@ const HomePage = () => {
                 <Modal onClose={handleCloseModal}>
                     <div className="p-8 bg-white rounded-lg shadow-2xl max-w-md mx-auto">
                         <h2 className="text-2xl font-semibold mb-6 text-center text-indigo-700">Sign in to your account</h2>
-                        <Login />
+                        <Login onLoginSuccess={handleLoginSuccess} /> {/* Passer la fonction de succès à Login */}
                     </div>
                 </Modal>
             )}

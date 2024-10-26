@@ -163,6 +163,38 @@ class Auth {
             }
         }
     }
+    async getAllUsers() {
+        try {
+            const token = localStorage.getItem('token'); 
+            const response = await this.api.get("/auth/getallusers", {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                }
+            });
+    
+            return {
+                success: true,
+                status: response.status,
+                users: response.data.users, 
+            };
+        } catch (error) {
+            console.error("Erreur lors de la récupération de tous les utilisateurs :", error);
+    
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des utilisateurs",
+                };
+            } else {
+                return {
+                    success: false,
+                    status: 500,
+                    message: "Network error or server is unreachable.",
+                };
+            }
+        }
+    }
 }
 
 export default Auth;

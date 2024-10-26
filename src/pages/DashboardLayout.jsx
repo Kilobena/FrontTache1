@@ -5,8 +5,8 @@ import Header from './Header';
 
 const DashboardLayout = ({ user }) => {
     return (
-        <div className="h-screen flex">
-            {/* Sidebar */}
+        <div className=" flex h-full">
+           
             <Sidebar user={user} />
 
             {/* Main Content Area */}

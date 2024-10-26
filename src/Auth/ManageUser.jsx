@@ -3,15 +3,26 @@ import Auth from "../service/Auth";
 import { useNavigate } from "react-router-dom/dist";
 
 const ManageUser = () => {
-    const roles = ["SuperAdmin", "Admin", "Partner", "Assistant", "User"];
+    const user = JSON.parse(localStorage.getItem("user")); // Assurez-vous que l'utilisateur est un objet JSON
     const [selectedRole, setSelectedRole] = useState("Select option");
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
     const authApi = new Auth();
+
+    const getAvailableRoles = () => {
+        if (user.role === "Partner") {
+            return ["User", "Assistant", "Admin", "SuperAdmin"];
+        } else if (user.role === "SuperAdmin") {
+            return ["User", "Assistant", "Admin"];
+        } else if (user.role === "Admin") {
+            return ["User", "Assistant"];
+        } else {
+            return ["User"]; // Si l'utilisateur est un User normal
+        }
+    };
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -34,13 +45,14 @@ const ManageUser = () => {
             setShowModal(true);
             return;
         }
+        console.log("hetha"+selectedRole)
 
         const result = await authApi.getUsersByRole(selectedRole);
         if (result.success) {
             setFilteredUsers(result.users);
             setError("");
         } else {
-            setFilteredUsers([]); // Si la recherche échoue, on vide la liste
+            setFilteredUsers([]); 
             setError(result.message);
             setShowModal(true);
         }
@@ -53,15 +65,10 @@ const ManageUser = () => {
         setShowModal(false);
     };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
     const handleDeleteUser = async (username) => {
         try {
             const response = await authApi.deleteUserByUsername(username);
             if (response.success) {
-                // Filtrer l'utilisateur supprimé de la liste
                 setFilteredUsers(filteredUsers.filter(user => user.username !== username));
                 setAllUsers(allUsers.filter(user => user.username !== username));
                 setError("");
@@ -76,20 +83,14 @@ const ManageUser = () => {
         }
     };
 
+    const roles = getAvailableRoles(); // Obtenez les rôles disponibles en fonction du rôle de l'utilisateur
+
     return (
         <div className="flex flex-col justify-start h-screen w-full">
             <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
                 Manage Users
             </h1>
-            {/* Add a button in the top right corner */}
-            <div className="flex justify-end mb-4 pr-5">
-                <button
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/7 "
-                        onClick={() => navigate('/transferhistory')} // Change the route as needed
-                >
-                    Transactions
-                </button>
-            </div>
+         
             <div className="w-full max-w-lg bg-white px-9 rounded mt-6">
                 <h2 className="text-xl mb-4">Role</h2>
                 <div className="mb-4">
@@ -127,7 +128,6 @@ const ManageUser = () => {
                 </div>
             </div>
 
-            {/* Center the table and add a border */}
             <div className="flex justify-center pt-10">
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
 import Auth from "../service/Auth.js";
-import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,9 +8,23 @@ const RegisterForm = () => {
   const [message, setMessage] = useState(""); 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const auth = new Auth(); 
-  const navigate = useNavigate();
 
-  const roles = ["SuperAdmin", "Admin", "Partner", "Assistant", "User"]; // Updated roles
+  const user = JSON.parse(localStorage.getItem('user')) || { username: 'Guest', role: 'User', balance: 0 };
+
+  // Détermine les rôles disponibles en fonction du rôle de l'utilisateur actuel
+  const getAvailableRoles = () => {
+    if (user.role === "Partner") {
+      return ["User", "Assistant", "Admin", "SuperAdmin"];
+    } else if (user.role === "SuperAdmin") {
+      return ["User", "Assistant", "Admin"];
+    } else if (user.role === "Admin") {
+      return ["User", "Assistant"];
+    } else {
+      return ["User"]; // Si l'utilisateur est un User normal
+    }
+  };
+
+  const roles = getAvailableRoles();
 
   const handleRegister = async () => {
     try {
@@ -23,7 +36,6 @@ const RegisterForm = () => {
       const response = await auth.registerUser(profil);
       if (response.status === 201) {
         setMessage("User registered successfully!"); 
-        navigate("/user");
       } else {
         if (response.status === 200) {
           setMessage("User already registered.");
@@ -165,7 +177,6 @@ const RegisterForm = () => {
         </div>
       </div>
 
-      {/* Modal for confirmation or error message */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded shadow-md">

@@ -8,22 +8,9 @@ const Sidebar = ({ user }) => {
 
     const isActive = (path) => location.pathname === path;
 
-    const handleLogout = () => {
-        // Clear the token from localStorage
-        localStorage.removeItem('token');
-        
-        // Log for debugging
-        console.log('User logged out, token removed');
-        
-        // Redirect to the login page after logout
-        navigate('/home');
-        
-        // Log the redirection to ensure it's happening
-        console.log('Redirecting to /');
-    };
-
+   
     return (
-        <div className="h-full w-64 bg-gray-900 text-white flex flex-col justify-between">
+        <div className="min-h-screen w-64 bg-gray-900 text-white flex flex-col justify-between">
             <div className="p-4">
                 <h2 className="text-xl font-bold mb-6">AGENT MENU</h2>
                 <ul className="space-y-6">
@@ -57,27 +44,7 @@ const Sidebar = ({ user }) => {
                     </li>
                 </ul>
             </div>
-            <div className="p-4">
-                {/* Logout Action */}
-                <div 
-                    className="flex items-center cursor-pointer hover:bg-gray-800 p-2 rounded" 
-                    onClick={handleLogout}
-                >
-                    <FaSignOutAlt className="mr-3" />
-                    Logout
-                </div>
-                {/* Display last login or any other user-specific information */}
-                <p className="mt-6 text-xs">
-                    {user ? (
-                        <>
-                            Last Login: <br />
-                            {user.lastLogin || 'N/A'}
-                        </>
-                    ) : (
-                        'Not logged in'
-                    )}
-                </p>
-            </div>
+           
         </div>
     );
 };

@@ -1,59 +1,51 @@
 import React, { useState } from "react";
-import Auth from "../service/Auth"; // Import the Auth service
-import { useNavigate } from "react-router-dom"; // For redirecting after login
+import Auth from "../service/Auth"; 
+import { useNavigate } from "react-router-dom"; 
 
 const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [isLoading, setIsLoading] = useState(false); 
 
-    const authApi = new Auth(); // Initialize the Auth API
-    const navigate = useNavigate(); // For navigation after successful login
+    const authApi = new Auth(); 
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true); // Set loading to true when login starts
+        setIsLoading(true); 
 
         try {
-            // Call the loginUser method with username and password
             const response = await authApi.loginUser({ username, password });
 
             if (response.success) {
-                // If login is successful, store the token and user data in localStorage
+                // Stocker les données de l'utilisateur et le token
                 localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response.user)); // Store user data (username, role)
+                localStorage.setItem("user", JSON.stringify(response.user));
 
-                // Optionally call onLoginSuccess with user data
+                // Appeler la fonction de succès de connexion
                 if (onLoginSuccess) {
                     onLoginSuccess(response.user);
                 }
 
                 console.log("User logged in:", response.user);
-                setErrorMessage(""); // Clear any previous error messages
+                setErrorMessage(""); // Réinitialiser le message d'erreur
 
-                // Redirect to the dashboard page (starting with /transferaction as per your routes)
-                navigate("/transferaction");
+                navigate("/transferaction"); // Rediriger vers la page de transfert
 
             } else {
-                // Handle login failure with an appropriate message
                 setErrorMessage(response.message || "Failed to login. Please try again.");
             }
         } catch (error) {
-            // Log the entire error object for debugging
             console.error("Full error object during login:", error);
+            console.error("Error response data:", error.response?.data);
+            console.error("Error status:", error.response?.status);
 
-            // Check if it's an Axios error and if it has a response
-            if (error.response) {
-                console.error("Error response data:", error.response.data);
-                console.error("Error status:", error.response.status);
-                setErrorMessage(error.response.data.message || "An error occurred during login.");
-            } else {
-                // Handle network or unexpected errors
-                setErrorMessage("An error occurred during login. Please try again.");
-            }
+            setErrorMessage(
+                error.response?.data.message || "An error occurred during login. Please try again."
+            );
         } finally {
-            setIsLoading(false); // Set loading to false when login is done
+            setIsLoading(false); // Réinitialiser le chargement
         }
     };
 
@@ -87,9 +79,9 @@ const Login = ({ onLoginSuccess }) => {
                 <button
                     type="submit"
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded w-full"
-                    disabled={isLoading} // Disable button during loading
+                    disabled={isLoading} // Désactiver le bouton pendant le chargement
                 >
-                    {isLoading ? "Logging in..." : "Login"} {/* Show loading text */}
+                    {isLoading ? "Logging in..." : "Login"} {/* Afficher le texte de chargement */}
                 </button>
             </form>
         </div>

@@ -1,31 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Auth from '../service/Auth';
+import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
+  const { user } = useAuth(); 
   const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
+  const [usersList, setUsersList] = useState([]);
+  
+  const authServ = new Auth();
 
   const handleAmountChange = (value) => {
-    setAmount(prev => prev + value);
+    setAmount((prev) => prev + value);
   };
 
   const handleClear = () => setAmount(0);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const result = await authServ.getAllUsers();
+      if (result.success) {
+        setUsersList(result.users); 
+      } else {
+        console.error("Erreur lors de la récupération des utilisateurs :", result.message);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const canInteractWith = (role) => {
+    const roleHierarchy = {
+      partner: 5,     
+      superadmin: 4,  
+      admin: 3,     
+      assistant: 2,  
+      user: 1      
+    };
+    
+    return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
+  };
+
+  const filteredUsers = usersList.filter((listedUser) => {
+    const canInteract = canInteractWith(listedUser.role);
+    const isNotSelf = listedUser.username !== user.username;
+    console.log(`User: ${listedUser.username}, Role: ${listedUser.role}, Can Interact: ${canInteract}, Is Not Self: ${isNotSelf}`);
+    return canInteract && isNotSelf; 
+  });
+
   return (
     <div className="flex justify-center items-center h-screen w-full">
-    <div className="flex flex-col justify-start h-screen w-full">
-      {/* Apply similar header style as in Manage Users */}
-      <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-        Transfer
-      </h1>
+      <div className="flex flex-col justify-start h-screen w-full">
+        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+          Transfer
+        </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
-
           {/* User Selection */}
           <div className="relative mb-4">
             <select className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10">
               <option>Select USER</option>
-              <option>JHON</option>
-              <option>DOE</option>
+              {filteredUsers.map((user) => (
+                <option key={user.username} value={user.username}>
+                  {user.username} ({user.role})
+                </option>
+              ))}
             </select>
           </div>
 
