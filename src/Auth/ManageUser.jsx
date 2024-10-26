@@ -3,7 +3,7 @@ import Auth from "../service/Auth";
 import { useNavigate } from "react-router-dom/dist";
 
 const ManageUser = () => {
-    const roles = ["admin", "user", "guest"];
+    const roles = ["SuperAdmin", "Admin", "Partner", "Assistant", "User"];
     const [selectedRole, setSelectedRole] = useState("Select option");
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
@@ -16,7 +16,7 @@ const ManageUser = () => {
     useEffect(() => {
         const fetchAllUsers = async () => {
             try {
-                const response = await authApi.api.get("/auth/users_Role");
+                const response = await authApi.api.get("/auth/usersByRole");
                 setAllUsers(response.data.users);
                 setFilteredUsers(response.data.users);
             } catch (error) {

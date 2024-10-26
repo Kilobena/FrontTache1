@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
 import Auth from "../service/Auth.js";
 import { useNavigate } from "react-router-dom";
+
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [profil, setProfil] = useState({ username: "", password: "", role: "Select Role" });
@@ -9,6 +10,8 @@ const RegisterForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const auth = new Auth(); 
   const navigate = useNavigate();
+
+  const roles = ["SuperAdmin", "Admin", "Partner", "Assistant", "User"]; // Updated roles
 
   const handleRegister = async () => {
     try {
@@ -21,7 +24,6 @@ const RegisterForm = () => {
       if (response.status === 201) {
         setMessage("User registered successfully!"); 
         navigate("/user");
-
       } else {
         if (response.status === 200) {
           setMessage("User already registered.");
@@ -46,7 +48,7 @@ const RegisterForm = () => {
   };
 
   const handleReset = () => {
-    setProfil({ username: "", password: "", role: "Select Role" }); // Réinitialiser les champs
+    setProfil({ username: "", password: "", role: "Select Role" });
   };
 
   const closeModal = () => {
@@ -57,11 +59,11 @@ const RegisterForm = () => {
     <div className="flex justify-center items-center h-screen w-full">
       <div className="w-full h-full">
         <h1 className="text-2xl font-bold bg-gray-700 text-white p-4 rounded w-full">
-
           Register User
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded">
           <form>
+            {/* Username Input */}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Username
@@ -83,6 +85,7 @@ const RegisterForm = () => {
               </div>
             </div>
 
+            {/* Password Input */}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Password
@@ -90,7 +93,7 @@ const RegisterForm = () => {
               <div className="flex items-center border border-black rounded">
                 <img
                   src="/images/lock.png"
-                  alt="Profile"
+                  alt="Lock"
                   className="w-10 h-10 rounded-full p-2"
                 />
                 <input
@@ -113,6 +116,7 @@ const RegisterForm = () => {
               </div>
             </div>
 
+            {/* Role Dropdown */}
             <div className="mb-6">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Role
@@ -124,10 +128,12 @@ const RegisterForm = () => {
                   value={profil.role}
                   onChange={handleChange}
                 >
-                  <option>Select Role</option>
-                  <option>user</option>
-                  <option>admin</option>
-                  <option>guest</option>
+                  <option value="Select Role">Select Role</option>
+                  {roles.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
                 </select>
                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mr-1">
                   <span className="mr-1 pb-1 text-gray-500 flex">|</span>
@@ -136,13 +142,12 @@ const RegisterForm = () => {
               </div>
             </div>
 
+            {/* Register and Reset Buttons */}
             <div className="flex flex-col pb-3">
               <button
                 className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none"
                 type="button"
-
                 onClick={handleRegister}
-
               >
                 REGISTER USER
               </button>
@@ -150,8 +155,8 @@ const RegisterForm = () => {
             <div className="flex flex-col space-y-2">
               <button
                 className="border border-black hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none"
-                type="button" // Change to type="button" to prevent form submission
-                onClick={handleReset} // Call reset handler
+                type="button"
+                onClick={handleReset}
               >
                 RESET
               </button>
@@ -160,7 +165,7 @@ const RegisterForm = () => {
         </div>
       </div>
 
-      {/* Modale de confirmation */}
+      {/* Modal for confirmation or error message */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded shadow-md">
