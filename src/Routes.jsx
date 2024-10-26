@@ -28,7 +28,6 @@ function AppRoutes() {
                     <Route path="/user-management" element={isAuthenticated ? <ManageUser /> : <Navigate to="/home" replace />} />
                     <Route path="/registre" element={isAuthenticated ? <RegisterForm /> : <Navigate to="/home" replace />} />
                 </Route>
-                <Route path="/user-redirect" element={<UserPage />} />
                 <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
         </Router>

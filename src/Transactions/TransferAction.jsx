@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Auth from '../service/Auth';
+import TransferService from '../service/Transfer';  // Import TransferService
 import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
@@ -8,8 +9,10 @@ const TransferForm = () => {
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [usersList, setUsersList] = useState([]);
-  
+  const [selectedUser, setSelectedUser] = useState("");  // Track selected receiver
+  const [message, setMessage] = useState(null);  // Message for success/failure
   const authServ = new Auth();
+  const transferServ = new TransferService();  // Initialize TransferService
 
   const handleAmountChange = (value) => {
     setAmount((prev) => prev + value);
@@ -17,6 +20,7 @@ const TransferForm = () => {
 
   const handleClear = () => setAmount(0);
 
+  // Fetch users when component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       const result = await authServ.getAllUsers();
@@ -26,7 +30,6 @@ const TransferForm = () => {
         console.error("Erreur lors de la récupération des utilisateurs :", result.message);
       }
     };
-
     fetchUsers();
   }, []);
 
@@ -38,16 +41,44 @@ const TransferForm = () => {
       assistant: 2,  
       user: 1      
     };
-    
     return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
   };
 
   const filteredUsers = usersList.filter((listedUser) => {
     const canInteract = canInteractWith(listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
-    console.log(`User: ${listedUser.username}, Role: ${listedUser.role}, Can Interact: ${canInteract}, Is Not Self: ${isNotSelf}`);
     return canInteract && isNotSelf; 
   });
+
+  // Handle Transfer
+  const handleTransfer = async () => {
+    if (!selectedUser) {
+      setMessage("Please select a user.");
+      return;
+    }
+    if (amount <= 0) {
+      setMessage("Amount must be greater than zero.");
+      return;
+    }
+
+    const transferData = {
+      senderUsername: user.username,
+      receiverUsername: selectedUser,
+      amount,
+      type: transferType,
+      note
+    };
+
+    const result = await transferServ.makeTransfer(transferData);
+
+    if (result.success) {
+      setMessage(`Transfer successful! New sender balance: ${result.senderBalance}`);
+      setAmount(0);  // Reset amount after successful transfer
+      setNote("");    // Clear the note
+    } else {
+      setMessage(`Transfer failed: ${result.message}`);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
@@ -58,8 +89,12 @@ const TransferForm = () => {
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
           {/* User Selection */}
           <div className="relative mb-4">
-            <select className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10">
-              <option>Select USER</option>
+            <select 
+              className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10"
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+            >
+              <option value="">Select USER</option>
               {filteredUsers.map((user) => (
                 <option key={user.username} value={user.username}>
                   {user.username} ({user.role})
@@ -139,17 +174,31 @@ const TransferForm = () => {
             ></textarea>
           </div>
 
+          {/* Message Section */}
+          {message && (
+            <div className="mb-4 text-center text-red-500">
+              {message}
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex space-x-4">
             <button
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/2"
               type="button"
+              onClick={handleTransfer}  // Call handleTransfer on click
             >
               TRANSFER
             </button>
             <button
               className="border border-black hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none w-1/2"
               type="reset"
+              onClick={() => {
+                setAmount(0);
+                setNote('');
+                setSelectedUser('');
+                setMessage(null);
+              }}
             >
               RESET
             </button>
