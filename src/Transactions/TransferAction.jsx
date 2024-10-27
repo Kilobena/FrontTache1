@@ -4,20 +4,21 @@ import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuth(); // Get user and updateUser from AuthContext
   const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [usersList, setUsersList] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [selectedUser, setSelectedUser] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [message, setMessage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [modalType, setModalType] = useState(''); // for controlling success/error modal
 
   const authServ = new Auth();
-  const transferServ = new TransferService(); 
+  const transferServ = new TransferService();
 
   const suggestionBoxRef = useRef(null);
 
@@ -42,22 +43,19 @@ const TransferForm = () => {
 
   const canInteractWith = (currentRole, targetRole) => {
     const permissions = {
-      partner: ["superadmin", "admin", "assistant", "user"],
-      superadmin: ["admin", "assistant", "user"],
-      admin: ["assistant", "user"],
-      assistant: ["user"],
+      partner: ['superadmin', 'admin', 'assistant', 'user'],
+      superadmin: ['admin', 'assistant', 'user'],
+      admin: ['assistant', 'user'],
+      assistant: ['user'],
     };
 
-    const currentRoleLower = currentRole.toLowerCase();
-    const targetRoleLower = targetRole.toLowerCase();
-
-    return permissions[currentRoleLower]?.includes(targetRoleLower);
+    return permissions[currentRole.toLowerCase()]?.includes(targetRole.toLowerCase());
   };
 
   const filteredUsersForInteraction = usersList.filter((listedUser) => {
     const canInteract = canInteractWith(user.role, listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
-    return canInteract && isNotSelf; 
+    return canInteract && isNotSelf;
   });
 
   const handleInputChange = (e) => {
@@ -70,14 +68,14 @@ const TransferForm = () => {
           user.username.toLowerCase().includes(value.toLowerCase())
         )
       : filteredUsersForInteraction;
-      
+
     setFilteredUsers(filtered);
   };
 
   const handleSuggestionClick = (username, userId) => {
-    setSearchTerm(username);  
-    setSelectedUser(userId);   
-    setShowSuggestions(false); 
+    setSearchTerm(username);
+    setSelectedUser(userId);
+    setShowSuggestions(false);
   };
 
   useEffect(() => {
@@ -87,19 +85,23 @@ const TransferForm = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   const handleTransfer = async () => {
     if (!selectedUser) {
-      setMessage("Veuillez sélectionner un utilisateur.");
+      setMessage("Please select a user.");
+      setModalType('error');
+      setIsModalOpen(true);
       return;
     }
     if (amount <= 0) {
-      setMessage("Le montant doit être supérieur à zéro.");
+      setMessage("The amount must be greater than zero.");
+      setModalType('error');
+      setIsModalOpen(true);
       return;
     }
 
@@ -108,7 +110,7 @@ const TransferForm = () => {
       receiverId: selectedUser,
       amount,
       type: transferType,
-      note    
+      note,
     };
 
     const result = await transferServ.makeTransfer(
@@ -125,43 +127,48 @@ const TransferForm = () => {
       if (updatedUserResponse.success) {
         const updatedUser = { ...user, balance: updatedUserResponse.balance };
         updateUser(updatedUser);
-        setMessage("Transfert réussi !");
+        setMessage("Transfer successful!");
+        setModalType('success');
       } else {
-        setMessage(`Échec de la récupération du solde mis à jour : ${updatedUserResponse.message}`);
+        setMessage(`Failed to retrieve updated balance: ${updatedUserResponse.message}`);
+        setModalType('error');
       }
 
       setIsModalOpen(true);
       resetForm();
     } else {
-      setMessage(`Échec du transfert : ${result.message}`);
+      setMessage(`Transfer failed: ${result.message}`);
+      setModalType('error');
+      setIsModalOpen(true);
     }
   };
 
   const resetForm = () => {
     setAmount(0);
-    setNote("");
-    setSelectedUser("");
-    setSearchTerm("");
+    setNote('');
+    setSelectedUser('');
+    setSearchTerm('');
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setMessage(null); 
+    setMessage(null);
   };
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
       <div className="flex flex-col justify-start h-screen w-full">
         <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-          Transfert
+          Transfer
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
 
+          {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
             <input
               type="text"
               className="border border-gray-300 p-2 rounded w-full"
-              placeholder="Rechercher un utilisateur"
+              placeholder="Search for a user"
               value={searchTerm}
               onChange={handleInputChange}
               onFocus={() => setShowSuggestions(true)}
@@ -181,16 +188,19 @@ const TransferForm = () => {
             )}
           </div>
 
+          {/* Transfer Type Section */}
           <div className="mb-4">
-            <label className="block font-medium mb-2 text-gray-800">Type de transfert</label>
+            <label className="block font-medium mb-2 text-gray-800">Transfer Type</label>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Dépôt', value: 'deposit' },
-                { label: 'Retrait', value: 'withdraw' }
+                { label: 'Deposit', value: 'deposit' },
+                { label: 'Withdraw', value: 'withdraw' },
               ].map((option) => (
                 <label
                   key={option.value}
-                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'}`}
+                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
+                    transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'
+                  }`}
                 >
                   <input
                     type="radio"
@@ -206,26 +216,28 @@ const TransferForm = () => {
             </div>
           </div>
 
+          {/* Transfer Amount Section */}
           <div className="mb-4">
-            <label className="block font-medium">Montant du transfert</label>
+            <label className="block font-medium">Transfer Amount</label>
             <div className="flex space-x-4 mb-2">
-              <input 
-                type="text" 
-                value={amount} 
-                readOnly 
+              <input
+                type="text"
+                value={amount}
+                readOnly
                 className="w-full p-2 border border-gray-300 rounded"
               />
-              <button 
+              <button
                 onClick={handleClear}
                 className="border border-black py-2 px-4 rounded focus:outline-none"
               >
-                Effacer
+                Clear
               </button>
             </div>
+
             <div className="flex space-x-4">
-              {[10, 20, 50, 100, 500].map(value => (
-                <button 
-                  key={value} 
+              {[10, 20, 50, 100, 500].map((value) => (
+                <button
+                  key={value}
                   onClick={() => handleAmountChange(value)}
                   className="p-2 bg-gray-300 rounded"
                 >
@@ -235,28 +247,47 @@ const TransferForm = () => {
             </div>
           </div>
 
+          {/* Transfer Note Section */}
           <div className="mb-4">
-            <label className="block font-medium">Note de transfert</label>
-            <textarea 
+            <label className="block font-medium">Transfer Note</label>
+            <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded"
               rows="4"
-              placeholder="Ajouter une note (optionnel)"
+              placeholder="Add a note (optional)"
             />
           </div>
 
-          <button 
+          <button
             onClick={handleTransfer}
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
           >
-            Transférer
+            Transfer
           </button>
 
           {message && (
             <div className="mt-4 p-2 text-center text-red-600">{message}</div>
           )}
         </div>
+
+        {/* Modal for Success/Error Message */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-5 rounded shadow-lg">
+              <h2 className={`text-xl font-bold ${modalType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                {modalType === 'success' ? 'Success' : 'Error'}
+              </h2>
+              <p>{message}</p>
+              <button
+                onClick={closeModal}
+                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

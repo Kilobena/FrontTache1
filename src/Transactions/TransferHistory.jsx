@@ -170,14 +170,18 @@ const TransferHistory = () => {
                                         <th className="border px-4 py-2">Type</th>
                                         <th className="border px-4 py-2">Amount</th>
                                         <th className="border px-4 py-2">Date</th>
+                                        <th className="border px-4 py-2">From</th>
+                                        <th className="border px-4 py-2">To</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {transfers.map((transfer, index) => (
-                                        <tr key={index} className="hover:bg-gray-100">
-                                            <td className="border px-4 py-2">{transfer.type}</td>
-                                            <td className="border px-4 py-2">{transfer.amount}</td>
-                                            <td className="border px-4 py-2">{new Date(transfer.date).toLocaleString()}</td>
+                                        <tr key={index} className="hover:bg-gray-100 justify-center">
+                                            <td className="border px-4 py-2  text-center">{transfer.type}</td>
+                                            <td className="border px-4 py-2 text-center">{transfer.amount}</td>
+                                            <td className="border px-4 py-2 text-center">{new Date(transfer.date).toLocaleString()}</td>
+                                            <td className="border px-4 py-2 text-center">{transfer.senderId.username}({transfer.senderId.role})</td>
+                                            <td className="border px-4 py-2 text-center">{transfer.receiverId.username} ({transfer.receiverId.role})</td>
                                         </tr>
                                     ))}
                                 </tbody>
