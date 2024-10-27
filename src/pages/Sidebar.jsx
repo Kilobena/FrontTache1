@@ -8,7 +8,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const isActive = (path) => location.pathname === path;
-    const { user} = useAuth(); 
+    const { user } = useAuth();  // Get the user from AuthContext
 
     return (
         <div className="min-h-screen w-64 bg-gray-900 text-white flex flex-col justify-between">
@@ -45,7 +45,7 @@ const Sidebar = () => {
                     </li>
 
                     {/* Conditionally render "Add Partner" based on the user's role */}
-                    {user.role === "Partner" && (
+                    {user && user.role === "Partner" && (
                         <li 
                             className={`flex items-center cursor-pointer p-2 rounded hover:bg-yellow-700 ${isActive('/regitreP') ? 'bg-gray-800' : ''}`}
                             onClick={() => navigate('/regitreP')}
