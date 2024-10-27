@@ -32,8 +32,8 @@ const Login = ({ onLoginSuccess }) => {
                 setErrorMessage(""); // Reset error message
 
                 // Redirect based on user role
-                if (response.user.role === "user") {
-                    navigate("/user"); // Redirect to /user if the role is 'user'
+                if (response.user.role === "User") {
+                    navigate("/user"); // Redirect to /user if the role is 'User'
                 } else {
                     navigate("/transferaction"); // Redirect to /transferaction for other roles
                 }

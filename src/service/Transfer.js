@@ -7,80 +7,90 @@ class TransferService {
         });
     }
 
-    // Method to handle transactions (deposit or withdraw)
-    async makeTransaction({ senderUsername, amount, type, note }) {
+    async makeTransfer(senderId, receiverId, amount, type, note) {
         try {
             const token = localStorage.getItem('token');
-            const response = await this.api.post("/tr/transaction", {  // Changed the endpoint to '/tr/transaction'
-                senderUsername: senderUsername ?? "",
-                amount: amount ?? 0,
-                type: type ?? "deposit",  // Either 'deposit' or 'withdraw'
-                note: note ?? ""
+
+            const response = await this.api.post("/tr/transfer", {
+                senderId,
+                receiverId,
+                amount,
+                type,
+                note
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`,  // Include the JWT token in headers
+                    Authorization: `Bearer ${token}`,
                 }
             });
 
             return {
                 success: true,
-                status: response.status,
                 message: response.data.message,
-                senderBalance: response.data.senderBalance,
+                transfer: response.data.data.transfer,
+                updatedSender: response.data.updatedSender,
+                updatedReceiver: response.data.updatedReceiver
             };
         } catch (error) {
-            console.error("Erreur lors de la transaction :", error);
+            console.error("Erreur lors de la création du transfert :", error);
 
             if (error.response) {
                 return {
                     success: false,
-                    status: error.response.status,
-                    message: error.response.data.message || "Une erreur est survenue lors de la transaction",
+                    message: error.response.data.message || "Une erreur est survenue lors de la création du transfert",
+                    status: error.response.status
                 };
             } else {
                 return {
                     success: false,
-                    status: 500,
-                    message: "Network error or server is unreachable.",
+                    message: "Erreur réseau ou le serveur est inaccessible.",
+                    status: 500
                 };
             }
         }
     }
 
-    // Optional: Method to get transaction history for a user
-    async getTransactionHistory(username) {
+    async getUserInfo(username, token) {
         try {
-            const token = localStorage.getItem('token');  // Get the JWT token from localStorage
-            const response = await this.api.get("/tr/transaction-history", {
+            const response = await this.api.get(`/auth/user/${username}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,  // Include the JWT token in headers
-                },
-                params: {
-                    username: username ?? ""
+                    Authorization: `Bearer ${token}`,
                 }
             });
 
             return {
                 success: true,
-                status: response.status,
-                transactionHistory: response.data.transactionHistory,
+                user: response.data.user,
             };
         } catch (error) {
-            console.error("Erreur lors de la récupération de l'historique des transactions :", error);
+            console.error("Erreur lors de la récupération des informations de l'utilisateur :", error);
+            return {
+                success: false,
+                message: error.response ? error.response.data.message : "Une erreur est survenue lors de la récupération des informations de l'utilisateur",
+            };
+        }
+    }
 
-            if (error.response) {
-                return {
-                    success: false,
-                    status: error.response.status,
-                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des transactions",
-                };
-            } else {
-                return {
-                    success: false,
-                    status: 500,
-                    message: "Network error or server is unreachable.",
-                };
-            }
+    async getTransferHistory(username, date) {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await this.api.get(`/tr/transfer-history`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: { username, date }
+            });
+
+            return {
+                success: true,
+                transferHistory: response.data.transferHistory,
+            };
+        } catch (error) {
+            console.error("Error fetching transfer history:", error);
+            return {
+                success: false,
+                message: error.response?.data.message || "An error occurred while fetching transfer history",
+                status: error.response?.status || 500
+            };
         }
     }
 }

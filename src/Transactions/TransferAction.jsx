@@ -1,31 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import TransferService from '../service/Transfer';  // Import TransferService
-import Auth from '../service/Auth';  // Import Auth for fetching user list
+import Auth from '../service/Auth';
+import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
-  const { user } = useAuth();  // Fetch current user from context
-  const [transactionType, setTransactionType] = useState('deposit');  // Now "transactionType" instead of "transferType"
+  const { user } = useAuth(); 
+  const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');  // State for selected user
-  const [usersList, setUsersList] = useState([]);  // State for all available users
-  const [message, setMessage] = useState(null);  // Message for success/failure
-  const transferServ = new TransferService();  // Initialize TransferService
-  const authServ = new Auth();  // Initialize Auth Service to get all users
-
-  // Fetch users when component mounts
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const result = await authServ.getAllUsers();
-      if (result.success) {
-        setUsersList(result.users); 
-      } else {
-        console.error("Error fetching users:", result.message);
-      }
-    };
-    fetchUsers();
-  }, []);
+  const [usersList, setUsersList] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [message, setMessage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // État du modal
+  const authServ = new Auth();
+  const transferServ = new TransferService(); 
 
   const handleAmountChange = (value) => {
     setAmount((prev) => prev + value);
@@ -33,94 +21,118 @@ const TransferForm = () => {
 
   const handleClear = () => setAmount(0);
 
-  // Handle Transaction
-  const handleTransaction = async () => {
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const result = await authServ.getAllUsers();
+      if (result.success) {
+        setUsersList(result.users); 
+      } else {
+        console.error("Erreur lors de la récupération des utilisateurs :", result.message);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const canInteractWith = (role) => {
+    const roleHierarchy = {
+      partner: 5,     
+      superadmin: 4,  
+      admin: 3,     
+      assistant: 2,  
+      user: 1      
+    };
+    return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
+  };
+
+  const filteredUsers = usersList.filter((listedUser) => {
+    const canInteract = canInteractWith(listedUser.role);
+    const isNotSelf = listedUser.username !== user.username;
+    return canInteract && isNotSelf; 
+  });
+
+  const handleTransfer = async () => {
+    if (!selectedUser) {
+      setMessage("Please select a user.");
+      return;
+    }
     if (amount <= 0) {
       setMessage("Amount must be greater than zero.");
       return;
     }
 
-    if (!selectedUser) {
-      setMessage("Please select a user.");
-      return;
-    }
-
-    const transactionData = {
-      senderUsername: user.username,
-      receiverUsername: selectedUser,  // Selected user for internal account transactions
-      amount,
-      type: transactionType,  // Deposit or Withdraw
-      note
+    const transferData = {
+      senderId: user._id,     
+      receiverId: selectedUser,   
+      amount,       
+      type: transferType,          
+      note    
     };
 
-    try {
-      const result = await transferServ.makeTransaction(transactionData);  // Use updated service method
+    const result = await transferServ.makeTransfer(
+      transferData.senderId, 
+      transferData.receiverId, 
+      transferData.amount, 
+      transferData.type, 
+      transferData.note
+    );
 
-      // Log result for debugging
-      console.log("Transaction Response: ", result);
-
-      if (result.success) {
-        setMessage(`Transaction successful! New balance: ${result.senderBalance}`);
-        setAmount(0);  // Reset amount after successful transaction
-        setNote("");    // Clear the note
-        setSelectedUser("");  // Reset selected user
-        setTransactionType('deposit');  // Optionally reset transaction type
-      } else {
-        setMessage(`Transaction failed: ${result.message}`);
-      }
-    } catch (error) {
-      setMessage("An error occurred during the transaction.");
-      console.error("Transaction Error:", error);
+    if (result.success) {
+      setMessage("Transfer successful!");  // Message de succès
+      setIsModalOpen(true); // Ouvrir le modal
+      setAmount(0);  
+      setNote("");    
+      setSelectedUser(""); // Réinitialiser l'utilisateur sélectionné après un transfert réussi
+    } else {
+      setMessage(`Transfer failed: ${result.message}`); // Message d'erreur
     }
+  };
+
+  // Fonction pour fermer le modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setMessage(null); // Réinitialiser le message lors de la fermeture du modal
   };
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
       <div className="flex flex-col justify-start h-screen w-full">
         <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-          Transaction
+          Transfer
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
-          
-          {/* Select User Section */}
+          {/* User Selection */}
           <div className="relative mb-4">
-            <label className="block font-medium mb-2 text-gray-800">Select User</label>
-            <select
+            <select 
               className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10"
               value={selectedUser}
               onChange={(e) => setSelectedUser(e.target.value)}
             >
               <option value="">Select USER</option>
-              {usersList.map((user) => (
-                <option key={user.username} value={user.username}>
+              {filteredUsers.map((user) => (
+                <option key={user.username} value={user._id}>
                   {user.username} ({user.role})
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Transaction Type Section */}
+          {/* Transfer Type Section */}
           <div className="mb-4">
-            <label className="block font-medium mb-2 text-gray-800">Transaction Type</label>
+            <label className="block font-medium mb-2 text-gray-800">Transfer Type</label>
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: 'Deposit', value: 'deposit' },
-                { label: 'Withdraw', value: 'withdraw' },
-              ].map((option) => (
+              {[{ label: 'Deposit', value: 'deposit' }, { label: 'Withdraw', value: 'withdraw' }].map((option) => (
                 <label
                   key={option.value}
                   className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
-                    transactionType === option.value
-                      ? 'bg-yellow-400 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700'
+                    transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'
                   }`}
                 >
                   <input
                     type="radio"
-                    name="transactionType"
+                    name="transferType"
                     value={option.value}
-                    checked={transactionType === option.value}
-                    onChange={() => setTransactionType(option.value)}
+                    checked={transferType === option.value}
+                    onChange={() => setTransferType(option.value)}
                     className="form-radio h-5 w-5 text-yellow-500 mr-2"
                   />
                   <span className="font-medium">{option.label}</span>
@@ -129,9 +141,9 @@ const TransferForm = () => {
             </div>
           </div>
 
-          {/* Transaction Amount Section */}
+          {/* Transfer Amount Section */}
           <div className="mb-4">
-            <label className="block font-medium">Transaction Amount</label>
+            <label className="block font-medium">Transfer Amount</label>
             <div className="flex space-x-4 mb-2">
               <input 
                 type="text" 
@@ -160,9 +172,9 @@ const TransferForm = () => {
             </div>
           </div>
 
-          {/* Transaction Note Section */}
+          {/* Transfer Note Section */}
           <div className="mb-4">
-            <label className="block font-medium">Transaction Note</label>
+            <label className="block font-medium">Transfer Note</label>
             <textarea 
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -182,9 +194,9 @@ const TransferForm = () => {
             <button
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/2"
               type="button"
-              onClick={handleTransaction}  // Call handleTransaction on click
+              onClick={handleTransfer}
             >
-              SUBMIT
+              TRANSFER
             </button>
             <button
               className="border border-black hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none w-1/2"
@@ -199,8 +211,23 @@ const TransferForm = () => {
               RESET
             </button>
           </div>
-
         </div>
+
+        {/* Modal for Success Message */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-5 rounded shadow-lg">
+              <h2 className="text-xl font-bold">Success</h2>
+              <p>{message}</p>
+              <button 
+                onClick={closeModal}
+                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
