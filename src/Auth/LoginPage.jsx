@@ -19,19 +19,24 @@ const Login = ({ onLoginSuccess }) => {
             const response = await authApi.loginUser({ username, password });
 
             if (response.success) {
-                // Stocker les données de l'utilisateur et le token
+                // Store the token and user data in localStorage
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("user", JSON.stringify(response.user));
 
-                // Appeler la fonction de succès de connexion
+                // Call onLoginSuccess if provided
                 if (onLoginSuccess) {
                     onLoginSuccess(response.user);
                 }
 
                 console.log("User logged in:", response.user);
-                setErrorMessage(""); // Réinitialiser le message d'erreur
+                setErrorMessage(""); // Reset error message
 
-                navigate("/transferaction"); // Rediriger vers la page de transfert
+                // Redirect based on user role
+                if (response.user.role === "user") {
+                    navigate("/user"); // Redirect to /user if the role is 'user'
+                } else {
+                    navigate("/transferaction"); // Redirect to /transferaction for other roles
+                }
 
             } else {
                 setErrorMessage(response.message || "Failed to login. Please try again.");
@@ -45,7 +50,7 @@ const Login = ({ onLoginSuccess }) => {
                 error.response?.data.message || "An error occurred during login. Please try again."
             );
         } finally {
-            setIsLoading(false); // Réinitialiser le chargement
+            setIsLoading(false); // Stop the loading state
         }
     };
 
@@ -79,9 +84,9 @@ const Login = ({ onLoginSuccess }) => {
                 <button
                     type="submit"
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded w-full"
-                    disabled={isLoading} // Désactiver le bouton pendant le chargement
+                    disabled={isLoading} // Disable the button while loading
                 >
-                    {isLoading ? "Logging in..." : "Login"} {/* Afficher le texte de chargement */}
+                    {isLoading ? "Logging in..." : "Login"} {/* Show loading text */}
                 </button>
             </form>
         </div>

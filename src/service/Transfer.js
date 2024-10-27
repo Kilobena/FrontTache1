@@ -3,19 +3,18 @@ import axios from "axios";
 class TransferService {
     constructor(baseURL) {
         this.api = axios.create({
-            baseURL: baseURL || "https://backendtache1-production.up.railway.app/",  // Ensure this is your correct backend URL
+            baseURL: baseURL || "https://backendtache1-production.up.railway.app/",
         });
     }
 
-    // Method to make a transfer (deposit or withdraw)
-    async makeTransfer({ senderUsername, receiverUsername, amount, type, note }) {
+    // Method to handle transactions (deposit or withdraw)
+    async makeTransaction({ senderUsername, amount, type, note }) {
         try {
-            const token = localStorage.getItem('token');  // Get the JWT token from localStorage
-            const response = await this.api.post("/tr/transfer", {
+            const token = localStorage.getItem('token');
+            const response = await this.api.post("/tr/transaction", {  // Changed the endpoint to '/tr/transaction'
                 senderUsername: senderUsername ?? "",
-                receiverUsername: receiverUsername ?? "",
                 amount: amount ?? 0,
-                type: type ?? "transfer",
+                type: type ?? "deposit",  // Either 'deposit' or 'withdraw'
                 note: note ?? ""
             }, {
                 headers: {
@@ -28,16 +27,15 @@ class TransferService {
                 status: response.status,
                 message: response.data.message,
                 senderBalance: response.data.senderBalance,
-                receiverBalance: response.data.receiverBalance
             };
         } catch (error) {
-            console.error("Erreur lors du transfert :", error);
+            console.error("Erreur lors de la transaction :", error);
 
             if (error.response) {
                 return {
                     success: false,
                     status: error.response.status,
-                    message: error.response.data.message || "Une erreur est survenue lors du transfert",
+                    message: error.response.data.message || "Une erreur est survenue lors de la transaction",
                 };
             } else {
                 return {
@@ -49,11 +47,11 @@ class TransferService {
         }
     }
 
-    // Method to get transfer history for a user
-    async getTransferHistory(username) {
+    // Optional: Method to get transaction history for a user
+    async getTransactionHistory(username) {
         try {
             const token = localStorage.getItem('token');  // Get the JWT token from localStorage
-            const response = await this.api.get("/tr/transfer-history", {
+            const response = await this.api.get("/tr/transaction-history", {
                 headers: {
                     Authorization: `Bearer ${token}`,  // Include the JWT token in headers
                 },
@@ -65,50 +63,16 @@ class TransferService {
             return {
                 success: true,
                 status: response.status,
-                transferHistory: response.data.transferHistory,
+                transactionHistory: response.data.transactionHistory,
             };
         } catch (error) {
-            console.error("Erreur lors de la récupération de l'historique des transferts :", error);
+            console.error("Erreur lors de la récupération de l'historique des transactions :", error);
 
             if (error.response) {
                 return {
                     success: false,
                     status: error.response.status,
-                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des transferts",
-                };
-            } else {
-                return {
-                    success: false,
-                    status: 500,
-                    message: "Network error or server is unreachable.",
-                };
-            }
-        }
-    }
-
-    // Optional: Method to get all transfers (admin functionality)
-    async getAllTransfers() {
-        try {
-            const token = localStorage.getItem('token');  // Get the JWT token from localStorage
-            const response = await this.api.get("/transfer/all", {
-                headers: {
-                    Authorization: `Bearer ${token}`,  // Include the JWT token in headers
-                }
-            });
-
-            return {
-                success: true,
-                status: response.status,
-                transfers: response.data.transfers,  // List of all transfers
-            };
-        } catch (error) {
-            console.error("Erreur lors de la récupération de tous les transferts :", error);
-
-            if (error.response) {
-                return {
-                    success: false,
-                    status: error.response.status,
-                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des transferts",
+                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des transactions",
                 };
             } else {
                 return {
