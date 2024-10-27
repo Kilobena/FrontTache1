@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Auth from '../service/Auth';
 import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
@@ -9,11 +9,18 @@ const TransferForm = () => {
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [usersList, setUsersList] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]); 
   const [selectedUser, setSelectedUser] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [message, setMessage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // État du modal
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [showSuggestions, setShowSuggestions] = useState(false); // To show/hide suggestions
+
   const authServ = new Auth();
   const transferServ = new TransferService(); 
+
+  // Ref to detect clicks outside the input field and suggestion box
+  const suggestionBoxRef = useRef(null);
 
   const handleAmountChange = (value) => {
     setAmount((prev) => prev + value);
@@ -25,7 +32,8 @@ const TransferForm = () => {
     const fetchUsers = async () => {
       const result = await authServ.getAllUsers();
       if (result.success) {
-        setUsersList(result.users); 
+        setUsersList(result.users);
+        setFilteredUsers(result.users);  
       } else {
         console.error("Erreur lors de la récupération des utilisateurs :", result.message);
       }
@@ -44,11 +52,48 @@ const TransferForm = () => {
     return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
   };
 
-  const filteredUsers = usersList.filter((listedUser) => {
+  const filteredUsersForInteraction = usersList.filter((listedUser) => {
     const canInteract = canInteractWith(listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
     return canInteract && isNotSelf; 
   });
+
+  // Handle search input change and filter the suggestions
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setShowSuggestions(true); // Show suggestions when user types
+
+    if (value) {
+      const filtered = filteredUsersForInteraction.filter((user) =>
+        user.username.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredUsers(filtered); 
+    } else {
+      setFilteredUsers(filteredUsersForInteraction); 
+    }
+  };
+
+  // Handle when a user is selected from the suggestions
+  const handleSuggestionClick = (username, userId) => {
+    setSearchTerm(username);  
+    setSelectedUser(userId);   
+    setShowSuggestions(false); 
+  };
+
+  // Hide suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionBoxRef.current && !suggestionBoxRef.current.contains(event.target)) {
+        setShowSuggestions(false); // Hide suggestions if clicked outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleTransfer = async () => {
     if (!selectedUser) {
@@ -77,20 +122,21 @@ const TransferForm = () => {
     );
 
     if (result.success) {
-      setMessage("Transfer successful!");  // Message de succès
-      setIsModalOpen(true); // Ouvrir le modal
+      setMessage("Transfer successful!");  
+      setIsModalOpen(true); 
       setAmount(0);  
       setNote("");    
-      setSelectedUser(""); // Réinitialiser l'utilisateur sélectionné après un transfert réussi
+      setSelectedUser(""); 
+      setSearchTerm("");  
     } else {
-      setMessage(`Transfer failed: ${result.message}`); // Message d'erreur
+      setMessage(`Transfer failed: ${result.message}`); 
     }
   };
 
-  // Fonction pour fermer le modal
+  // Close the modal
   const closeModal = () => {
     setIsModalOpen(false);
-    setMessage(null); // Réinitialiser le message lors de la fermeture du modal
+    setMessage(null); 
   };
 
   return (
@@ -100,20 +146,30 @@ const TransferForm = () => {
           Transfer
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded pt-7">
-          {/* User Selection */}
-          <div className="relative mb-4">
-            <select 
-              className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10"
-              value={selectedUser}
-              onChange={(e) => setSelectedUser(e.target.value)}
-            >
-              <option value="">Select USER</option>
-              {filteredUsers.map((user) => (
-                <option key={user.username} value={user._id}>
-                  {user.username} ({user.role})
-                </option>
-              ))}
-            </select>
+
+          {/* User Selection Input */}
+          <div className="relative mb-4" ref={suggestionBoxRef}>
+            <input
+              type="text"
+              className="border border-gray-300 p-2 rounded w-full"
+              placeholder="Search for a user"
+              value={searchTerm}
+              onChange={handleInputChange}
+              onFocus={() => setShowSuggestions(true)} // Show suggestions when input is focused
+            />
+            {showSuggestions && filteredUsers.length > 0 && (
+              <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
+                {filteredUsers.map((user) => (
+                  <li
+                    key={user._id}
+                    className="p-2 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSuggestionClick(user.username, user._id)}
+                  >
+                    {user.username} ({user.role})
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Transfer Type Section */}
@@ -205,6 +261,7 @@ const TransferForm = () => {
                 setAmount(0);
                 setNote('');
                 setSelectedUser('');
+                setSearchTerm('');
                 setMessage(null);
               }}
             >

@@ -1,66 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Auth from "../service/Auth";
-import { useNavigate } from "react-router-dom/dist";
 
 const ManageUser = () => {
-    const user = JSON.parse(localStorage.getItem("user")); // Assurez-vous que l'utilisateur est un objet JSON
-    const [selectedRole, setSelectedRole] = useState("Select option");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const navigate = useNavigate();
+    const [showNoUsersMessage, setShowNoUsersMessage] = useState(false);
     const authApi = new Auth();
 
-    const getAvailableRoles = () => {
-        if (user.role === "Partner") {
-            return ["User", "Assistant", "Admin", "SuperAdmin"];
-        } else if (user.role === "SuperAdmin") {
-            return ["User", "Assistant", "Admin"];
-        } else if (user.role === "Admin") {
-            return ["User", "Assistant"];
-        } else {
-            return ["User"]; // Si l'utilisateur est un User normal
+    // Function to fetch all users and set suggestions
+    const fetchAllUsers = async () => {
+        try {
+            const response = await authApi.api.get("/auth/getallusers");
+            setAllUsers(response.data.users);
+            setSuggestions(response.data.users); // Initially, show all users as suggestions
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            setError("Error fetching users.");
+            setShowModal(true);
         }
     };
 
-    useEffect(() => {
-        const fetchAllUsers = async () => {
-            try {
-                const response = await authApi.api.get("/auth/usersByRole");
-                setAllUsers(response.data.users);
-                setFilteredUsers(response.data.users);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des utilisateurs :", error);
-                setError("Erreur lors de la récupération des utilisateurs.");
-            }
-        };
-
-        fetchAllUsers();
-    }, [authApi]);
-
     const handleSearch = async () => {
-        if (selectedRole === "Select option") {
-            setError("Veuillez sélectionner un rôle.");
+        if (!searchTerm.trim()) {
+            setError("Please enter a search term.");
             setShowModal(true);
             return;
         }
-        console.log("hetha"+selectedRole)
 
-        const result = await authApi.getUsersByRole(selectedRole);
-        if (result.success) {
-            setFilteredUsers(result.users);
-            setError("");
+        const filtered = allUsers.filter((user) =>
+            user.username.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setFilteredUsers(filtered);
+        setShowNoUsersMessage(filtered.length === 0);
+        setError(filtered.length === 0 ? "No users found." : "");
+    };
+
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+
+        if (value) {
+            // Filter suggestions as user types
+            const filtered = allUsers.filter((user) =>
+                user.username.toLowerCase().includes(value.toLowerCase())
+            );
+            setSuggestions(filtered);
         } else {
-            setFilteredUsers([]); 
-            setError(result.message);
-            setShowModal(true);
+            setSuggestions(allUsers); // If no input, show all users as suggestions
         }
     };
 
+    const handleFocus = async () => {
+        if (allUsers.length === 0) {
+            // Fetch users only if not already fetched
+            await fetchAllUsers();
+        }
+    };
+
+    const handleSuggestionClick = (username) => {
+        setSearchTerm(username);
+        setSuggestions([]);
+    };
+
     const handleReset = () => {
-        setSelectedRole("Select option");
-        setFilteredUsers(allUsers);
+        setSearchTerm("");
+        setFilteredUsers([]);
+        setSuggestions([]);
+        setShowNoUsersMessage(false);
         setError("");
         setShowModal(false);
     };
@@ -70,44 +81,48 @@ const ManageUser = () => {
             const response = await authApi.deleteUserByUsername(username);
             if (response.success) {
                 setFilteredUsers(filteredUsers.filter(user => user.username !== username));
-                setAllUsers(allUsers.filter(user => user.username !== username));
                 setError("");
             } else {
                 setError(response.message);
                 setShowModal(true);
             }
         } catch (error) {
-            console.error("Erreur lors de la suppression de l'utilisateur :", error);
-            setError("Erreur lors de la suppression de l'utilisateur.");
+            console.error("Error deleting user:", error);
+            setError("Error deleting user.");
             setShowModal(true);
         }
     };
-
-    const roles = getAvailableRoles(); // Obtenez les rôles disponibles en fonction du rôle de l'utilisateur
 
     return (
         <div className="flex flex-col justify-start h-screen w-full">
             <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
                 Manage Users
             </h1>
-         
+
             <div className="w-full max-w-lg bg-white px-9 rounded mt-6">
-                <h2 className="text-xl mb-4">Role</h2>
-                <div className="mb-4">
-                    <select
+                <h2 className="text-xl mb-4">Search for a User</h2>
+                <div className="relative mb-4">
+                    <input
+                        type="text"
                         className="border border-gray-300 p-2 rounded w-full"
-                        value={selectedRole}
-                        onChange={(e) => setSelectedRole(e.target.value)}
-                    >
-                        <option value="Select option" disabled>
-                            Select option
-                        </option>
-                        {roles.map((role) => (
-                            <option key={role} value={role}>
-                                {role.charAt(0).toUpperCase() + role.slice(1)}
-                            </option>
-                        ))}
-                    </select>
+                        placeholder="Enter username"
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                        onFocus={handleFocus}  // Fetch users on input focus
+                    />
+                    {suggestions.length > 0 && (
+                        <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
+                            {suggestions.map((suggestion) => (
+                                <li
+                                    key={suggestion._id}
+                                    className="p-2 cursor-pointer hover:bg-gray-200"
+                                    onClick={() => handleSuggestionClick(suggestion.username)}
+                                >
+                                    {suggestion.username} ({suggestion.role})
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
 
                 <div className="flex flex-row space-x-4 pb-3 w-full">
@@ -128,19 +143,30 @@ const ManageUser = () => {
                 </div>
             </div>
 
-            <div className="flex justify-center pt-10">
-                <table className="min-w-full bg-white border border-gray-300">
-                    <thead>
-                        <tr>
-                            <th className="py-4 px-4 border-b border-gray-300 text-center">Username</th>
-                            <th className="py-4 px-4 border-b border-gray-300 text-center">Role</th>
-                            <th className="py-4 px-4 border-b border-gray-300 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.length > 0 ? (
-                            filteredUsers.map((user) => (
-                                <tr key={user.id} className="border-b">
+            {/* Show "No users found" message if no users are found */}
+            {showNoUsersMessage && (
+                <div className="flex justify-center pt-10">
+                    <div className="text-center">
+                        <img src="/images/loop.png" alt="No data" className="mx-auto w-16 h-16" />
+                        <p className="text-gray-600 mt-4">Search all available records by selecting one of the filters above!</p>
+                    </div>
+                </div>
+            )}
+
+            {/* Only display the table when filteredUsers is not empty */}
+            {filteredUsers.length > 0 && !showNoUsersMessage && (
+                <div className="flex justify-center pt-10">
+                    <table className="min-w-full bg-white border border-gray-300">
+                        <thead>
+                            <tr>
+                                <th className="py-4 px-4 border-b border-gray-300 text-center">Username</th>
+                                <th className="py-4 px-4 border-b border-gray-300 text-center">Role</th>
+                                <th className="py-4 px-4 border-b border-gray-300 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredUsers.map((user) => (
+                                <tr key={user._id} className="border-b">
                                     <td className="py-4 px-4 border-b border-gray-300 text-center">{user.username}</td>
                                     <td className="py-4 px-4 border-b border-gray-300 text-center">{user.role}</td>
                                     <td className="py-4 px-4 border-b border-gray-300 text-center">
@@ -152,18 +178,26 @@ const ManageUser = () => {
                                         </button>
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="3" className="text-center py-4">
-                                    <img src="/images/loop.png" alt="No results found" className="mx-auto w-8 h-8" />
-                                    <p>Aucun utilisateur trouvé.</p>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {showModal && error && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-5 rounded shadow-lg">
+                        <h2 className="text-xl font-bold">Error</h2>
+                        <p>{error}</p>
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
