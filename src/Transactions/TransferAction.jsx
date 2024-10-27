@@ -4,16 +4,16 @@ import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
-  const { user } = useAuth();
+  const { user } = useAuth(); 
   const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [usersList, setUsersList] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [message, setMessage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // État du modal
   const authServ = new Auth();
-  const transferServ = new TransferService();
+  const transferServ = new TransferService(); 
 
   const handleAmountChange = (value) => {
     setAmount((prev) => prev + value);
@@ -25,7 +25,7 @@ const TransferForm = () => {
     const fetchUsers = async () => {
       const result = await authServ.getAllUsers();
       if (result.success) {
-        setUsersList(result.users);
+        setUsersList(result.users); 
       } else {
         console.error("Erreur lors de la récupération des utilisateurs :", result.message);
       }
@@ -35,11 +35,11 @@ const TransferForm = () => {
 
   const canInteractWith = (role) => {
     const roleHierarchy = {
-      partner: 5,
-      superadmin: 4,
-      admin: 3,
-      assistant: 2,
-      user: 1
+      partner: 5,     
+      superadmin: 4,  
+      admin: 3,     
+      assistant: 2,  
+      user: 1      
     };
     return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
   };
@@ -47,46 +47,43 @@ const TransferForm = () => {
   const filteredUsers = usersList.filter((listedUser) => {
     const canInteract = canInteractWith(listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
-    return canInteract && isNotSelf;
+    return canInteract && isNotSelf; 
   });
 
   const handleTransfer = async () => {
     if (!selectedUser) {
       setMessage("Please select a user.");
-      setIsModalOpen(true);
       return;
     }
     if (amount <= 0) {
       setMessage("Amount must be greater than zero.");
-      setIsModalOpen(true);
       return;
     }
 
     const transferData = {
-      senderId: user._id,
-      receiverId: selectedUser,
-      amount,
-      type: transferType,
-      note
+      senderId: user._id,     
+      receiverId: selectedUser,   
+      amount,       
+      type: transferType,          
+      note    
     };
 
     const result = await transferServ.makeTransfer(
-      transferData.senderId,
-      transferData.receiverId,
-      transferData.amount,
-      transferData.type,
+      transferData.senderId, 
+      transferData.receiverId, 
+      transferData.amount, 
+      transferData.type, 
       transferData.note
     );
 
     if (result.success) {
-      setMessage("Transfer successful!");
-      setIsModalOpen(true);
-      setAmount(0);
-      setNote("");
+      setMessage("Transfer successful!");  // Message de succès
+      setIsModalOpen(true); // Ouvrir le modal
+      setAmount(0);  
+      setNote("");    
       setSelectedUser(""); // Réinitialiser l'utilisateur sélectionné après un transfert réussi
     } else {
-      setMessage(`Transfer failed: ${result.message}`);
-      setIsModalOpen(true);
+      setMessage(`Transfer failed: ${result.message}`); // Message d'erreur
     }
   };
 
@@ -185,6 +182,13 @@ const TransferForm = () => {
             ></textarea>
           </div>
 
+          {/* Message Section */}
+          {message && (
+            <div className="mb-4 text-center text-red-500">
+              {message}
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex space-x-4">
             <button
@@ -213,7 +217,7 @@ const TransferForm = () => {
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-5 rounded shadow-lg">
-              <h2 className="text-xl font-bold">Notification</h2>
+              <h2 className="text-xl font-bold">Success</h2>
               <p>{message}</p>
               <button 
                 onClick={closeModal}

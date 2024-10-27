@@ -1,20 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const TransferHistory = () => {
   const [selectedDate, setSelectedDate] = useState('today');
+  const [chosenDate, setChosenDate] = useState('');
+  const [transferOptions, setTransferOptions] = useState([]);
   const navigate = useNavigate();
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
+
+  // Fetch transfer options from the backend
+  useEffect(() => {
+    const fetchTransferOptions = async () => {
+      try {
+        const response = await axios.get('https://your-backend-url/api/transfer-options');
+        setTransferOptions(response.data);
+      } catch (error) {
+        console.error('Error fetching transfer options:', error);
+      }
+    };
+
+    fetchTransferOptions();
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
-    <div className="flex flex-col justify-start h-screen w-full">
-      {/* Apply similar header style as in Manage Users */}
-      <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
-        Transfer History
-      </h1>
-        
+      <div className="flex flex-col justify-start h-screen w-full">
+        <h1 className="text-2xl font-bold mb-6 bg-gray-700 text-white p-4 rounded w-full">
+          Transfer History
+        </h1>
+
         {/* Transaction Date Section */}
-        <div className="mb-8  pl-4">
+        <div className="mb-8 pl-4">
           <label className="block font-medium mb-4 text-gray-800 text-lg">
             Transaction Date
           </label>
@@ -24,11 +43,11 @@ const TransferHistory = () => {
               { label: 'Yesterday', value: 'yesterday' },
               { label: 'Last 7 Days', value: '7days' },
               { label: 'This Month', value: 'month' },
-              { label: 'Custom: Choose dates', value: 'custom' },
+              { label: 'Custom: Choose a date', value: 'custom' },
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105  ${
+                className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
                   selectedDate === option.value 
                     ? 'bg-yellow-400 text-white shadow-md' 
                     : 'bg-gray-100 text-gray-700'
@@ -39,7 +58,12 @@ const TransferHistory = () => {
                   name="transactionDate" 
                   value={option.value}
                   checked={selectedDate === option.value}
-                  onChange={() => setSelectedDate(option.value)}
+                  onChange={() => {
+                    setSelectedDate(option.value);
+                    if (option.value !== 'custom') {
+                      setChosenDate('');
+                    }
+                  }}
                   className="form-radio h-5 w-5 text-yellow-500 w-1/9"
                 />
                 <span className="font-medium ml-2">{option.label}</span>
@@ -48,12 +72,32 @@ const TransferHistory = () => {
           </div>
         </div>
 
+        {/* Custom Date Input */}
+        {selectedDate === 'custom' && (
+          <div className="mb-8 pl-4">
+            <label className="block font-medium mb-2 text-gray-800 text-lg">
+              Select a Date
+            </label>
+            <input
+              type="date"
+              value={chosenDate}
+              onChange={(e) => setChosenDate(e.target.value)}
+              max={today}
+              className="p-2 border border-gray-300 rounded bg-white w-1/4"
+            />
+          </div>
+        )}
+
         {/* Transfer To / From Section */}
         <div className="mb-8 pl-4">
           <label className="block font-medium mb-2 text-gray-800 text-lg">Transfer To / From</label>
           <select className="w-1/4 p-2 border border-gray-300 rounded bg-white text-lg">
-            <option>Select option</option>
-            {/* Add your options here */}
+            <option value="">Select option</option>
+            {transferOptions.map((option) => (
+              <option key={option.id} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
