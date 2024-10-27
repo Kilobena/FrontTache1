@@ -175,16 +175,28 @@ const TransferHistory = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {transfers.map((transfer, index) => (
-                                        <tr key={index} className="hover:bg-gray-100 justify-center">
-                                            <td className="border px-4 py-2  text-center">{transfer.type}</td>
-                                            <td className="border px-4 py-2 text-center">{transfer.amount}</td>
-                                            <td className="border px-4 py-2 text-center">{new Date(transfer.date).toLocaleString()}</td>
-                                            <td className="border px-4 py-2 text-center">{transfer.senderId.username}({transfer.senderId.role})</td>
-                                            <td className="border px-4 py-2 text-center">{transfer.receiverId.username} ({transfer.receiverId.role})</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
+    {transfers.map((transfer, index) => (
+        <tr key={index} className="hover:bg-gray-100 justify-center">
+            <td className="border px-4 py-2 text-center">{transfer.type}</td>
+            <td className="border px-4 py-2 text-center">{transfer.amount}</td>
+            <td className="border px-4 py-2 text-center">{new Date(transfer.date).toLocaleString()}</td>
+            
+            {/* Null check for senderId */}
+            <td className="border px-4 py-2 text-center">
+                {transfer.senderId 
+                    ? `${transfer.senderId.username} (${transfer.senderId.role})`
+                    : 'Unknown Sender'}
+            </td>
+            
+            {/* Null check for receiverId */}
+            <td className="border px-4 py-2 text-center">
+                {transfer.receiverId
+                    ? `${transfer.receiverId.username} (${transfer.receiverId.role})`
+                    : 'Unknown Receiver'}
+            </td>
+        </tr>
+    ))}
+</tbody>
                             </table>
                         </div>
                     </div>

@@ -1,27 +1,32 @@
 import React, { useState } from "react";
-import Auth from "../service/Auth"; 
-import { useNavigate } from "react-router-dom"; 
+import Auth from "../service/Auth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../providers/AuthContext'; 
 
 const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
 
-    const authApi = new Auth(); 
-    const navigate = useNavigate(); 
+    const { login, updateUser } = useAuth(); // Access login and updateUser from AuthContext
+    const navigate = useNavigate();
+
+    const authApi = new Auth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true); 
+        setIsLoading(true);
 
         try {
             const response = await authApi.loginUser({ username, password });
 
             if (response.success) {
-                // Store the token and user data in localStorage
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response.user));
+                // Store the token and user data in the auth context
+                updateUser({
+                    token: response.token,
+                    user: response.user
+                });
 
                 // Call onLoginSuccess if provided
                 if (onLoginSuccess) {
@@ -43,9 +48,6 @@ const Login = ({ onLoginSuccess }) => {
             }
         } catch (error) {
             console.error("Full error object during login:", error);
-            console.error("Error response data:", error.response?.data);
-            console.error("Error status:", error.response?.status);
-
             setErrorMessage(
                 error.response?.data.message || "An error occurred during login. Please try again."
             );

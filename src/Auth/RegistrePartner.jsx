@@ -3,30 +3,14 @@ import 'font-awesome/css/font-awesome.min.css';
 import Auth from "../service/Auth.js";
 import { useAuth } from '../providers/AuthContext'; 
 
-
-const RegisterForm = () => {
+const RegisterPartner = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [profil, setProfil] = useState({ username: "", password: "", role: "Select Role" });
+  const [profil, setProfil] = useState({ username: "", password: "", role: "Partner" });  // Role is "Partner" by default
   const [message, setMessage] = useState(""); 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const auth = new Auth(); 
-  const { user } = useAuth()
+  const { user } = useAuth(); // Get current user
 
-  // Détermine les rôles disponibles en fonction du rôle de l'utilisateur actuel
-  const getAvailableRoles = () => {
-    if (user.role === "Partner") {
-      return ["User", "Assistant", "Admin", "SuperAdmin"];
-    } else if (user.role === "SuperAdmin") {
-      return ["User", "Assistant", "Admin"];
-    } else if (user.role === "Admin") {
-      return ["User", "Assistant"];
-    } else {
-      return ["User"]; // Si l'utilisateur est un User normal
-    }
-  };
-
-  const roles = getAvailableRoles();
- 
   const handleRegister = async () => {
     if (!user || !user._id) {
       console.log("User ID is not available:", user);
@@ -36,15 +20,10 @@ const RegisterForm = () => {
     }
   
     try {
-      if (profil.role === "Select Role") {
-        setMessage("Please select a role.");
-        setIsModalOpen(true);
-        return;
-      }
-  
       const updatedProfil = {
         ...profil,
-        id: user._id // Assign the user's _id here
+        id: user._id, // Assign the user's _id here
+        role: "Partner"  // Ensure role is always "Partner"
       };
       console.log("Profile to register:", updatedProfil); // Log to check the value before sending it
   
@@ -77,7 +56,7 @@ const RegisterForm = () => {
   };
 
   const handleReset = () => {
-    setProfil({ username: "", password: "", role: "Select Role" });
+    setProfil({ username: "", password: "", role: "Partner" });  // Reset the form with role as "Partner"
   };
 
   const closeModal = () => {
@@ -88,7 +67,7 @@ const RegisterForm = () => {
     <div className="flex justify-center items-center h-screen w-full">
       <div className="w-full h-full">
         <h1 className="text-2xl font-bold bg-gray-700 text-white p-4 rounded w-full">
-          Register User
+          Register Partner
         </h1>
         <div className="w-full max-w-lg bg-white p-6 rounded">
           <form>
@@ -145,32 +124,6 @@ const RegisterForm = () => {
               </div>
             </div>
 
-            {/* Role Dropdown */}
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Role
-              </label>
-              <div className="relative">
-                <select
-                  className="block appearance-none w-full bg-white border border-black rounded p-2 text-gray-700 leading-tight focus:outline-none pr-10"
-                  name="role"
-                  value={profil.role}
-                  onChange={handleChange}
-                >
-                  <option value="Select Role">Select Role</option>
-                  {roles.map((role) => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-                </select>
-                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mr-1">
-                  <span className="mr-1 pb-1 text-gray-500 flex">|</span>
-                  <i className="fa fa-caret-down text-gray-400" aria-hidden="true"></i>
-                </span>
-              </div>
-            </div>
-
             {/* Register and Reset Buttons */}
             <div className="flex flex-col pb-3">
               <button
@@ -178,7 +131,7 @@ const RegisterForm = () => {
                 type="button"
                 onClick={handleRegister}
               >
-                REGISTER USER
+                REGISTER PARTNER
               </button>
             </div>
             <div className="flex flex-col space-y-2">
@@ -194,6 +147,7 @@ const RegisterForm = () => {
         </div>
       </div>
 
+      {/* Modal for success/error messages */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded shadow-md">
@@ -211,4 +165,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default RegisterPartner;

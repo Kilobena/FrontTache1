@@ -13,7 +13,8 @@ class Auth {
             const response = await this.api.post("/auth/register", {
                 username: profile.username ?? "",
                 password: profile.password ?? "",
-                role: profile.role ?? "user",  // Default role is "user"
+                role: profile.role ?? "user", 
+                id: profile.id
             });
 
             return {
@@ -231,7 +232,43 @@ class Auth {
         }
     }
 
+    async getUsersByCreaterId(createrid) {
+        try {
+            const token = localStorage.getItem('token'); // Get the JWT token from localStorage
+            const response = await this.api.get(`/auth/usersByCreater/${createrid}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include token in Authorization header
+                }
+            });
+
+            return {
+                success: true,
+                status: response.status,
+                users: response.data.users, // List of users
+            };
+        } catch (error) {
+            console.error("Erreur lors de la récupération des utilisateurs par creater ID :", error);
+
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des utilisateurs",
+                };
+            } else {
+                return {
+                    success: false,
+                    status: 500,
+                    message: "Network error or server is unreachable.",
+                };
+            }
+        }
+    }
+
+
 }
+
+
 
 export default Auth;
 

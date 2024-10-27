@@ -8,6 +8,7 @@ import TransferForm from './Transactions/TransferAction';
 import ManageUser from './Auth/ManageUser';
 import DashboardLayout from './pages/DashboardLayout';
 import UserPage from './pages/UserPage';
+import RegisterPartner from './Auth/RegistrePartner.jsx';
 
 function AppRoutes() {
     const { user } = useAuth();
@@ -36,6 +37,8 @@ function AppRoutes() {
                     {/* Other Protected Routes */}
                     <Route path="/transferhistory" element={isAuthenticated ? <TransferHistory /> : <Navigate to="/home" replace />} />
                     <Route path="/user-management" element={isAuthenticated ? <ManageUser /> : <Navigate to="/home" replace />} />
+                    <Route path="/regitreP" element={isAuthenticated ? <RegisterPartner /> : <Navigate to="/home" replace />} />
+
                     <Route path="/registre" element={isAuthenticated ? <RegisterForm /> : <Navigate to="/home" replace />} />
                 </Route>
 

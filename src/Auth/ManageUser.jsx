@@ -1,33 +1,31 @@
 import React, { useState } from "react";
 import Auth from "../service/Auth";
+import { useAuth } from '../providers/AuthContext'; 
 
 const ManageUser = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
-    const [error, setError] = useState("");
-    const [showModal, setShowModal] = useState(false);
-    const [showNoUsersMessage, setShowNoUsersMessage] = useState(false);
+    const [showNoUsersMessage, setShowNoUsersMessage] = useState(false); // For no users found message
     const authApi = new Auth();
+    const { user } = useAuth(); 
 
     // Function to fetch all users and set suggestions
     const fetchAllUsers = async () => {
         try {
-            const response = await authApi.api.get("/auth/getallusers");
+            const response = await authApi.api.get(`/auth/usersByCreater/${user._id}`);
             setAllUsers(response.data.users);
             setSuggestions(response.data.users); // Initially, show all users as suggestions
         } catch (error) {
             console.error("Error fetching users:", error);
-            setError("Error fetching users.");
-            setShowModal(true);
+            setShowNoUsersMessage(true); // Show no users found if the fetch fails
         }
     };
 
-    const handleSearch = async () => {
+    const handleSearch = () => {
         if (!searchTerm.trim()) {
-            setError("Please enter a search term.");
-            setShowModal(true);
+            setShowNoUsersMessage(true);
             return;
         }
 
@@ -37,7 +35,6 @@ const ManageUser = () => {
 
         setFilteredUsers(filtered);
         setShowNoUsersMessage(filtered.length === 0);
-        setError(filtered.length === 0 ? "No users found." : "");
     };
 
     const handleInputChange = (e) => {
@@ -45,26 +42,27 @@ const ManageUser = () => {
         setSearchTerm(value);
 
         if (value) {
-            // Filter suggestions as user types
             const filtered = allUsers.filter((user) =>
                 user.username.toLowerCase().includes(value.toLowerCase())
             );
             setSuggestions(filtered);
+            setShowNoUsersMessage(filtered.length === 0); // Show message when no users are found
         } else {
-            setSuggestions(allUsers); // If no input, show all users as suggestions
+            setSuggestions([]); // Clear suggestions if no input
+            setShowNoUsersMessage(false); // Hide no users message if input is cleared
         }
     };
 
     const handleFocus = async () => {
         if (allUsers.length === 0) {
-            // Fetch users only if not already fetched
-            await fetchAllUsers();
+            await fetchAllUsers(); // Fetch users only if not already fetched
         }
     };
 
     const handleSuggestionClick = (username) => {
         setSearchTerm(username);
         setSuggestions([]);
+        handleSearch(); // Perform search when a suggestion is clicked
     };
 
     const handleReset = () => {
@@ -72,8 +70,6 @@ const ManageUser = () => {
         setFilteredUsers([]);
         setSuggestions([]);
         setShowNoUsersMessage(false);
-        setError("");
-        setShowModal(false);
     };
 
     const handleDeleteUser = async (username) => {
@@ -81,15 +77,13 @@ const ManageUser = () => {
             const response = await authApi.deleteUserByUsername(username);
             if (response.success) {
                 setFilteredUsers(filteredUsers.filter(user => user.username !== username));
-                setError("");
+                setAllUsers(allUsers.filter(user => user.username !== username));
             } else {
-                setError(response.message);
-                setShowModal(true);
+                setShowNoUsersMessage(true); // Show no users found if delete fails
             }
         } catch (error) {
             console.error("Error deleting user:", error);
-            setError("Error deleting user.");
-            setShowModal(true);
+            setShowNoUsersMessage(true); // Show no users found if an error occurs
         }
     };
 
@@ -110,7 +104,7 @@ const ManageUser = () => {
                         onChange={handleInputChange}
                         onFocus={handleFocus}  // Fetch users on input focus
                     />
-                    {suggestions.length > 0 && (
+                    {suggestions.length > 0 ? (
                         <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
                             {suggestions.map((suggestion) => (
                                 <li
@@ -122,7 +116,11 @@ const ManageUser = () => {
                                 </li>
                             ))}
                         </ul>
-                    )}
+                    ) : searchTerm && showNoUsersMessage ? (
+                        <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
+                            <li className="p-2 text-gray-500">No users found</li>
+                        </ul>
+                    ) : null}
                 </div>
 
                 <div className="flex flex-row space-x-4 pb-3 w-full">
@@ -144,11 +142,11 @@ const ManageUser = () => {
             </div>
 
             {/* Show "No users found" message if no users are found */}
-            {showNoUsersMessage && (
+            {showNoUsersMessage && !searchTerm && (
                 <div className="flex justify-center pt-10">
                     <div className="text-center">
                         <img src="/images/loop.png" alt="No data" className="mx-auto w-16 h-16" />
-                        <p className="text-gray-600 mt-4">Search all available records by selecting one of the filters above!</p>
+                        <p className="text-gray-600 mt-4">No users found.</p>
                     </div>
                 </div>
             )}
@@ -181,21 +179,6 @@ const ManageUser = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
-            )}
-
-            {showModal && error && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-5 rounded shadow-lg">
-                        <h2 className="text-xl font-bold">Error</h2>
-                        <p>{error}</p>
-                        <button
-                            onClick={() => setShowModal(false)}
-                            className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
-                        >
-                            Close
-                        </button>
-                    </div>
                 </div>
             )}
         </div>
