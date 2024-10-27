@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Auth from '../service/Auth';
-import TransferService from '../service/Transfer';  // Import TransferService
+import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
 
 const TransferForm = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [usersList, setUsersList] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");  // Track selected receiver
-  const [message, setMessage] = useState(null);  // Message for success/failure
+  const [selectedUser, setSelectedUser] = useState("");
+  const [message, setMessage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const authServ = new Auth();
-  const transferServ = new TransferService();  // Initialize TransferService
+  const transferServ = new TransferService();
 
   const handleAmountChange = (value) => {
     setAmount((prev) => prev + value);
@@ -20,12 +21,11 @@ const TransferForm = () => {
 
   const handleClear = () => setAmount(0);
 
-  // Fetch users when component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       const result = await authServ.getAllUsers();
       if (result.success) {
-        setUsersList(result.users); 
+        setUsersList(result.users);
       } else {
         console.error("Erreur lors de la récupération des utilisateurs :", result.message);
       }
@@ -35,11 +35,11 @@ const TransferForm = () => {
 
   const canInteractWith = (role) => {
     const roleHierarchy = {
-      partner: 5,     
-      superadmin: 4,  
-      admin: 3,     
-      assistant: 2,  
-      user: 1      
+      partner: 5,
+      superadmin: 4,
+      admin: 3,
+      assistant: 2,
+      user: 1
     };
     return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
   };
@@ -47,37 +47,53 @@ const TransferForm = () => {
   const filteredUsers = usersList.filter((listedUser) => {
     const canInteract = canInteractWith(listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
-    return canInteract && isNotSelf; 
+    return canInteract && isNotSelf;
   });
 
-  // Handle Transfer
   const handleTransfer = async () => {
     if (!selectedUser) {
       setMessage("Please select a user.");
+      setIsModalOpen(true);
       return;
     }
     if (amount <= 0) {
       setMessage("Amount must be greater than zero.");
+      setIsModalOpen(true);
       return;
     }
 
     const transferData = {
-      senderUsername: user.username,
-      receiverUsername: selectedUser,
+      senderId: user._id,
+      receiverId: selectedUser,
       amount,
       type: transferType,
       note
     };
 
-    const result = await transferServ.makeTransfer(transferData);
+    const result = await transferServ.makeTransfer(
+      transferData.senderId,
+      transferData.receiverId,
+      transferData.amount,
+      transferData.type,
+      transferData.note
+    );
 
     if (result.success) {
-      setMessage(`Transfer successful! New sender balance: ${result.senderBalance}`);
-      setAmount(0);  // Reset amount after successful transfer
-      setNote("");    // Clear the note
+      setMessage("Transfer successful!");
+      setIsModalOpen(true);
+      setAmount(0);
+      setNote("");
+      setSelectedUser(""); // Réinitialiser l'utilisateur sélectionné après un transfert réussi
     } else {
       setMessage(`Transfer failed: ${result.message}`);
+      setIsModalOpen(true);
     }
+  };
+
+  // Fonction pour fermer le modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setMessage(null); // Réinitialiser le message lors de la fermeture du modal
   };
 
   return (
@@ -96,7 +112,7 @@ const TransferForm = () => {
             >
               <option value="">Select USER</option>
               {filteredUsers.map((user) => (
-                <option key={user.username} value={user.username}>
+                <option key={user.username} value={user._id}>
                   {user.username} ({user.role})
                 </option>
               ))}
@@ -107,16 +123,11 @@ const TransferForm = () => {
           <div className="mb-4">
             <label className="block font-medium mb-2 text-gray-800">Transfer Type</label>
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: 'Deposit', value: 'deposit' },
-                { label: 'Withdraw', value: 'withdraw' },
-              ].map((option) => (
+              {[{ label: 'Deposit', value: 'deposit' }, { label: 'Withdraw', value: 'withdraw' }].map((option) => (
                 <label
                   key={option.value}
                   className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
-                    transferType === option.value
-                      ? 'bg-yellow-400 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700'
+                    transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'
                   }`}
                 >
                   <input
@@ -174,19 +185,12 @@ const TransferForm = () => {
             ></textarea>
           </div>
 
-          {/* Message Section */}
-          {message && (
-            <div className="mb-4 text-center text-red-500">
-              {message}
-            </div>
-          )}
-
           {/* Action Buttons */}
           <div className="flex space-x-4">
             <button
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-1/2"
               type="button"
-              onClick={handleTransfer}  // Call handleTransfer on click
+              onClick={handleTransfer}
             >
               TRANSFER
             </button>
@@ -203,8 +207,23 @@ const TransferForm = () => {
               RESET
             </button>
           </div>
-
         </div>
+
+        {/* Modal for Success Message */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-5 rounded shadow-lg">
+              <h2 className="text-xl font-bold">Notification</h2>
+              <p>{message}</p>
+              <button 
+                onClick={closeModal}
+                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

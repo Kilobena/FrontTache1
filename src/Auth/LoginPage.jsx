@@ -19,19 +19,17 @@ const Login = ({ onLoginSuccess }) => {
             const response = await authApi.loginUser({ username, password });
 
             if (response.success) {
-                // Stocker les données de l'utilisateur et le token
                 localStorage.setItem("token", response.token);
                 localStorage.setItem("user", JSON.stringify(response.user));
 
-                // Appeler la fonction de succès de connexion
                 if (onLoginSuccess) {
                     onLoginSuccess(response.user);
                 }
 
                 console.log("User logged in:", response.user);
-                setErrorMessage(""); // Réinitialiser le message d'erreur
+                setErrorMessage(""); 
 
-                navigate("/transferaction"); // Rediriger vers la page de transfert
+                navigate("/transferaction");
 
             } else {
                 setErrorMessage(response.message || "Failed to login. Please try again.");
@@ -45,7 +43,7 @@ const Login = ({ onLoginSuccess }) => {
                 error.response?.data.message || "An error occurred during login. Please try again."
             );
         } finally {
-            setIsLoading(false); // Réinitialiser le chargement
+            setIsLoading(false); 
         }
     };
 
