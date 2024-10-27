@@ -163,14 +163,26 @@ const TransferHistory = () => {
                 ) : transfers.length > 0 ? (
                     <div className="pl-4">
                         <h2 className="text-lg font-bold mb-4">Transfer History:</h2>
-                        <ul>
-                            {transfers.map((transfer, index) => (
-                                <li key={index} className="mb-2">
-                                    <span className="font-bold">{transfer.type}</span> of {transfer.amount} on{' '}
-                                    {new Date(transfer.date).toLocaleString()}
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="max-h-64 overflow-y-auto">
+                            <table className="min-w-full table-auto border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-200">
+                                        <th className="border px-4 py-2">Type</th>
+                                        <th className="border px-4 py-2">Amount</th>
+                                        <th className="border px-4 py-2">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {transfers.map((transfer, index) => (
+                                        <tr key={index} className="hover:bg-gray-100">
+                                            <td className="border px-4 py-2">{transfer.type}</td>
+                                            <td className="border px-4 py-2">{transfer.amount}</td>
+                                            <td className="border px-4 py-2">{new Date(transfer.date).toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 ) : (
                     <div className="text-gray-500 text-center">No transfer history found for the selected filters.</div>
