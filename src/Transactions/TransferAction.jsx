@@ -41,19 +41,25 @@ const TransferForm = () => {
     fetchUsers();
   }, []);
 
-  const canInteractWith = (role) => {
-    const roleHierarchy = {
-      partner: 5,     
-      superadmin: 4,  
-      admin: 3,     
-      assistant: 2,  
-      user: 1      
+  // Function to check if the current user can interact with the given role
+  const canInteractWith = (currentRole, targetRole) => {
+    const permissions = {
+      partner: ["superadmin", "admin", "assistant", "user"],
+      superadmin: ["admin", "assistant", "user"],
+      admin: ["assistant", "user"],
+      assistant: ["user"],
     };
-    return roleHierarchy[user.role.toLowerCase()] > roleHierarchy[role.toLowerCase()];
+
+    // Get lowercased roles for consistent comparison
+    const currentRoleLower = currentRole.toLowerCase();
+    const targetRoleLower = targetRole.toLowerCase();
+
+    return permissions[currentRoleLower]?.includes(targetRoleLower);
   };
 
+  // Filter users based on the permissions
   const filteredUsersForInteraction = usersList.filter((listedUser) => {
-    const canInteract = canInteractWith(listedUser.role);
+    const canInteract = canInteractWith(user.role, listedUser.role); // Using the new permissions function
     const isNotSelf = listedUser.username !== user.username;
     return canInteract && isNotSelf; 
   });
