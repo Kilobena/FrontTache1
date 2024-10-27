@@ -60,8 +60,8 @@ class Auth {
             return {
                 success: true,
                 status: response.status,
-                token: response.data.token,  // JWT token
-                user: response.data.user,    // User data (username, role)
+                token: response.data.token,
+                user: response.data.user,
                 message: response.data.message
             };
         } catch (error) {
@@ -96,8 +96,8 @@ class Auth {
         try {
             const token = localStorage.getItem('token'); // Get the JWT token from localStorage
             const response = await this.api.post(
-                "/auth/usersByRole", 
-                { role: role ?? "" }, 
+                "/auth/usersByRole",
+                { role: role ?? "" },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Include token in Authorization header
@@ -165,21 +165,21 @@ class Auth {
     }
     async getAllUsers() {
         try {
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
             const response = await this.api.get("/auth/getallusers", {
                 headers: {
-                    Authorization: `Bearer ${token}`, 
+                    Authorization: `Bearer ${token}`,
                 }
             });
-    
+
             return {
                 success: true,
                 status: response.status,
-                users: response.data.users, 
+                users: response.data.users,
             };
         } catch (error) {
             console.error("Erreur lors de la récupération de tous les utilisateurs :", error);
-    
+
             if (error.response) {
                 return {
                     success: false,
@@ -195,6 +195,42 @@ class Auth {
             }
         }
     }
+    async getBalance(username) {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await this.api.post("/auth/getBalance",
+                { username: username ?? "" },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+
+            return {
+                success: true,
+                status: response.status,
+                balance: response.data.balance,
+            };
+        } catch (error) {
+            console.error("Erreur lors de la récupération du solde de l'utilisateur :", error);
+
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data.message || "Une erreur est survenue lors de la récupération du solde",
+                };
+            } else {
+                return {
+                    success: false,
+                    status: 500,
+                    message: "Network error or server is unreachable.",
+                };
+            }
+        }
+    }
+
 }
 
 export default Auth;

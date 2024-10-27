@@ -13,12 +13,21 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
     };
 
+    const updateUser = (updatedUserData) => {
+        // Merge updated user data with the existing user data
+        setUser(prevUser => {
+            const newUser = { ...prevUser, ...updatedUserData };
+            localStorage.setItem("user", JSON.stringify(newUser));
+            return newUser;
+        });
+    };
+
     const logout = () => {
         localStorage.removeItem("user");
         setUser(null);
     };
 
-    // Vérifiez si l'utilisateur est encore connecté au chargement
+    // Load stored user on initial render
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -27,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
