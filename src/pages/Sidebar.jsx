@@ -44,16 +44,7 @@ const Sidebar = () => {
                         Register User
                     </li>
 
-                    {/* Conditionally render "Add Partner" based on the user's role */}
-                    {user && user.role === "Partner" && (
-                        <li 
-                            className={`flex items-center cursor-pointer p-2 rounded hover:bg-yellow-700 ${isActive('/regitreP') ? 'bg-gray-800' : ''}`}
-                            onClick={() => navigate('/regitreP')}
-                        >
-                            <FaUserPlus className="mr-3" />
-                            Add Partner
-                        </li>
-                    )}
+                    
                 </ul>
             </div>
         </div>
