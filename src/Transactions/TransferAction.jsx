@@ -23,10 +23,18 @@ const TransferForm = () => {
   const transferServ = new TransferService();
   const suggestionBoxRef = useRef(null);
 
-  // Fetch users by createrId
+  // Fetch users by createrId or all users if SuperPartner
   const fetchAllUsers = async () => {
     try {
-      const response = await authServ.api.get(`/auth/usersByCreater/${user._id}`);
+      let response;
+      if (user.role === 'SuperPartner') {
+        // If the user is a SuperPartner, fetch all users
+        response = await authServ.api.get(`/auth/getAllUsers`);
+      } else {
+        // Otherwise, fetch users created by this user
+        response = await authServ.api.get(`/auth/usersByCreater/${user._id}`);
+      }
+
       if (response.data.users.length === 0) {
         setNoUsersFound(true); // Set no users message if empty
       } else {
@@ -49,10 +57,15 @@ const TransferForm = () => {
       assistant: ['user'],
     };
 
+    // If user is SuperPartner, allow interaction with everyone
+    if (currentRole === 'SuperPartner') {
+      return true;
+    }
+
     return permissions[currentRole.toLowerCase()]?.includes(targetRole.toLowerCase());
   };
 
-  // Filter users you can interact with based on roles
+  // Filter users you can interact with based on roles or allow SuperPartner to interact with all
   const filteredUsersForInteraction = allUsers.filter((listedUser) => {
     const canInteract = canInteractWith(user.role, listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
@@ -99,7 +112,7 @@ const TransferForm = () => {
   const handleInputFocus = () => {
     if (isUserListFetched) {
       if (noUsersFound) {
-        setModalMessage('No users found.');
+        setMessage('No users found.');
         setModalType('error');
         setIsModalOpen(true); // Show modal if no users are found
       } else {
@@ -107,34 +120,60 @@ const TransferForm = () => {
         setShowSuggestions(true);
       }
     } else {
-      setModalMessage('Still loading users...');
+      setMessage('Still loading users...');
       setModalType('error');
       setIsModalOpen(true); // If data is not fetched yet, show loading message
     }
   };
 
-  const handleTransfer = async () => {
-    if (!selectedUser) {
-      setMessage('Please select a user.');
-      setModalType('error');
-      setIsModalOpen(true);
-      return;
-    }
-    if (amount <= 0) {
-      setMessage('The amount must be greater than zero.');
-      setModalType('error');
-      setIsModalOpen(true);
-      return;
-    }
 
-    const transferData = {
-      senderId: user._id,
-      receiverId: selectedUser,
-      amount,
-      type: transferType,
-      note,
-    };
 
+  const getFriendlyErrorMessage = (error) => {
+    // Check for specific known errors and return user-friendly messages
+    if (error.includes("balance: Path `balance`")) {
+      return "Insufficient funds for this transaction.";
+    }
+  
+    if (error.includes("Sender or receiver not found")) {
+      return "One of the users involved in the transaction could not be found.";
+    }
+  
+    if (error.includes("Invalid transfer type")) {
+      return "The transfer type is invalid. Please select either 'Deposit' or 'Withdraw'.";
+    }
+  
+    if (error.includes("Insufficient balance for withdrawal")) {
+      return "The recipient does not have enough balance to complete the withdrawal.";
+    }
+  
+    // Default fallback for other errors
+    return "An error occurred during the transfer. Please try again.";
+  };
+  
+
+const handleTransfer = async () => {
+  if (!selectedUser) {
+    setMessage('Please select a user.');
+    setModalType('error');
+    setIsModalOpen(true);
+    return;
+  }
+  if (amount <= 0) {
+    setMessage('The amount must be greater than zero.');
+    setModalType('error');
+    setIsModalOpen(true);
+    return;
+  }
+
+  const transferData = {
+    senderId: user._id,
+    receiverId: selectedUser,
+    amount,
+    type: transferType,
+    note,
+  };
+
+  try {
     const result = await transferServ.makeTransfer(
       transferData.senderId,
       transferData.receiverId,
@@ -159,11 +198,21 @@ const TransferForm = () => {
       setIsModalOpen(true);
       resetForm();
     } else {
-      setMessage(`Transfer failed: ${result.message}`);
+      // Use the friendly error message function here
+      const userFriendlyMessage = getFriendlyErrorMessage(result.message);
+      setMessage(userFriendlyMessage);
       setModalType('error');
       setIsModalOpen(true);
     }
-  };
+  } catch (error) {
+    // Handle unexpected errors (e.g., network issues)
+    const userFriendlyMessage = getFriendlyErrorMessage(error.message);
+    setMessage(userFriendlyMessage);
+    setModalType('error');
+    setIsModalOpen(true);
+  }
+};
+
 
   const resetForm = () => {
     setAmount(0);

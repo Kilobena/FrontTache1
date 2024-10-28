@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Auth from "../service/Auth";
 import { useAuth } from '../providers/AuthContext'; 
 
@@ -9,14 +9,29 @@ const ManageUser = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [showNoUsersMessage, setShowNoUsersMessage] = useState(false); // For no users found message
     const authApi = new Auth();
-    const { user } = useAuth(); 
+    const { user } = useAuth();
+
+    const inputRef = useRef(null);  // For detecting click outside input
+    const suggestionBoxRef = useRef(null);  // For detecting click outside the suggestion list
 
     // Function to fetch all users and set suggestions
     const fetchAllUsers = async () => {
         try {
-            const response = await authApi.api.get(`/auth/usersByCreater/${user._id}`);
-            setAllUsers(response.data.users);
-            setSuggestions(response.data.users); // Initially, show all users as suggestions
+            let response;
+            if (user.role === "SuperPartner") {
+                // Fetch all users if the logged-in user is a SuperPartner
+                response = await authApi.api.get(`/auth/getAllUsers`);
+            } else {
+                // Otherwise, fetch users created by this user
+                response = await authApi.api.get(`/auth/usersByCreater/${user._id}`);
+            }
+
+            if (response.data.users.length === 0) {
+                setShowNoUsersMessage(true); // Show no users found if the list is empty
+            } else {
+                setAllUsers(response.data.users); // Set the user list
+                setSuggestions(response.data.users); // Initially, show all users as suggestions
+            }
         } catch (error) {
             console.error("Error fetching users:", error);
             setShowNoUsersMessage(true); // Show no users found if the fetch fails
@@ -61,7 +76,8 @@ const ManageUser = () => {
 
     const handleSuggestionClick = (username) => {
         setSearchTerm(username);
-        setSuggestions([]);
+        setSuggestions([]); // Clear the suggestions after selection
+        setShowNoUsersMessage(false); // Hide the "No users found" message
         handleSearch(); // Perform search when a suggestion is clicked
     };
 
@@ -72,20 +88,24 @@ const ManageUser = () => {
         setShowNoUsersMessage(false);
     };
 
-    const handleDeleteUser = async (username) => {
-        try {
-            const response = await authApi.deleteUserByUsername(username);
-            if (response.success) {
-                setFilteredUsers(filteredUsers.filter(user => user.username !== username));
-                setAllUsers(allUsers.filter(user => user.username !== username));
-            } else {
-                setShowNoUsersMessage(true); // Show no users found if delete fails
+    // Close the suggestions if clicked outside the input or suggestion box
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                suggestionBoxRef.current &&
+                !suggestionBoxRef.current.contains(event.target) &&
+                inputRef.current &&
+                !inputRef.current.contains(event.target)
+            ) {
+                setSuggestions([]);  // Clear the suggestions
             }
-        } catch (error) {
-            console.error("Error deleting user:", error);
-            setShowNoUsersMessage(true); // Show no users found if an error occurs
-        }
-    };
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="flex flex-col justify-start h-screen w-full">
@@ -95,7 +115,7 @@ const ManageUser = () => {
 
             <div className="w-full max-w-lg bg-white px-9 rounded mt-6">
                 <h2 className="text-xl mb-4">Search for a User</h2>
-                <div className="relative mb-4">
+                <div className="relative mb-4" ref={suggestionBoxRef}>
                     <input
                         type="text"
                         className="border border-gray-300 p-2 rounded w-full"
@@ -103,6 +123,7 @@ const ManageUser = () => {
                         value={searchTerm}
                         onChange={handleInputChange}
                         onFocus={handleFocus}  // Fetch users on input focus
+                        ref={inputRef}  // Ref to track input clicks
                     />
                     {suggestions.length > 0 ? (
                         <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">

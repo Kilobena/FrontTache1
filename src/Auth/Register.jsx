@@ -3,7 +3,6 @@ import 'font-awesome/css/font-awesome.min.css';
 import Auth from "../service/Auth.js";
 import { useAuth } from '../providers/AuthContext'; 
 
-
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [profil, setProfil] = useState({ username: "", password: "", role: "Select Role" });
@@ -12,16 +11,18 @@ const RegisterForm = () => {
   const auth = new Auth(); 
   const { user } = useAuth()
 
-  // Détermine les rôles disponibles en fonction du rôle de l'utilisateur actuel
+  // Determine available roles based on the current user's role
   const getAvailableRoles = () => {
-    if (user.role === "Partner") {
-      return ["User", "Assistant", "Admin", "SuperAdmin"];
+    if (user.role === "SuperPartner") {
+      return ["SuperAdmin", "Admin", "Partner", "Assistant", "User"]; // SuperPartner can create all roles
+    } else if (user.role === "Partner") {
+      return ["User", "Assistant", "Admin", "SuperAdmin"]; // Partner roles
     } else if (user.role === "SuperAdmin") {
-      return ["User", "Assistant", "Admin"];
+      return ["User", "Assistant", "Admin"]; // SuperAdmin roles
     } else if (user.role === "Admin") {
-      return ["User", "Assistant"];
+      return ["User", "Assistant"]; // Admin roles
     } else {
-      return ["User"]; // Si l'utilisateur est un User normal
+      return ["User"]; // Default User roles
     }
   };
 
@@ -66,7 +67,6 @@ const RegisterForm = () => {
       setIsModalOpen(true);
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,6 +84,7 @@ const RegisterForm = () => {
     setIsModalOpen(false); 
   };
 
+  
   return (
     <div className="flex justify-center items-center h-screen w-full">
       <div className="w-full h-full">
