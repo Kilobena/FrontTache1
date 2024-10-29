@@ -2,8 +2,8 @@ import React from "react";
 
 const Modal = ({ onClose, children }) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4 sm:p-8">
+            <div className="relative bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md">
                 {/* Close Button */}
                 <button
                     onClick={onClose}

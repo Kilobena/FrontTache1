@@ -9,9 +9,8 @@ const Login = ({ onLoginSuccess }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const { login, updateUser } = useAuth(); // Access login and updateUser from AuthContext
+    const { login, updateUser } = useAuth(); 
     const navigate = useNavigate();
-
     const authApi = new Auth();
 
     const handleSubmit = async (e) => {
@@ -22,49 +21,43 @@ const Login = ({ onLoginSuccess }) => {
             const response = await authApi.loginUser({ username, password });
 
             if (response.success) {
-                // Store the token and user data in the auth context
                 updateUser({
                     token: response.token,
                     user: response.user
                 });
 
-                // Call onLoginSuccess if provided
                 if (onLoginSuccess) {
                     onLoginSuccess(response.user);
                 }
 
-                console.log("User logged in:", response.user);
-                setErrorMessage(""); // Reset error message
-
-                // Redirect based on user role
+                setErrorMessage("");
                 if (response.user.role === "User") {
-                    navigate("/user"); // Redirect to /user if the role is 'User'
+                    navigate("/user");
                 } else {
-                    navigate("/transferaction"); // Redirect to /transferaction for other roles
+                    navigate("/transferaction");
                 }
-
             } else {
                 setErrorMessage(response.message || "Failed to login. Please try again.");
             }
         } catch (error) {
-            console.error("Full error object during login:", error);
+            console.error("Error during login:", error);
             setErrorMessage(
                 error.response?.data.message || "An error occurred during login. Please try again."
             );
         } finally {
-            setIsLoading(false); // Stop the loading state
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="w-full max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+        <div className="w-full max-w-md mx-auto p-6 sm:p-8"> {/* Added responsive padding */}
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center">Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700">Username</label>
                     <input
                         type="text"
-                        className="border border-gray-300 p-2 rounded w-full"
+                        className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500" 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -74,7 +67,7 @@ const Login = ({ onLoginSuccess }) => {
                     <label className="block text-gray-700">Password</label>
                     <input
                         type="password"
-                        className="border border-gray-300 p-2 rounded w-full"
+                        className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -86,9 +79,9 @@ const Login = ({ onLoginSuccess }) => {
                 <button
                     type="submit"
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded w-full"
-                    disabled={isLoading} // Disable the button while loading
+                    disabled={isLoading}
                 >
-                    {isLoading ? "Logging in..." : "Login"} {/* Show loading text */}
+                    {isLoading ? "Logging in..." : "Login"}
                 </button>
             </form>
         </div>
