@@ -84,7 +84,6 @@ const TransferForm = () => {
     setShowSuggestions(false); 
   };
 
-  // Add this function to handle input focus and show suggestions
   const handleInputFocus = () => {
     if (isUserListFetched) {
       if (noUsersFound) {
@@ -190,135 +189,141 @@ const TransferForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-full p-6 sm:p-8"> {/* Responsive padding */}
-      <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Transfer</h1>
+    <div className="flex flex-col h-screen w-full">
+      <header className="bg-gray-900 text-white w-full py-4 text-center">
+        <h1 className="text-3xl font-bold">Transfer</h1>
+      </header>
 
-        {/* User Selection Input */}
-        <div className="relative mb-4" ref={suggestionBoxRef}>
-          <input
-            type="text"
-            className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            placeholder="Search for a user"
-            value={searchTerm}
-            onChange={handleInputChange}
-            onFocus={handleInputFocus} 
-          />
-          {showSuggestions && filteredUsers.length > 0 && (
-            <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
-              {filteredUsers.map((user) => (
-                <li
-                  key={user._id}
-                  className="p-2 cursor-pointer hover:bg-gray-200"
-                  onClick={() => handleSuggestionClick(user.username, user._id)}
+      <div className="flex-1 overflow-auto p-6 sm:p-8">
+        <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg"> {/* Updated to max-w-4xl */}
+          
+
+          {/* User Selection Input */}
+          <div className="relative mb-4" ref={suggestionBoxRef}>
+            <input
+              type="text"
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              placeholder="Search for a user"
+              value={searchTerm}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+            />
+            {showSuggestions && filteredUsers.length > 0 && (
+              <ul className="absolute bg-white border border-gray-300 mt-1 rounded w-full z-10">
+                {filteredUsers.map((user) => (
+                  <li
+                    key={user._id}
+                    className="p-2 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSuggestionClick(user.username, user._id)}
+                  >
+                    {user.username} ({user.role})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Transfer Type Section */}
+          <div className="mb-4">
+            <label className="block font-medium text-gray-800 mb-2">Transfer Type</label>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: 'Deposit', value: 'deposit' },
+                { label: 'Withdraw', value: 'withdraw' },
+              ].map((option) => (
+                <label
+                  key={option.value}
+                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
+                    transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'
+                  }`}
                 >
-                  {user.username} ({user.role})
-                </li>
+                  <input
+                    type="radio"
+                    name="transferType"
+                    value={option.value}
+                    checked={transferType === option.value}
+                    onChange={() => setTransferType(option.value)}
+                    className="form-radio h-5 w-5 text-yellow-500 mr-2"
+                  />
+                  <span className="font-medium">{option.label}</span>
+                </label>
               ))}
-            </ul>
+            </div>
+          </div>
+
+          {/* Transfer Amount Section */}
+          <div className="mb-4">
+            <label className="block font-medium">Transfer Amount</label>
+            <div className="flex space-x-4 mb-2">
+              <input
+                type="text"
+                value={amount}
+                readOnly
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              <button
+                onClick={() => setAmount(0)}
+                className="border border-black py-2 px-4 rounded focus:outline-none"
+              >
+                Clear
+              </button>
+            </div>
+
+            <div className="flex space-x-4">
+              {[10, 20, 50, 100, 500].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => setAmount((prev) => prev + value)}
+                  className="p-2 bg-gray-300 rounded"
+                >
+                  +{value}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Transfer Note Section */}
+          <div className="mb-4">
+            <label className="block font-medium">Transfer Note</label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              rows="4"
+              placeholder="Add a note (optional)"
+            />
+          </div>
+
+          <button
+            onClick={handleTransfer}
+            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition duration-300"
+          >
+            Transfer
+          </button>
+
+          {message && (
+            <div className="mt-4 p-2 text-center text-red-600">{message}</div>
           )}
         </div>
 
-        {/* Transfer Type Section */}
-        <div className="mb-4">
-          <label className="block font-medium text-gray-800 mb-2">Transfer Type</label>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { label: 'Deposit', value: 'deposit' },
-              { label: 'Withdraw', value: 'withdraw' },
-            ].map((option) => (
-              <label
-                key={option.value}
-                className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
-                  transferType === option.value ? 'bg-yellow-400 text-white shadow-md' : 'bg-gray-100 text-gray-700'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="transferType"
-                  value={option.value}
-                  checked={transferType === option.value}
-                  onChange={() => setTransferType(option.value)}
-                  className="form-radio h-5 w-5 text-yellow-500 mr-2"
-                />
-                <span className="font-medium">{option.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Transfer Amount Section */}
-        <div className="mb-4">
-          <label className="block font-medium">Transfer Amount</label>
-          <div className="flex space-x-4 mb-2">
-            <input
-              type="text"
-              value={amount}
-              readOnly
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            <button
-              onClick={() => setAmount(0)}
-              className="border border-black py-2 px-4 rounded focus:outline-none"
-            >
-              Clear
-            </button>
-          </div>
-
-          <div className="flex space-x-4">
-            {[10, 20, 50, 100, 500].map((value) => (
+        {/* Modal for Success/Error Message */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-5 rounded shadow-lg max-w-xs w-full">
+              <h2 className={`text-xl font-bold ${modalType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                {modalType === 'success' ? 'Success' : 'Error'}
+              </h2>
+              <p>{message}</p>
               <button
-                key={value}
-                onClick={() => setAmount((prev) => prev + value)}
-                className="p-2 bg-gray-300 rounded"
+                onClick={closeModal}
+                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
               >
-                +{value}
+                Close
               </button>
-            ))}
+            </div>
           </div>
-        </div>
-
-        {/* Transfer Note Section */}
-        <div className="mb-4">
-          <label className="block font-medium">Transfer Note</label>
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            rows="4"
-            placeholder="Add a note (optional)"
-          />
-        </div>
-
-        <button
-          onClick={handleTransfer}
-          className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition duration-300"
-        >
-          Transfer
-        </button>
-
-        {message && (
-          <div className="mt-4 p-2 text-center text-red-600">{message}</div>
         )}
       </div>
-
-      {/* Modal for Success/Error Message */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-5 rounded shadow-lg max-w-xs w-full">
-            <h2 className={`text-xl font-bold ${modalType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-              {modalType === 'success' ? 'Success' : 'Error'}
-            </h2>
-            <p>{message}</p>
-            <button
-              onClick={closeModal}
-              className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBars, FaUserPlus, FaUsers, FaMoneyCheckAlt, FaHistory } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUserPlus, FaUsers, FaMoneyCheckAlt, FaHistory } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthContext';
 
@@ -35,13 +35,24 @@ const Sidebar = () => {
 
             {/* Sidebar */}
             <div
-                className={`bg-gray-900 text-white h-screen sm:w-64 w-full fixed sm:static z-50 transition-transform ${
+                className={`min-h-screen w-64 bg-gray-900 text-white flex flex-col justify-between fixed sm:relative z-50 transition-transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 } sm:translate-x-0`}
             >
                 <div className="p-4">
-                    <h2 className="text-xl font-bold mb-6">AGENT MENU</h2>
-                    <ul className="space-y-6">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-bold">AGENT MENU</h2>
+                        {/* Close button for mobile */}
+                        {isOpen && (
+                            <button
+                                onClick={toggleSidebar}
+                                className="text-white sm:hidden"
+                            >
+                                <FaTimes size={24} />
+                            </button>
+                        )}
+                    </div>
+                    <ul className="space-y-6 mt-6">
                         <li
                             className={`flex items-center cursor-pointer p-2 rounded hover:bg-yellow-700 ${
                                 isActive('/transferaction') ? 'bg-gray-800' : ''
@@ -79,6 +90,11 @@ const Sidebar = () => {
                             Register User
                         </li>
                     </ul>
+                </div>
+
+                {/* Add anything to the bottom if needed */}
+                <div className="p-4">
+                    <p className="text-sm">© 2024 </p>
                 </div>
             </div>
         </div>

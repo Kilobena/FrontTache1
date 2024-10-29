@@ -9,7 +9,7 @@ const RegisterForm = () => {
   const [message, setMessage] = useState(""); 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const auth = new Auth(); 
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   const getAvailableRoles = () => {
     if (user.role === "SuperPartner") {
@@ -26,7 +26,7 @@ const RegisterForm = () => {
   };
 
   const roles = getAvailableRoles();
- 
+
   const handleRegister = async () => {
     if (!user || !user._id) {
       setMessage("User ID is not available. Please try again.");
@@ -78,12 +78,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-full p-6 sm:p-8"> {/* Responsive padding */}
-      <div className="w-full max-w-md">
-        <h1 className="text-xl sm:text-2xl font-bold bg-gray-700 text-white p-4 rounded w-full">
+    <div className="flex justify-center items-center h-screen w-full p-6 sm:p-8">
+      <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg"> {/* Updated to max-w-4xl */}
+        <h1 className="text-2xl sm:text-3xl font-bold bg-gray-700 text-white p-4 rounded w-full text-center">
           Register User
         </h1>
-        <div className="w-full bg-white p-6 rounded shadow-md">
+        <div className="w-full p-6">
           <form>
             {/* Username Input */}
             <div className="mb-4">
@@ -177,7 +177,7 @@ const RegisterForm = () => {
       {/* Modal for showing messages */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-5 rounded shadow-md max-w-xs w-full mx-4"> {/* Modal is responsive now */}
+          <div className="bg-white p-5 rounded shadow-md max-w-xs w-full mx-4">
             <h2 className="text-lg font-bold mb-4">{message}</h2>
             <button
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"

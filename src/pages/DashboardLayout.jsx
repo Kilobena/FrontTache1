@@ -5,7 +5,7 @@ import Header from './Header';
 
 const DashboardLayout = ({ user }) => {
     return (
-        <div className="flex flex-col sm:flex-row h-full min-h-screen"> {/* Responsive layout */}
+        <div className="flex flex-col sm:flex-row h-full min-h-screen h-full"> {/* Responsive layout */}
             <Sidebar user={user} />
 
             {/* Main Content Area */}
