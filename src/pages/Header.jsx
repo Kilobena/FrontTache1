@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUserCircle, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa'; // Import FaTimes for close icon
+import { FaUserCircle, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthContext';
 
@@ -13,27 +13,25 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
     };
 
     return (
-        <div className="bg-[#242424] text-white p-3 sm:p-4 shadow-lg flex flex-col">
-            {/* Top Section: Hamburger Menu, Dashboard Title, and User Info */}
-            <div className="flex items-center justify-between">
-                {/* Hamburger Menu Icon for mobile view */}
-                <button
-                    onClick={toggleSidebar}
-                    className="sm:hidden text-white text-2xl focus:outline-none mr-3"
-                >
-                    {/* Conditionally render FaBars (hamburger) or FaTimes (close) */}
-                   
-                </button>
+        <div className="bg-[#242424] text-white p-3 sm:p-4 shadow-lg flex flex-col w-full">
+            {/* Center the content and limit the width */}
+            <div className="mx-auto w-full max-w-5xl">
+                {/* Top Section: Hamburger Menu, Dashboard Title, and User Info */}
+                <div className="flex items-center justify-between">
+                    {/* Hamburger Menu Icon for mobile view */}
+                    <button
+                        onClick={toggleSidebar}
+                        className="sm:hidden text-white text-2xl focus:outline-none mr-3"
+                    >
+                    </button>
 
-                {/* Dashboard Title (Visible on larger screens only) */}
-                <h1 className="hidden sm:block text-xl sm:text-2xl font-semibold"></h1>
-            </div>
+                    {/* Dashboard Title (Visible on larger screens only) */}
+                </div>
 
-            {/* Centered User Info Section */}
-            <div className="bg-[#242424] text-white p-3 sm:p-4 shadow-lg flex items-center justify-center">
-                <div className="flex items-center space-x-3">
+                {/* Centered User Info Section */}
+                <div className="flex items-center justify-center mt-3 space-x-3">
                     <FaUserCircle className="text-2xl sm:text-3xl" />
-                    
+
                     <div className="flex flex-col">
                         <span className="text-md sm:text-lg font-semibold">{user?.username || 'Guest'}</span>
                         <span className="text-sm text-gray-400">${user?.balance || 0}</span>
@@ -51,14 +49,14 @@ const Header = ({ toggleSidebar, isSidebarOpen }) => {
                         <span className="text-md">Logout</span>
                     </div>
                 </div>
-            </div>
 
-            {/* Bottom Section: "AGENT MENU" and Date */}
-            <div className="text-center mt-4 sm:mt-2">
-                <h1 className="text-xl font-semibold">AGENT MENU</h1>
-                <p className="text-sm text-gray-400">
-                    {new Date().toLocaleString('en-US', { timeZone: 'Africa/Tunis' })}
-                </p>
+                {/* Bottom Section: "AGENT MENU" and Date */}
+                <div className="text-center mt-4 sm:mt-2">
+                    <h1 className="text-xl font-semibold">AGENT MENU</h1>
+                    <p className="text-sm text-gray-400">
+                        {new Date().toLocaleString('en-US', { timeZone: 'Africa/Tunis' })}
+                    </p>
+                </div>
             </div>
         </div>
     );

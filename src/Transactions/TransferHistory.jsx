@@ -56,8 +56,8 @@ const TransferHistory = () => {
 
   return (
     <div className="flex flex-col h-screen w-full"> {/* Ensure full height */}
-      <header className="bg-gray-900 text-white w-full py-4 text-center bg-[#242424] ">
-        <h1 className="text-3xl font-bold">Transfer History</h1>
+      <header className="bg-gray-900 text-white w-full py-4 text-center bg-[#242424]">
+        <h1 className="text-3xl font-bold ">Transfer History</h1>
       </header>
 
       <div className="flex-1 overflow-auto p-6 sm:p-8">

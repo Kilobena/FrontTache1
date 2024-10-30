@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
         <>
             {/* Toggle icon for sidebar (FaBars or FaTimes) */}
             <div className="sm:hidden fixed top-4 right-4 z-50">
-                <button onClick={toggleSidebar} className=" bg-[#242424] text-white bg-gray-900 p-2 rounded mt-20">
+                <button onClick={toggleSidebar} className="text-white bg-[#242424] p-2 rounded">
                     {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
             </div>
@@ -30,7 +30,8 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
                     isOpen ? 'translate-x-0' : 'translate-x-full'
                 } sm:translate-x-0 sm:static sm:w-64 w-full sm:h-auto`}
             >
-                <div className="p-4">
+                {/* Sidebar starts immediately at the top with reduced padding */}
+                <div className="p-2">
                     {/* Menu Items */}
                     <ul className="space-y-6">
                         <li
