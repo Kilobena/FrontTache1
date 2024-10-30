@@ -200,10 +200,12 @@ const TransferForm = () => {
 
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
+          <span className="font-medium">Search for user</span>
+
             <input
               type="text"
               className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              placeholder="Search for a user"
+              placeholder="Type the First 3 letters"
               value={searchTerm}
               onChange={handleInputChange}
               onFocus={handleInputFocus}
