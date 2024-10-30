@@ -10,11 +10,11 @@ const BottomBar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 w-full bg-gray-900 text-white flex justify-around py-3 sm:hidden z-50"> 
+    <div className="fixed bottom-0 w-full bg-[#242424] text-white flex justify-around py-3 sm:hidden z-50">
       {/* Bottom navigation bar */}
       <button
         className="flex flex-col items-center"
-        onClick={() => handleNavigation('/casino')}
+        //onClick={() => handleNavigation('/casino')}
       >
         <FaHeart size={24} />
         <span className="text-xs mt-1">Casino</span>
@@ -22,7 +22,7 @@ const BottomBar = () => {
 
       <button
         className="flex flex-col items-center"
-        onClick={() => handleNavigation('/sports')}
+        //onClick={() => handleNavigation('/sports')}
       >
         <FaFutbol size={24} />
         <span className="text-xs mt-1">Sports</span>
@@ -30,7 +30,7 @@ const BottomBar = () => {
 
       <button
         className="flex flex-col items-center"
-        onClick={() => handleNavigation('/home')}
+        //onClick={() => handleNavigation('/home')}
       >
         <FaHome size={24} />
         <span className="text-xs mt-1">Home</span>
@@ -38,7 +38,7 @@ const BottomBar = () => {
 
       <button
         className="flex flex-col items-center"
-        onClick={() => handleNavigation('/search')}
+       // onClick={() => handleNavigation('/search')}
       >
         <FaSearch size={24} />
         <span className="text-xs mt-1">Search</span>
@@ -46,7 +46,7 @@ const BottomBar = () => {
 
       <button
         className="flex flex-col items-center"
-        onClick={() => handleNavigation('/menu')}
+        //onClick={() => handleNavigation('/menu')}
       >
         <FaBars size={24} />
         <span className="text-xs mt-1">Menu</span>

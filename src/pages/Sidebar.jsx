@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
         <>
             {/* Toggle icon for sidebar (FaBars or FaTimes) */}
             <div className="sm:hidden fixed top-4 right-4 z-50">
-                <button onClick={toggleSidebar} className="text-white bg-[#242424] p-2 rounded">
+                <button onClick={toggleSidebar} className="text-white bg-[#242424] p-2 rounded mt-20">
                     {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
             </div>
@@ -55,32 +55,32 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
                         <li
                             className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${isActive('/transfers-report') ? 'bg-yellow-500' : ''}`}
-                            onClick={() => handleMenuClick('/transfers-report')}
+                            //onClick={() => handleMenuClick('/transfers-report')}
                         >
                             <FaChartBar className="mr-3" />
                             Transfers Report
                         </li>
                         <li
                             className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${isActive('/gaming-report') ? 'bg-yellow-500' : ''}`}
-                            onClick={() => handleMenuClick('/gaming-report')}
+                            //onClick={() => handleMenuClick('/gaming-report')}
                         >
                             <FaGamepad className="mr-3" />
                             Gaming Report
                         </li>
 
                         {/* Separation Line after Gaming Report */}
-                        <hr className="border-gray-700" />
+                        
 
                         <li
                             className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${isActive('/sportsbook-bets') ? 'bg-yellow-500' : ''}`}
-                            onClick={() => handleMenuClick('/sportsbook-bets')}
+                            //onClick={() => handleMenuClick('/sportsbook-bets')}
                         >
                             <FaTrophy className="mr-3" />
                             Sportsbook Bets
                         </li>
                         <li
                             className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${isActive('/casino-bets') ? 'bg-yellow-500' : ''}`}
-                            onClick={() => handleMenuClick('/casino-bets')}
+                            //onClick={() => handleMenuClick('/casino-bets')}
                         >
                             <FaWallet className="mr-3" />
                             Casino Bets

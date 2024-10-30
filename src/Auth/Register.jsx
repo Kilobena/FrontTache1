@@ -80,9 +80,10 @@ const RegisterForm = () => {
   return (
     <div className="flex justify-center items-center h-screen w-full p-6 sm:p-8">
       <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg"> {/* Updated to max-w-4xl */}
-        <h1 className="text-2xl sm:text-3xl font-bold bg-gray-700 text-white p-4 rounded w-full text-center">
-          Register User
-        </h1>
+
+      <header className="bg-[#242424] text-white w-full py-4 text-center">
+      <h1 className="text-3xl font-bold">Register User</h1>
+            </header>
         <div className="w-full p-6">
           <form>
             {/* Username Input */}
