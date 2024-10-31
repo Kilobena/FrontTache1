@@ -20,6 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
   const handleMenuClick = (path) => {
     navigate(path);
+    // Close the sidebar on mobile view after clicking a menu item
     if (window.innerWidth < 640) {
       toggleSidebar();
     }
@@ -31,8 +32,11 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
     <>
       {/* Toggle icon for sidebar */}
       <div className="fixed top-4 right-4 z-50">
-        <button onClick={toggleSidebar} className="text-white bg-[#242424] p-2 rounded mt-20">
-          {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        <button
+          onClick={toggleSidebar}
+          className="sm:hidden text-white text-2xl focus:outline-none mr-3"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
@@ -44,6 +48,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
       >
         <div className="p-4">
           <ul className="space-y-6">
+            {/* Transfer Section */}
             <li
               className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
                 isActive('/transferaction') ? 'bg-yellow-500' : ''
@@ -64,14 +69,14 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
               Transfers History
             </li>
 
-            {/* Separation Line */}
             <hr className="border-gray-700" />
 
+            {/* Reports Section */}
             <li
               className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
                 isActive('/transfers-report') ? 'bg-yellow-500' : ''
               }`}
-              onClick={() => handleMenuClick('/transfers-report')}
+              onClick={() => handleMenuClick('/tranfer_report')}
             >
               <FaChartBar className="mr-3" />
               Transfers Report
@@ -89,6 +94,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             <hr className="border-gray-700" />
 
+            {/* Betting Section */}
             <li
               className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
                 isActive('/sportsbook-bets') ? 'bg-yellow-500' : ''
@@ -111,6 +117,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             <hr className="border-gray-700" />
 
+            {/* User Management Section */}
             <li
               className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
                 isActive('/user-management') ? 'bg-yellow-500' : ''
@@ -133,7 +140,11 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             <hr className="border-gray-700" />
 
-            <li className="flex items-center cursor-pointer p-3 rounded hover:bg-gray-700" onClick={() => handleMenuClick('/logout')}>
+            {/* Logout Section */}
+            <li
+              className="flex items-center cursor-pointer p-3 rounded hover:bg-gray-700"
+              onClick={() => handleMenuClick('/logout')}
+            >
               <FaSignOutAlt className="mr-3" />
               Logout
             </li>

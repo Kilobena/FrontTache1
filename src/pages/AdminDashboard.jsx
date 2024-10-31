@@ -4,13 +4,13 @@ import Header from './Header';
 
 const AdminDashboard = ({ user }) => {
     return (
-        <div className="h-screen flex">
+        <div className="h-screen flex w-full">
             {/* Dynamic Sidebar */}
             <Sidebar user={user} />
             
             <div className="flex flex-col w-full">
                 {/* Dynamic Header */}
-                <Header user={user} />
+                <Header user={user} className="w-full"/>
                 
                 <div className="p-8 bg-gray-100 flex-1">
                     {/* Welcome Section */}

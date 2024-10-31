@@ -9,6 +9,10 @@ import ManageUser from './Auth/ManageUser';
 import DashboardLayout from './pages/DashboardLayout';
 import UserPage from './pages/UserPage';
 import RegisterPartner from './Auth/RegistrePartner.jsx';
+import TransferReport from './pages/TransferReport.jsx';
+import GamingReport from './pages/GamingReport.jsx';
+import SportBetBook from './pages/SportBetBook.jsx';
+import CasinoBets from './pages/CasinoBets.jsx';
 
 function AppRoutes() {
     const { user } = useAuth();
@@ -38,8 +42,12 @@ function AppRoutes() {
                     <Route path="/transferhistory" element={isAuthenticated ? <TransferHistory /> : <Navigate to="/home" replace />} />
                     <Route path="/user-management" element={isAuthenticated ? <ManageUser /> : <Navigate to="/home" replace />} />
                     <Route path="/regitreP" element={isAuthenticated ? <RegisterPartner /> : <Navigate to="/home" replace />} />
-
                     <Route path="/registre" element={isAuthenticated ? <RegisterForm /> : <Navigate to="/home" replace />} />
+                    <Route path="/tranfer_report" element={isAuthenticated ? <TransferReport /> : <Navigate to="/home" replace />} />
+                    <Route path="/gaming-report" element={isAuthenticated ? <GamingReport /> : <Navigate to="/home" replace />} />
+                    <Route path="/sportsbook-bets" element={isAuthenticated ? <SportBetBook /> : <Navigate to="/home" replace />} />
+                    <Route path="/casino-bets" element={isAuthenticated ? <CasinoBets /> : <Navigate to="/home" replace />} />
+
                 </Route>
 
                 {/* Fallback route */}
