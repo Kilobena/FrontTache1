@@ -7,32 +7,42 @@ const ManageUser = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);  // Stores filtered users to display in the table
     const [allUsers, setAllUsers] = useState([]);
+    const [noUsersFound, setNoUsersFound] = useState(false);
     const [showNoUsersMessage, setShowNoUsersMessage] = useState(false);
+    const [isUserListFetched, setIsUserListFetched] = useState(false);
     const authApi = new Auth();
     const { user } = useAuth();
+    const authServ = new Auth();
+
 
     const inputRef = useRef(null);
     const suggestionBoxRef = useRef(null);
 
     const fetchAllUsers = async () => {
         try {
-            let response;
-            if (user.role === "SuperPartner") {
-                response = await authApi.api.get(`/auth/getAllUsers`);
-            } else {
-                response = await authApi.api.get(`/auth/usersByCreater/${user._id}`);
-            }
-            if (response.data.users.length === 0) {
-                setShowNoUsersMessage(true);
-            } else {
-                setAllUsers(response.data.users);
-                setSuggestions(response.data.users);
-            }
+          let response;
+          if (user.role === 'SuperPartner') {
+            response = await authServ.api.get(`/auth/getAllUsers`, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
+          } else {
+            response = await authServ.getUsersByCreaterId(user._id);
+          }
+    
+          console.log('API response:', response);
+    
+          if (response.success && Array.isArray(response.users)) {
+            setAllUsers(response.users);
+            setNoUsersFound(response.users.length === 0);
+            setIsUserListFetched(true);
+          } else {
+            setNoUsersFound(true);
+          }
         } catch (error) {
-            console.error("Error fetching users:", error);
-            setShowNoUsersMessage(true);
+          console.error('Error fetching users:', error);
+          setNoUsersFound(true);
         }
-    };
+      };
 
     const handleSearch = () => {
         if (!searchTerm.trim()) {

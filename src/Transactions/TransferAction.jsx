@@ -28,20 +28,25 @@ const TransferForm = () => {
     try {
       let response;
       if (user.role === 'SuperPartner') {
-        response = await authServ.api.get(`/auth/getAllUsers`);
+        response = await authServ.api.get(`/auth/getAllUsers`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
       } else {
-        response = await authServ.api.get(`/auth/usersByCreater/${user._id}`);
+        response = await authServ.getUsersByCreaterId(user._id);
       }
-      if (response.data.users.length === 0) {
-        setNoUsersFound(true); 
+
+      console.log('API response:', response);
+
+      if (response.success && Array.isArray(response.users)) {
+        setAllUsers(response.users);
+        setNoUsersFound(response.users.length === 0);
+        setIsUserListFetched(true);
       } else {
-        setAllUsers(response.data.users); 
+        setNoUsersFound(true);
       }
-      setIsUserListFetched(true); 
     } catch (error) {
       console.error('Error fetching users:', error);
-      setNoUsersFound(true); 
-      setIsUserListFetched(true); 
+      setNoUsersFound(true);
     }
   };
 
