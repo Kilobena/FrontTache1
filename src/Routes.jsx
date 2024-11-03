@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './providers/AuthContext.jsx';
 
-import HomePage from './Home/HomePage';
 import RegisterForm from './Auth/Register';
 import TransferHistory from './Transactions/TransferHistory';
 import TransferForm from './Transactions/TransferAction';
@@ -13,6 +12,8 @@ import TransferReport from './pages/TransferReport.jsx';
 import GamingReport from './pages/GamingReport.jsx';
 import SportBetBook from './pages/SportBetBook.jsx';
 import CasinoBets from './pages/CasinoBets.jsx';
+import LandingPage from './Home/LandingPage.jsx';
+import HomePage from './Home/HomePage.jsx';
 
 function AppRoutes() {
     const { user } = useAuth();
@@ -23,7 +24,9 @@ function AppRoutes() {
         <Router>
             <Routes>
                 {/* Public Route */}
-                <Route path="/home" element={<HomePage />} />
+                <Route path="/home" element={<LandingPage />} />
+                <Route path="/homePage" element={<HomePage />} />
+
                 
                 {/* User Route */}
                 <Route path="/user" element={isAuthenticated && isUserRole ? <UserPage /> : <Navigate to="/home" replace />} />

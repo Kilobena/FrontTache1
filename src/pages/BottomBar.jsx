@@ -30,7 +30,7 @@ const BottomBar = () => {
 
       <button
         className="flex flex-col items-center"
-        //onClick={() => handleNavigation('/home')}
+        onClick={() => handleNavigation('/homePage')}
       >
         <FaHome size={24} />
         <span className="text-xs mt-1">Home</span>
