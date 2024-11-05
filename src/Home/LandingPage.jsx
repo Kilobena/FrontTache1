@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Modal from "./Modal";
 import Login from "../Auth/LoginPage";
+import sportsImage from '../assets/sports-image.webp';
+import liveSportsImage from '../assets/live-sports.jpg';
+import casinoImage from '../assets/casino-image.jpg';
+import liveCasinoImage from '../assets/live-casino.webp';
 import { useAuth } from "../providers/AuthContext";
 
 const LandingPage = () => {
@@ -17,47 +21,70 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="relative min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-100 flex flex-col items-center text-gray-800">
+        <div className="bg-gray-900 text-white min-h-screen">
             {/* Header */}
-            <header className="w-full p-4 flex items-center justify-between bg-white/90 shadow-sm backdrop-blur-lg">
-                <img src={logo} alt="Logo" className="w-10 h-10 sm:w-12 sm:h-12" /> {/* Made logo responsive */}
-                <button
-                    onClick={handleLoginClick}
-                    className="bg-yellow-500 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:bg-yellow-600 transition duration-300"
-                >
-                    Login
-                </button>
+            <header className="flex items-center justify-between px-8 py-4 bg-gray-800">
+                <img src={logo} alt="Logo" className="h-10" />
+                <nav className="space-x-6 text-sm font-medium">
+                    <a href="/" className="hover:text-yellow-400">HOME</a>
+                    <a href="/" className="hover:text-yellow-400">SPORTS BETTING</a>
+                    <a href="/" className="hover:text-yellow-400">LIVE BETTING</a>
+                    <a href="/" className="hover:text-yellow-400">CASINO</a>
+                    <a href="/" className="hover:text-yellow-400">LIVE CASINO</a>
+                    <a href="/" className="hover:text-yellow-400">VIRTUALS</a>
+                </nav>
+                <div className="space-x-4">
+                    <button onClick={handleLoginClick} className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">
+                        LOGIN
+                    </button>
+                    <button className="bg-yellow-500 px-4 py-2 rounded text-gray-900 hover:bg-yellow-400">
+                        REGISTER
+                    </button>
+                </div>
             </header>
 
-            {/* Hero Section */}
-            <main className="flex flex-col items-center justify-center flex-grow p-6 text-center"> {/* Text centered for mobile */}
-                <h1 className="text-3xl sm:text-5xl font-bold mb-4 text-indigo-700 leading-tight">
-                    Connect in a Whole New Way
-                </h1>
-                <p className="max-w-lg text-base sm:text-lg mb-8 text-gray-600">
-                    Step into a community where connections are meaningful, and your journey matters.
-                </p>
-                <button
-                    onClick={handleLoginClick}
-                    className="bg-yellow-500 text-white font-medium py-2 px-6 sm:py-3 sm:px-8 rounded-full shadow-md hover:bg-yellow-600 transition duration-300"
-                >
-                    Get Started
-                </button>
-            </main>
+            {/* Hero Banner */}
+            <section className="relative bg-cover bg-center h-96 text-center flex items-center justify-center" style={{ backgroundImage: `url(${casinoImage})` }}>
+                <div className="bg-black bg-opacity-50 p-8 rounded-lg">
+                    <h1 className="text-4xl font-bold text-yellow-500">Welcome to Our Betting Site</h1>
+                    <p className="mt-4 text-lg">Get the best odds and live betting experience</p>
+                    <button className="mt-6 bg-yellow-500 px-6 py-3 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400">
+                        Join Now
+                    </button>
+                </div>
+            </section>
 
-            {/* Testimonials Section */}
-            <section className="w-full bg-white py-10 px-6 shadow-sm rounded-t-lg mt-12">
-                <h2 className="text-center text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
-                    What Our Users Say
-                </h2>
-                <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-8">
-                    <div className="bg-indigo-50 p-6 rounded-lg shadow-lg w-full sm:w-80 text-center transition-transform transform hover:scale-105 duration-300">
-                        <p className="text-sm text-gray-700 italic">"An incredible platform that connects people seamlessly!"</p>
-                        <span className="block mt-4 font-semibold text-indigo-600">- Alex D.</span>
+            {/* Popular Games/Events */}
+            <section className="p-8">
+                <h2 className="text-3xl font-bold text-center mb-8">Popular Games & Events</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[{ title: 'SPORTS', image: sportsImage }, { title: 'LIVE SPORTS', image: liveSportsImage }, { title: 'CASINO', image: casinoImage }, { title: 'LIVE CASINO', image: liveCasinoImage }].map((item, index) => (
+                        <div key={index} className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden text-center" style={{ backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                            <div className="absolute inset-0 bg-black opacity-50"></div>
+                            <div className="relative z-10 text-white text-2xl font-bold flex items-center justify-center h-24">{item.title}</div>
+                            <button className="relative z-10 mt-2 mb-4 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-4 py-2 rounded flex items-center justify-center mx-auto w-3/4">
+                                PLAY NOW <span className="ml-2">→</span>
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Features Section */}
+            <section className="p-8 bg-gray-800">
+                <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="text-center">
+                        <h3 className="text-xl font-semibold text-yellow-500">Live Betting</h3>
+                        <p className="mt-2">Place your bets in real-time with live odds.</p>
                     </div>
-                    <div className="bg-indigo-50 p-6 rounded-lg shadow-lg w-full sm:w-80 text-center transition-transform transform hover:scale-105 duration-300">
-                        <p className="text-sm text-gray-700 italic">"Simple, efficient, and a joy to use every day."</p>
-                        <span className="block mt-4 font-semibold text-indigo-600">- Maria R.</span>
+                    <div className="text-center">
+                        <h3 className="text-xl font-semibold text-yellow-500">Secure Platform</h3>
+                        <p className="mt-2">Your information and transactions are safe with us.</p>
+                    </div>
+                    <div className="text-center">
+                        <h3 className="text-xl font-semibold text-yellow-500">24/7 Support</h3>
+                        <p className="mt-2">Get help whenever you need it from our team.</p>
                     </div>
                 </div>
             </section>
@@ -65,10 +92,12 @@ const LandingPage = () => {
             {/* Login Modal */}
             {isModalOpen && (
                 <Modal onClose={handleCloseModal}>
-                    <div className="p-6 sm:p-8 bg-white rounded-lg shadow-2xl max-w-md mx-auto">
-                        <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center text-indigo-700">
-                            Sign in to your account
-                        </h2>
+                    <div className="p-6 sm:p-8 bg-gray-800 text-grey rounded-lg shadow-2xl max-w-md mx-auto">
+                        <div className="flex justify-between mb-4">
+                            <button className="bg-gray-700 px-4 py-2 rounded font-medium text-white">LOGIN</button>
+                            <button className="bg-yellow-500 px-4 py-2 rounded text-gray-900 font-medium">REGISTER</button>
+                        </div>
+                        
                         <Login onLoginSuccess={handleLoginSuccess} />
                     </div>
                 </Modal>

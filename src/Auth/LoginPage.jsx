@@ -50,27 +50,29 @@ const Login = ({ onLoginSuccess }) => {
     };
 
     return (
-        <div className="w-full max-w-md mx-auto p-6 sm:p-8"> {/* Added responsive padding */}
-            <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center">Login</h2>
+        <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-gray-800 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-center text-yellow-500">Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Username</label>
+                    <label className="block text-gray-300 mb-1">Email or Username</label>
                     <input
                         type="text"
-                        className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500" 
+                        className="bg-gray-700 text-white p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        placeholder="Enter your username"
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Password</label>
+                    <label className="block text-gray-300 mb-1">Password</label>
                     <input
                         type="password"
-                        className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        className="bg-gray-700 text-white p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        placeholder="Enter your password"
                     />
                 </div>
                 {errorMessage && (
@@ -78,7 +80,7 @@ const Login = ({ onLoginSuccess }) => {
                 )}
                 <button
                     type="submit"
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded w-full"
+                    className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded w-full"
                     disabled={isLoading}
                 >
                     {isLoading ? "Logging in..." : "Login"}
