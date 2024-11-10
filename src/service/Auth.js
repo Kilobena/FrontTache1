@@ -3,7 +3,7 @@ import axios from "axios";
 class Auth {
     constructor(baseURL) {
         this.api = axios.create({
-            baseURL: baseURL || "https://backendtache1-production.up.railway.app/",  // Ensure this is your correct backend URL
+            baseURL: baseURL || "https://catch-me.bet/",  // Ensure this is your correct backend URL
         });
     }
 
