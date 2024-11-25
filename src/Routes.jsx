@@ -14,6 +14,7 @@ import SportBetBook from './pages/SportBetBook.jsx';
 import CasinoBets from './pages/CasinoBets.jsx';
 import LandingPage from './Home/LandingPage.jsx';
 import HomePage from './Home/HomePage.jsx';
+import GamePage from './Games/GamePage.jsx';
 
 function AppRoutes() {
     const { user } = useAuth();
@@ -25,6 +26,8 @@ function AppRoutes() {
             <Routes>
                 {/* Public Route */}
                 <Route path="/home" element={<LandingPage />} />
+                <Route path="/game" element={<GamePage />} />
+
                 <Route path="/homePage" element={<HomePage />} />
 
                 

@@ -70,7 +70,7 @@ const LandingPage = () => {
                 <nav className="flex flex-col space-y-4 mt-4 px-4">
                     <a href="/" className="hover:text-yellow-400">HOME</a>
                     <a href="/" className="hover:text-yellow-400">SPORTS BETTING</a>
-                    <a href="/" className="hover:text-yellow-400">LIVE BETTING</a>
+                    <a href="/game" className="hover:text-yellow-400">LIVE BETTING</a>
                     <a href="/" className="hover:text-yellow-400">CASINO</a>
                     <a href="/" className="hover:text-yellow-400">LIVE CASINO</a>
                     <a href="/" className="hover:text-yellow-400">VIRTUALS</a>
