@@ -109,7 +109,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
               className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
                 isActive('/casino-bets') ? 'bg-yellow-500' : ''
               }`}
-              onClick={() => handleMenuClick('/casino-bets')}
+              onClick={() => handleMenuClick('/game')}
             >
               <FaWallet className="mr-3" />
               Casino Bets

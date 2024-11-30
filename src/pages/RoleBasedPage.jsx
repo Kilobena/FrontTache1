@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserPage from './UserPage';
-import AdminDashboard from './AdminDashboard';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AdminDashboard from "./AdminDashboard";
+import { useAuth } from "../providers/AuthContext"; // Import AuthContext
 
-const RoleBasedPage = () => {
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
+const RoleBasedPage = ({ children }) => {
+  const { user } = useAuth(); // Get user data from AuthContext
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        // Simulate fetching user data (replace with actual user fetching logic)
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-
-        if (!storedUser) {
-            // Redirect to the home page if no user is logged in
-            navigate('/');
-        } else {
-            setUser(storedUser);
-        }
-    }, [navigate]);
-
-    if (!user) return <div>Loading...</div>;
-
-    // Conditional rendering based on role
-    if (user.role === 'User') {
-        return <UserPage user={user} />;
-    } else {
-        return <AdminDashboard user={user} />;
+  useEffect(() => {
+    if (!user) {
+      // Redirect to the landing page if no user is logged in
+      navigate("/");
+    } else if (user.role !== "User") {
+      // Redirect all non-user roles to AdminDashboard
+      navigate("/admin-dashboard");
     }
+  }, [user, navigate]);
+
+  if (!user) {
+    return <div>Loading...</div>; // Show loading state while user is being fetched
+  }
+
+  // Render the landing page (children) for the "User" role
+  if (user.role === "User") {
+    return <>{children}</>;
+  }
+
+  // Render the AdminDashboard for all other roles
+  return <AdminDashboard user={user} />;
 };
 
 export default RoleBasedPage;
