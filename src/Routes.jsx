@@ -89,6 +89,8 @@ function AppRoutes() {
         <Route path="/pragmatic" element={<Pragmatic />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/new" element={<New />} />
+        <Route path="/menu" element={<Header />} />
+
 
         {/* Redirect Based on User Role */}
         <Route

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
+import BottomBar from "../pages/BottomBar";
 
 const Providers = ({ limit = null, hideFooter = false }) => {
   
@@ -113,7 +114,7 @@ const Providers = ({ limit = null, hideFooter = false }) => {
             </h2>
             {limit && (
               <button
-                className="text-yellow-400 font-semibold hover:underline"
+                className="text-white-400 font-semibold hover:underline"
                 onClick={() => navigate("/livecasino")}
               >
                 View More
@@ -135,7 +136,7 @@ const Providers = ({ limit = null, hideFooter = false }) => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <p className="text-yellow-400 font-bold truncate">
+                  <p className="text-white-400 font-bold truncate">
                     {game.name}
                   </p>
                 </div>
@@ -195,6 +196,9 @@ const Providers = ({ limit = null, hideFooter = false }) => {
 
       {/* Conditionally Render Footer */}
       {!hideFooter && <Footer />}
+      <div className="block md:hidden">
+        <BottomBar />
+      </div>
     </>
   );
 };

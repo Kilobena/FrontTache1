@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
+import BottomBar from "../pages/BottomBar";
 
 const Slots = ({ limit = null, hideFooter = false }) => {
   
@@ -111,7 +112,7 @@ const Slots = ({ limit = null, hideFooter = false }) => {
             </h2>
             {limit && (
               <button
-                className="text-yellow-400 font-semibold hover:underline"
+                className="text-white-400 font-semibold hover:underline"
                 onClick={() => navigate("/livecasino")}
               >
                 View More
@@ -121,33 +122,35 @@ const Slots = ({ limit = null, hideFooter = false }) => {
 
           {/* Games Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-            {displayedGames.map((game) => (
-              <div
-                key={game.gameId}
-                className="relative bg-[#383838] rounded-xl overflow-hidden shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300"
-                onClick={() => handleGameLaunch(game.gameId)}
-              >
-                <img
-                  src={game.imageUrl || "default-image-url.png"}
-                  alt={game.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <p className="text-yellow-400 font-bold truncate">
-                    {game.name}
-                  </p>
+            {displayedGames.map((game) => {
+              const isLoading = gameLoading[game.gameId] || false; // Define isLoading here
+              return (
+                <div
+                  key={game.gameId}
+                  className="relative bg-gradient-to-br from-gray-800 to-gray-700 rounded-md overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300"
+                  onClick={() => handleGameLaunch(game.gameId)}
+                >
+                  <img
+                    src={game.imageUrl || "default-image-url.png"}
+                    alt={game.name}
+                    className="w-full h-20 sm:h-24 object-cover rounded-t-md"
+                  />
+                  <div className="p-4 text-center">
+                    <p className="text-white-400 font-bold truncate">{game.name}</p>
+                  </div>
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                    <button
+                      disabled={isLoading}
+                      className="bg-yellow-500 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-gray-900 font-bold"
+                    >
+                      {isLoading ? "..." : "▶"}
+                    </button>
+                  </div>
                 </div>
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                  <button
-                    disabled={gameLoading[game.gameId]}
-                    className="bg-yellow-500 w-14 h-14 rounded-full flex items-center justify-center text-gray-900 font-bold hover:bg-yellow-400"
-                  >
-                    {gameLoading[game.gameId] ? "..." : "▶"}
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
 
           {/* Load More */}
           {!limit && games.length < totalGames && (
@@ -193,6 +196,9 @@ const Slots = ({ limit = null, hideFooter = false }) => {
 
       {/* Conditionally Render Footer */}
       {!hideFooter && <Footer />}
+      <div className="block md:hidden">
+        <BottomBar />
+      </div>
     </>
   );
 };

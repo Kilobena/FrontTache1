@@ -3,84 +3,53 @@ import Featured from "./Featured";
 import New from "./New";
 import Slots from "./Slots";
 import Crash from "./Crash";
-import Providers from "./Providers";
-import LiveCasino from "./LiveCasino"; // Import LiveCasino with limit functionality
+import LiveCasino from "./LiveCasino";
 import Amatic from "./Amatic";
 import Pragmatic from "./Pragmatic";
-import Footer from "./Footer"; // Footer component for contact info
+import Footer from "./Footer";
+import BottomBar from "../pages/BottomBar";
 
 const GamePage = () => {
+  const sections = [
+    { title: "🔥 Featured Games", Component: Featured },
+    { title: "🌟 New Releases", Component: New },
+    { title: "🎰 Slots", Component: Slots },
+    { title: "🚀 Crash Games", Component: Crash },
+    { title: "🎥 Live Casino", Component: LiveCasino },
+    { title: "🎨 Amatic Games", Component: Amatic },
+    { title: "🎯 Pragmatic Games", Component: Pragmatic },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#2E2E2E] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#1F1F1F] to-[#2A2A2A] text-white">
       {/* Main Content */}
-      <div className="container mx-auto py-12 space-y-16 px-4">
-        {/* Featured Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🔥 Featured Games
-          </h2>
-          <Featured limit={12} hideFooter= {true}  />
-        </section>
+      <div className="container mx-auto py-12 px-4 space-y-16">
+        {sections.map(({ title, Component }, index) => (
+          <section
+            key={index}
+            className="rounded-xl p-6 shadow-lg bg-[#292929] hover:bg-[#333333] border border-gray-700 hover:shadow-xl transition-all duration-300"
+          >
+            {/* Section Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl md:text-2xl font-bold text-white underline decoration-yellow-500 underline-offset-8">
+                {title}
+              </h2>
+             
+            </div>
 
-        {/* New Games Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🌟 New Releases
-          </h2>
-          <New limit={12} hideFooter= {true}  />
-        </section>
-
-        {/* Slots Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🎰 Slots
-          </h2>
-          <Slots limit={12} hideFooter= {true}  />
-        </section>
-
-        {/* Crash Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🚀 Crash Games
-          </h2>
-          <Crash limit={12} hideFooter= {true} />
-        </section>
-
-        {/* Providers Section 
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🏢 Providers
-          </h2>
-          <Providers limit={12} hideFooter= {true}  />
-        </section>
-        */}
-        {/* Live Casino Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🎥 Live Casino
-          </h2>
-          <LiveCasino limit={12} hideFooter= {true} /> {/* Show 12 games */}
-        </section>
-
-        {/* Amatic Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🎨 Amatic Games
-          </h2>
-          <Amatic limit={12} hideFooter= {true}  />
-        </section>
-
-        {/* Pragmatic Section */}
-        <section className="bg-[#383838] rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-yellow-400 mb-6">
-            🎯 Pragmatic Games
-          </h2>
-          <Pragmatic limit={12} hideFooter= {true}  />
-        </section>
+            {/* Horizontal Scrolling for Game Cards */}
+            <div className="flex overflow-x-auto gap-4 scrollbar-hide flex-nowrap md:flex-wrap">
+              <Component limit={8} hideFooter={true} />
+            </div>
+          </section>
+        ))}
       </div>
 
-      {/* Footer Section */}
       <Footer />
+
+      <div className="block md:hidden">
+        <BottomBar />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,78 @@
+/* Custom Font Styles */
+.custom-font {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-optical-sizing: auto;
+    font-size: 1rem; /* Added default font size for consistency */
+    line-height: 1.5; /* Improved readability */
+  }
+  
+  .custom-font2 {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .custom-font3 {
+    font-family: "Bungee Spice", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.2rem; /* Slightly larger font for a bold effect */
+    line-height: 1.6;
+  }
+  
+  /* Search Box Styles */
+  .search-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem; /* Ensure consistent font size */
+    padding: 0.5rem 1rem; /* Adjust padding for better UX */
+    border: 1px solid #E5E7EB; /* Light border for better visibility */
+    border-radius: 0.375rem; /* Slight rounding for modern look */
+    outline: none; /* Remove default browser outline */
+  }
+  
+  .search-box:hover,
+  .search-box:focus {
+    transform: scale(1.05); /* Subtle zoom effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Enhance shadow for interactivity */
+    border-color: #D1D5DB; /* Change border color on hover/focus */
+  }
+  
+  /* Placeholder Styles */
+  .search-box::placeholder {
+    color: #9CA3AF; /* Default placeholder color */
+    transition: color 0.3s ease;
+  }
+  
+  .search-box:hover::placeholder,
+  .search-box:focus::placeholder {
+    color: #6B7280; /* Darker placeholder on interaction */
+  }
+  
+  /* Responsive Enhancements */
+  @media (max-width: 768px) {
+    .custom-font,
+    .custom-font2,
+    .custom-font3 {
+      font-size: 0.9rem; /* Slightly smaller fonts on smaller screens */
+    }
+  
+    .search-box {
+      padding: 0.4rem 0.8rem; /* Adjust padding for smaller screens */
+      font-size: 0.9rem; /* Adjust font size */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-box {
+      transform: none; /* Remove scaling for smaller screens */
+      box-shadow: none; /* Simplify interaction effects */
+    }
+  
+    .custom-font,
+    .custom-font2,
+    .custom-font3 {
+      font-size: 0.8rem; /* Further reduce font sizes for narrow screens */
+    }
+  }
+  

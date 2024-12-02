@@ -1,0 +1,25 @@
+/* GamePage.css */
+
+/* Horizontal scrolling for mobile */
+.horizontal-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    gap: 1rem; /* Space between cards */
+    white-space: nowrap; /* Prevent items from wrapping */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Webkit browsers */
+  }
+  
+  /* Vertical display for larger screens */
+  @media (min-width: 768px) {
+    .horizontal-scroll {
+      flex-wrap: wrap; /* Switch to vertical stacking */
+      overflow-x: visible; /* Disable horizontal scrolling */
+      white-space: normal; /* Allow wrapping */
+    }
+  }
+  

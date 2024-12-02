@@ -1,69 +1,64 @@
-import React from 'react';
-import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../providers/AuthContext';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-const Header = ({ toggleSidebar, isSidebarOpen }) => {
-    const navigate = useNavigate();
-    const { user, logout } = useAuth();
+const Header = () => {
+  const navItems = [
+    { path: "/featured", label: "Featured", icon: "⭐" },
+    { path: "/new", label: "New", icon: "🆕" },
+    { path: "/slots", label: "Slots", icon: "🍌" },
+    { path: "/crash", label: "Crash", icon: "🚀" },
+    { path: "/providers", label: "Providers", icon: "⚙" },
+    { path: "/livecasino", label: "Live Casino", icon: "👤" },
+    { path: "/amatic", label: "Amatic", icon: "⭐" },
+    { path: "/pragmatic", label: "Pragmatic", icon: "🍎" },
+    { path: "/othergames", label: "Other Games", icon: "🎲" },
+  ];
 
-    const handleLogout = () => {
-        logout();
-        navigate('/home');
-    };
-
-    return (
-        <div className="bg-[#242424] text-white p-3 sm:p-4 shadow-lg flex flex-col w-full mr-4"> {/* Ajout de 'mr-4' */}
-            <div className="w-full flex flex-col lg:flex-row items-center justify-between">
-                {/* Title aligned to the left only on larger screens */}
-                <h1 className="text-xl md:text-2xl font-semibold hidden lg:block">AGENT MENU</h1>
-
-                {/* User information aligned to the right only on larger screens */}
-                <div className="hidden lg:flex items-center space-x-3 ml-auto">
-                    <FaUserCircle className="text-2xl md:text-3xl" />
-                    <div className="flex flex-col items-center sm:items-start">
-                        <span className="text-md md:text-lg font-semibold">{user?.username || 'Guest'}</span>
-                        <span className="text-sm text-gray-400">${user?.balance || 0}</span>
-                    </div>
-                    <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">
-                        {user?.role || 'User'}
-                    </span>
-                    <div
-                        className="flex items-center cursor-pointer hover:bg-gray-800 p-2 rounded transition duration-200"
-                        onClick={handleLogout}
-                    >
-                        <FaSignOutAlt className="mr-2 text-lg" />
-                        <span className="text-md">Logout</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Center user information on mobile */}
-            <div className="text-center mt-4 sm:mt-2 lg:hidden">
-                <h1 className="text-xl font-semibold">AGENT MENU</h1>
-                <div className="flex items-center justify-center space-x-3 mt-2">
-                    <FaUserCircle className="text-2xl md:text-3xl" />
-                    <div className="flex flex-col items-center">
-                        <span className="text-md md:text-lg font-semibold">{user?.username || 'Guest'}</span>
-                        <span className="text-sm text-gray-400">${user?.balance || 0}</span>
-                    </div>
-                    <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">
-                        {user?.role || 'User'}
-                    </span>
-                    <div
-                        className="flex items-center cursor-pointer hover:bg-gray-800 p-2 rounded transition duration-200"
-                        onClick={handleLogout}
-                    >
-                        <FaSignOutAlt className="mr-2 text-lg" />
-                        <span className="text-md">Logout</span>
-                    </div>
-                </div>
-                <p className="text-sm text-gray-400 mt-2">
-                    {new Date().toLocaleString('en-US', { timeZone: 'Africa/Tunis' })}
-                </p>
-            </div>
+  return (
+    <header className="bg-[#2E2E2E] text-white py-4 shadow-md">
+      <div className="container mx-auto">
+        {/* Logo and Lobby Button */}
+        <div className="flex items-center gap-6 mb-4 px-4">
+          <NavLink
+            to="/game"
+            className={({ isActive }) =>
+              `text-lg font-bold flex items-center gap-2 px-4 py-2 rounded-lg ${
+                isActive ? "text-yellow-400" : "text-gray-300 hover:text-yellow-400"
+              }`
+            }
+          >
+            <span role="img" aria-label="lobby-icon">🏠</span> Lobby
+          </NavLink>
         </div>
-    );
+
+        {/* Navigation Items */}
+        <nav className=" flex overflow-x-auto whitespace-nowrap scrollbar-hide gap-4 px-4">
+          {navItems.map((item, index) => (
+            <NavLink
+              key={index}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  isActive
+                    ? "text-yellow-400 bg-gray-800"
+                    : "text-gray-300 hover:text-yellow-400 hover:bg-gray-700"
+                }`
+              }
+            >
+              <span
+                role="img"
+                aria-label={item.label}
+                className="transition-transform duration-300 hover:scale-110"
+              >
+                {item.icon}
+              </span>
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
 };
 
 export default Header;
