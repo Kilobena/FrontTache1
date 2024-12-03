@@ -1,27 +1,21 @@
 import React, { useState } from "react";
-import {
-  FaHome,
-  FaSearch,
-  FaBars,
-  FaFutbol,
-  FaHeart,
-  FaAngleDown,
+import { 
+  FaHome, FaSearch, FaBars, FaHeart, FaFutbol, FaAngleDown, FaDice, FaStar, FaRocket, FaTable, FaVideo 
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../providers/AuthContext"; // Import useAuth hook
+import { useAuth } from "../providers/AuthContext";
 
 const BottomBar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const { user, login, logout } = useAuth(); // Use authentication hook
+  const { user, login, logout } = useAuth();
 
   const handleNavigation = (path) => {
+    setIsMenuOpen(false); // Close menu when navigating
     navigate(path);
   };
-
- 
 
   return (
     <div>
@@ -34,7 +28,6 @@ const BottomBar = () => {
           <FaHeart size={20} />
           <span className="text-xs">Casino</span>
         </button>
-
         <button
           className="flex flex-col items-center"
           onClick={() => handleNavigation("/sports")}
@@ -42,7 +35,6 @@ const BottomBar = () => {
           <FaFutbol size={20} />
           <span className="text-xs">Sports</span>
         </button>
-
         <button
           className="flex flex-col items-center"
           onClick={() => handleNavigation("/home")}
@@ -50,7 +42,6 @@ const BottomBar = () => {
           <FaHome size={20} />
           <span className="text-xs">Home</span>
         </button>
-
         <button
           className="flex flex-col items-center"
           onClick={() => handleNavigation("/search")}
@@ -58,7 +49,6 @@ const BottomBar = () => {
           <FaSearch size={20} />
           <span className="text-xs">Search</span>
         </button>
-
         <button
           className="flex flex-col items-center"
           onClick={() => setIsMenuOpen(true)}
@@ -72,17 +62,12 @@ const BottomBar = () => {
       <div
         className={`fixed top-0 right-0 h-full w-3/4 bg-[#1e1e1e] text-white transform ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out z-50`}
+        } transition-transform duration-300 ease-in-out z-50 shadow-lg`}
       >
         {/* Header Section */}
         <div className="flex justify-between items-center px-4 py-3 border-b border-gray-700">
           <div className="flex items-center gap-2">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Logo"
-              className="w-10 h-10"
-            />
-            <h2 className="text-lg font-bold">BET24</h2>
+            <h2 className="text-lg font-bold">Menu</h2>
           </div>
           <button
             className="text-white text-2xl"
@@ -121,17 +106,63 @@ const BottomBar = () => {
         )}
 
         {/* Menu Items */}
-        <ul className="mt-4 px-4 space-y-4">
-          <li>
-            <button
-              className="block text-left w-full px-4 py-2 rounded hover:bg-yellow-400 hover:text-black"
-              onClick={() => handleNavigation("/casino")}
-            >
-              Casino
-            </button>
-          </li>
-          {/* Add additional menu items */}
-        </ul>
+        <div className="py-4">
+          {/* Casino Section */}
+          <div className="px-4 pb-4 border-b border-gray-700">
+            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">Casino</h3>
+            <ul className="space-y-3">
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/featured")}
+              >
+                <FaStar />
+                <span>Featured</span>
+              </li>
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/new")}
+              >
+                <FaRocket />
+                <span>New</span>
+              </li>
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/slots")}
+              >
+                <FaDice />
+                <span>Slots</span>
+              </li>
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/livecasino")}
+              >
+                <FaVideo />
+                <span>Live Casino</span>
+              </li>
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/providers")}
+              >
+                <FaTable />
+                <span>Providers</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Promotions Section */}
+          <div className="px-4 py-4">
+            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">Promotions</h3>
+            <ul className="space-y-3">
+              <li
+                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
+                onClick={() => handleNavigation("/promotions")}
+              >
+                <FaAngleDown />
+                <span>English</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       {/* Backdrop when Menu is Open */}
@@ -140,39 +171,6 @@ const BottomBar = () => {
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={() => setIsMenuOpen(false)}
         ></div>
-      )}
-
-      {/* Login Modal */}
-      {isLoginModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-[#1e1e1e] text-white p-6 rounded-lg w-3/4 max-w-md">
-            <h2 className="text-xl font-bold mb-4">Login</h2>
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full bg-[#2e2e2e] border border-gray-700 text-white px-4 py-2 rounded mb-4 focus:outline-none focus:ring focus:ring-yellow-400"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full bg-[#2e2e2e] border border-gray-700 text-white px-4 py-2 rounded mb-4 focus:outline-none focus:ring focus:ring-yellow-400"
-            />
-            <div className="flex gap-4">
-              <button
-                className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500"
-                onClick={handleLogin}
-              >
-                Login
-              </button>
-              <button
-                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-                onClick={() => setIsLoginModalOpen(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );

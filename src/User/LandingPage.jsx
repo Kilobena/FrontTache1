@@ -63,7 +63,7 @@ const LandingPage = () => {
 
       {/* Featured Partners Section */}
       {!isHeaderVisible && (
-        <section className="py-12 bg-gray-800">
+        <section className="py-12 bg-[#242424]">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">
             Our Partners
           </h2>
@@ -100,7 +100,7 @@ const LandingPage = () => {
 
       {/* FAQ Section */}
       {!isHeaderVisible && (
-        <section className="py-12 bg-gray-800 text-white">
+        <section className="py-12 bg-[#242424] text-white">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">
               Still have questions?
@@ -112,7 +112,7 @@ const LandingPage = () => {
               {faqs.map((faq, index) => (
                 <div
                   key={index}
-                  className="bg-gray-700 rounded-lg shadow-lg overflow-hidden"
+                  className="bg-[#1D1D1D] rounded-lg shadow-lg overflow-hidden"
                 >
                   <div
                     className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-600"
@@ -141,7 +141,7 @@ const LandingPage = () => {
 
       {/* Features Section */}
       {!isHeaderVisible && (
-        <section className="p-4 md:p-8 bg-gray-800">
+        <section className="p-4 md:p-8 bg-[#1D1D1D]">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             Why Choose Us
           </h2>

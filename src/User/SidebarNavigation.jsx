@@ -5,8 +5,8 @@ import { FaBars } from "react-icons/fa";
 import logo from "../assets/logo.webp";
 
 const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
-  <header className="bg-gray-800 text-white shadow-lg">
-    <div className="flex items-center justify-between py-2 px-4">
+  <header className="bg-[#0F0F0F]text-white shadow-lg">
+    <div className="flex items-center justify-between py-3 px-4">
       {/* Left Section */}
       <Link to="/home" className="flex items-center space-x-4">
         <img src={logo} alt="Logo" className="h-8 w-auto" />
@@ -14,20 +14,20 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
       </Link>
 
       {/* Center Section */}
-      <nav className="hidden md:flex items-center space-x-6">
-        <Link to="/home" className="hover:text-yellow-400">
+      <nav className="hidden md:flex items-center space-x-6 ">
+        <Link to="/home" className="hover:text-yellow-400 text-base">
           Home
         </Link>
-        <Link to="/sports-betting" className="hover:text-yellow-400">
+        <Link to="/sports-betting" className="hover:text-yellow-400 text-base">
           Sports Betting
         </Link>
-        <Link to="/casino" className="hover:text-yellow-400">
+        <Link to="/casino" className="hover:text-yellow-400 text-base">
           Casino
         </Link>
-        <Link to="/livecasino" className="hover:text-yellow-400">
+        <Link to="/livecasino" className="hover:text-yellow-400 text-base">
           Live Casino
         </Link>
-        <Link to="/virtuals" className="hover:text-yellow-400">
+        <Link to="/virtuals" className="hover:text-yellow-400 text-base">
           Virtuals
         </Link>
       </nav>

@@ -38,13 +38,7 @@ const HeroBanner = () => {
     autoplaySpeed: 5000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    appendDots: (dots) => (
-      <div
-        className="absolute bottom-5 flex justify-center w-full z-10"
-      >
-        <ul className="flex space-x-2">{dots}</ul>
-      </div>
-    ),
+  
     customPaging: (i) => (
       <div className="w-8 h-2 bg-white opacity-50 rounded-full mx-2 relative">
         {/* Progress Indicator */}
@@ -77,7 +71,7 @@ const HeroBanner = () => {
   ];
 
   return (
-    <div className="relative bg-gray-800">
+    <div className="relative [#242424] ">
       <Slider {...settings}>
         {slides.map((slide, index) => (
           <div key={index} className="relative h-96 md:h-[500px]">

@@ -1,0 +1,46 @@
+/* Style for the GamesPage container */
+.games-page-container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Controlled gap between sections */
+  }
+  
+  /* Section heading styles */
+  .games-section-heading {
+    margin-bottom: 8px; /* Minimized margin */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Button styles */
+  .games-section-heading button {
+    text-decoration: none;
+    font-weight: bold;
+    color: #facc15;
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .games-section-heading button:hover {
+    color: #fbbf24;
+  }
+  
+  /* Tight grid style for Featured and New grids */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px; /* Tight spacing between items */
+  }
+  
+  @media (max-width: 768px) {
+    /* Horizontal scrolling for smaller screens */
+    .games-grid {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+    }
+  }
+  
