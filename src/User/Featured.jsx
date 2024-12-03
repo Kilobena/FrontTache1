@@ -152,7 +152,7 @@ const Featured = ({ limit = null, hideFooter = false }) => {
               {/* Return Button */}
               <button
                 onClick={() => navigate(-1)}
-                className="text-gray-400 bg-gray-700 hover:bg-[#242424] hover:text-yellow-400 transition-all mb-2 px-3 py-2 rounded-lg"
+                className="text-gray-400 bg-[#242424]-700 hover:bg-[#242424] hover:text-yellow-400 transition-all mb-2 px-3 py-2 rounded-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +203,7 @@ const Featured = ({ limit = null, hideFooter = false }) => {
             {displayedGames.map((game) => (
               <div
                 key={game.gameId}
-                className="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
+                className="relative bg-[#242424]-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
               >
                 {/* Game Image */}
                 <img

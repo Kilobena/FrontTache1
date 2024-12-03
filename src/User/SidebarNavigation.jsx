@@ -4,18 +4,17 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import logo from "../assets/logo.webp";
 
-
 const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
   <header className="bg-gray-800 text-white shadow-lg">
-    <div className="flex items-center justify-between py-4 px-6">
+    <div className="flex items-center justify-between py-2 px-4">
       {/* Left Section */}
       <Link to="/home" className="flex items-center space-x-4">
-        <img src={logo} alt="Logo" className="h-10 w-auto" />
-        <h1 className="text-2xl font-bold text-yellow-500">CASHBET</h1>
+        <img src={logo} alt="Logo" className="h-8 w-auto" />
+        <h1 className="text-xl font-bold text-yellow-500">CASHBET</h1>
       </Link>
 
       {/* Center Section */}
-      <nav className="hidden md:flex items-center space-x-8">
+      <nav className="hidden md:flex items-center space-x-6">
         <Link to="/home" className="hover:text-yellow-400">
           Home
         </Link>
@@ -34,13 +33,13 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
       </nav>
 
       {/* Right Section */}
-      <div className="hidden md:flex items-center space-x-4">
+      <div className="hidden md:flex items-center space-x-3">
         {user ? (
           <>
-            <span>{`Hello, ${user.username}`}</span>
+            <span className="text-sm">{`Hello, ${user.username}`}</span>
             <button
               onClick={onLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-400"
+              className="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-400"
             >
               Logout
             </button>
@@ -49,13 +48,13 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
           <>
             <button
               onClick={onLoginClick}
-              className="px-4 py-2 rounded border border-gray-500 hover:bg-gray-700"
+              className="px-3 py-1 rounded text-sm border border-gray-500 hover:bg-gray-700"
             >
               Login
             </button>
             <button
               onClick={onRegisterClick}
-              className="bg-yellow-500 px-4 py-2 rounded font-bold hover:bg-yellow-400"
+              className="bg-yellow-500 px-3 py-1 rounded font-bold text-sm hover:bg-yellow-400"
             >
               Register
             </button>
@@ -65,7 +64,7 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
 
       {/* Mobile Menu */}
       <button className="md:hidden">
-        <FaBars size={24} className="text-white" />
+        <FaBars size={20} className="text-white" />
       </button>
     </div>
   </header>
