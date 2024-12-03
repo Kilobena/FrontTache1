@@ -7,7 +7,7 @@ import Header from '../pages/Header';
 
 const HomePage = () => {
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col">
+    <div className="bg-[#242424] text-white min-h-screen flex flex-col">
       {/* Header */}
       <Header />
 

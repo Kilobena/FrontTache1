@@ -44,7 +44,7 @@ const UserPage = () => {
                 {/* Logout button */}
                 <button
                     onClick={handleLogout}
-                    className="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+                    className="w-full bg-gray-800 hover:bg-[#242424] text-white font-semibold py-2 px-4 rounded-md transition duration-300"
                 >
                     Logout
                 </button>

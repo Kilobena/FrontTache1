@@ -5,7 +5,7 @@ const Modal = ({ children, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
       {/* Modal Content */}
-      <div className="relative bg-gray-900 rounded-lg shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-1/2 overflow-hidden animate-scaleUp">
+      <div className="relative bg-[#242424] rounded-lg shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-1/2 xl:w-1/2 overflow-hidden animate-scaleUp">
         {/* Close Button */}
         <button
           onClick={onClose}

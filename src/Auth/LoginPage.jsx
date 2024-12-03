@@ -53,7 +53,7 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto p-8 bg-gray-900 rounded-2xl shadow-lg">
+    <div className="w-full max-w-lg mx-auto p-8 bg-[#242424] rounded-2xl shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-yellow-500">
         Welcome Back!
       </h2>

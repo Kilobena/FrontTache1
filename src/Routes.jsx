@@ -54,7 +54,7 @@ function AppRoutes() {
     location.pathname.startsWith("/new");
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className="bg-[#242424] text-white min-h-screen">
       {/* Main Navigation (Always Visible) */}
       <Navigation
         user={user}

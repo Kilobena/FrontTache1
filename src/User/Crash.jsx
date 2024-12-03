@@ -160,7 +160,7 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
               {/* Return Button */}
               <button
                 onClick={() => navigate(-1)}
-                className="text-gray-400 bg-gray-700 hover:bg-gray-900 hover:text-yellow-400 transition-all mb-2 px-3 py-2 rounded-lg"
+                className="text-gray-400 bg-gray-700 hover:bg-[#242424] hover:text-yellow-400 transition-all mb-2 px-3 py-2 rounded-lg"
                 >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
