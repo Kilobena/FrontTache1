@@ -216,11 +216,12 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
                 style={{ minWidth: horizontalOnMobile ? "142px" : "auto" }} // Adjusts the size in horizontal scrolling
               >
                 {/* Game Image */}
-                <img
-                  src={game.imageUrl || "default-image-url.png"}
-                  alt={game.name}
-                  className="w-full h-36 object-cover rounded-t-lg"
-                />
+               <img
+  src={game.imageUrl || "default-image-url.png"}
+  alt={game.name}
+  className="w-full h-24 sm:h-28 md:h-36 object-cover rounded-lg shadow-md"
+/>
+
   
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
