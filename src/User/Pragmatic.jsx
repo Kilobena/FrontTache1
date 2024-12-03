@@ -32,7 +32,7 @@ const Pragmatic = ({ limit = null, hideFooter = false }) => {
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(77); // Simulated total games count
+        setTotalGames(783); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -42,7 +42,7 @@ const Pragmatic = ({ limit = null, hideFooter = false }) => {
 
     loadGames();
   }, [offset]);
-
+//
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
     try {

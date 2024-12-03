@@ -14,8 +14,9 @@ const Featured = ({ limit = null, hideFooter = false }) => {
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [providerFilter, setProviderFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("popular");
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -72,7 +73,21 @@ const Featured = ({ limit = null, hideFooter = false }) => {
     setOffset((prev) => prev + 30);
   };
 
-  const displayedGames = limit ? games.slice(0, limit) : games;
+  // Filter and sort games
+  const filteredGames = games
+    .filter((game) => 
+      game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((game) => 
+      providerFilter === "all" || game.provider === providerFilter
+    )
+    .sort((a, b) => {
+      if (sortBy === "popular") return b.popularity - a.popularity;
+      if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
+      return 0; // No sorting for "featured"
+    });
+
+  const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
 
   if (loading && offset === 0) {
     return (
@@ -102,97 +117,143 @@ const Featured = ({ limit = null, hideFooter = false }) => {
 
   return (
     <>
-      <section className="bg-[#2E2E2E] pb-8">
-        <div className="container mx-auto px-4">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-4xl font-extrabold text-yellow-400 uppercase tracking-wide"></h2>
-            {limit && (
+      <section className="bg-[#3C3C3C] text-white min-h-screen">
+        <div className="container mx-auto px-4 py-6">
+          {/* Search Bar */}
+          <div className="flex justify-center mb-6">
+            <div className="relative w-full sm:w-4/4 lg:w-2/2">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-white text-gray-800 px-10 py-2 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              />
+              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          {/* Header with Filters */}
+          <div className="flex flex-wrap items-center justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              {/* Return Button */}
               <button
-                className="text-white-400 font-semibold hover:underline"
-                onClick={() => navigate("/livecasino")}
-              >
-                View More
+                onClick={() => navigate(-1)}
+                className="text-gray-400 bg-gray-700 hover:bg-gray-900 hover:text-yellow-400 transition-all mb-2 px-3 py-2 rounded-lg"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="w-6 h-6 bf"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
               </button>
-            )}
+              <h2 className="text-xl font-bold mb-2">Featured Games</h2>
+            </div>
+
+            {/* Filters */}
+            <div className="flex items-center space-x-4 mt-2">
+  {/* Provider Filter */}
+  <select className="bg-white text-black px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none pr-10 relative">
+  <option value="all">Providers: All</option>
+    <option value="provider1">Provider 1</option>
+    <option value="provider2">Provider 2</option>
+</select>
+<style jsx>{`
+  select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="black"><path fill-rule="evenodd" d="M5.293 7.707a1 1 0 011.414 0L10 10.586l3.293-2.879a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem 1rem;
+  }
+`}</style>
+
+  {/* Sort By Filter */}
+  <select className="bg-white text-black px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none pr-10 relative">
+  <option value="popular">Sort By: Popular</option>
+  <option value="new">Sort By: New</option>
+  <option value="featured">Sort By: Featured</option>
+</select>
+<style jsx>{`
+  select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="black"><path fill-rule="evenodd" d="M5.293 7.707a1 1 0 011.414 0L10 10.586l3.293-2.879a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem 1rem;
+  }
+`}</style>
+</div>
+
           </div>
 
           {/* Games Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-            {displayedGames.map((game) => {
-              const isLoading = gameLoading[game.gameId] || false; // Define isLoading here
-              return (
-                <div
-                  key={game.gameId}
-                  className="relative bg-gradient-to-br from-gray-800 to-gray-700 rounded-md overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300"
-                  onClick={() => handleGameLaunch(game.gameId)}
-                >
-                  <img
-                    src={game.imageUrl || "default-image-url.png"}
-                    alt={game.name}
-                    className="w-full h-20 sm:h-24 object-cover rounded-t-md"
-                  />
-                  <div className="p-4 text-center">
-                    <p className="text-white-200 font-bold truncate">{game.name}</p>
-                  </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                    <button
-                      disabled={isLoading}
-                      className="bg-yellow-500 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-gray-900 font-bold"
-                    >
-                      {isLoading ? "..." : "▶"}
-                    </button>
-                  </div>
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {displayedGames.map((game) => (
+              <div
+                key={game.gameId}
+                className="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
+              >
+         <div className="w-[142px] h-[142px] bg-gray-100 overflow-hidden rounded-md flex items-center justify-center">
+  <img
+    src={game.imageUrl || "default-image-url.png"}
+    alt={game.name}
+    className="w-[142px] h-[142px] object-cover"
+  />
+</div>
+
+
+                <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                  <button
+                    onClick={() => handleGameLaunch(game.gameId)}
+                    className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                  >
+                    Play Now
+                  </button>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
 
-          {/* Load More */}
+          {/* Load More Button */}
           {!limit && games.length < totalGames && (
-            <div className="text-center mt-10">
+            <div className="text-center mt-8">
               <button
                 onClick={handleLoadMore}
-                className="bg-yellow-400 px-10 py-4 rounded-lg text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                className="bg-yellow-400 px-6 py-3 rounded-lg text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition-transform transform hover:scale-105"
               >
                 Load More
               </button>
-              <p className="text-white mt-4">
+              <p className="text-gray-300 mt-2">
                 Showing {games.length} of {totalGames}
               </p>
-              <div className="relative mt-4 h-2 w-full bg-gray-700 rounded-full">
-                <div
-                  className="absolute top-0 left-0 h-2 bg-yellow-500 rounded-full animate-progress"
-                  style={{ width: `${(games.length / totalGames) * 100}%` }}
-                ></div>
-              </div>
             </div>
           )}
         </div>
-
-        {/* Modal */}
-        {isModalOpen && (
-          <Modal onClose={() => setIsModalOpen(false)}>
-            {!gameUrl ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            ) : (
-              <iframe
-                src={gameUrl}
-                title="Game"
-                className="w-full h-[500px] rounded-lg"
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
-            )}
-          </Modal>
-        )}
       </section>
-
-      {/* Conditionally Render Footer */}
       {!hideFooter && <Footer />}
-
       <div className="block md:hidden">
         <BottomBar />
       </div>

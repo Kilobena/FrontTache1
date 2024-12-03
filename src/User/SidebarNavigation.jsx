@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import logo from "../assets/logo.webp";
 
+
 const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
   <header className="bg-gray-800 text-white shadow-lg">
     <div className="flex items-center justify-between py-4 px-6">

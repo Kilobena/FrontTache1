@@ -43,6 +43,15 @@
     color: #9CA3AF; /* Default placeholder color */
     transition: color 0.3s ease;
   }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* For Internet Explorer 10+ */
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
   
   .search-box:hover::placeholder,
   .search-box:focus::placeholder {
