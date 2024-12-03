@@ -216,15 +216,11 @@ const Featured = ({ limit = null, hideFooter = false }) => {
                 key={game.gameId}
                 className="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
               >
-         <div className="w-[142px] h-[142px] bg-gray-100 overflow-hidden rounded-md flex items-center justify-center">
-  <img
-    src={game.imageUrl || "default-image-url.png"}
-    alt={game.name}
-    className="w-[142px] h-[142px] object-cover"
-  />
-</div>
-
-
+                   <img
+                          src={game.imageUrl || 'default-image-url.png'}
+                          alt={game.name}
+                          className="w-full h-full object-cover rounded-t-md"
+                      />
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                   <button
                     onClick={() => handleGameLaunch(game.gameId)}
