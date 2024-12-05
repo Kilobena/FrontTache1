@@ -18,7 +18,7 @@ const GamesPage = () => {
       <div className="container mx-auto px-0 pb-20 scrollbar-hide">
         {/* Featured Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             {/* Title Section */}
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
@@ -50,7 +50,7 @@ const GamesPage = () => {
 
         {/* New Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
@@ -73,7 +73,7 @@ const GamesPage = () => {
 
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
@@ -98,7 +98,7 @@ const GamesPage = () => {
 
         {/* Slots Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
@@ -121,7 +121,7 @@ const GamesPage = () => {
 
         {/* Crash Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
@@ -144,7 +144,7 @@ const GamesPage = () => {
 
         {/* Pragmatic Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
@@ -167,7 +167,7 @@ const GamesPage = () => {
 
         {/* Amatic Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+          <div className="bg-[#383838] rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
               <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
                 <img
