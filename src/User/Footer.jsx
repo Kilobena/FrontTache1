@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-white">
         {/* Left Section - Contact Info */}
         <div className="space-y-2 text-center md:text-left">
-          <h2 className="text-lg font-bold text-yellow-400">Contact Us</h2>
+          <h2 className="text-lg font-bold text-white">Contact Us</h2>
           <p>Email: <span className="text-gray-300">support@gamingbet.com</span></p>
           <p>Phone: <span className="text-gray-300">+1 800 123 4567</span></p>
           <p>Address: <span className="text-gray-300">123 Gaming Street, Las Vegas, NV</span></p>
@@ -14,13 +14,13 @@ const Footer = () => {
 
         {/* Middle Section - Navigation Links */}
         <div className="flex space-x-6 mt-4 md:mt-0 text-center">
-          <a href="/privacy-policy" className="text-gray-300 hover:text-yellow-400 transition">
+          <a href="/privacy-policy" className="text-gray-300 hover:text-white transition">
             Privacy Policy
           </a>
-          <a href="/terms" className="text-gray-300 hover:text-yellow-400 transition">
+          <a href="/terms" className="text-gray-300 hover:text-white transition">
             Terms of Service
           </a>
-          <a href="/faq" className="text-gray-300 hover:text-yellow-400 transition">
+          <a href="/faq" className="text-gray-300 hover:text-white transition">
             FAQ
           </a>
         </div>

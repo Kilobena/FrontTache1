@@ -120,7 +120,7 @@ const Featured = ({
 
   return (
     <>
-      <div className="bg-[#3C3C3C] max-w-screen-xl container mx-auto m-3 p-4">
+      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto mt-4">
         {!hideExtras && (
           <div className="flex justify-center mb-6">
             <div className="relative w-full sm:w-4/4 lg:w-2/2">
@@ -156,7 +156,7 @@ const Featured = ({
             <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
               <button
                 onClick={() => navigate(-1)}
-                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-yellow-400 transition-all px-3 py-2 rounded-lg"
+                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all px-3 py-2 rounded-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -238,10 +238,16 @@ const Featured = ({
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
-                  onClick={() => handleGameLaunch(game.gameId)}
-                  className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                    onClick={() => handleGameLaunch(game.gameId)}
+                    className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                 >
-                  Play Now
+
+                  <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
+
+
                 </button>
               </div>
             </div>
@@ -249,10 +255,10 @@ const Featured = ({
         </div>
 
         {horizontalOnMobile && (
-  <div className="md:hidden">
-    <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
-      <div className="flex gap-4 px-4">
-        {displayedGames.slice(0, Math.ceil(displayedGames.length / 2)).map((game) => (
+            <div className="md:hidden">
+              <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
+                <div className="flex gap-4 px-4">
+                  {displayedGames.slice(0, Math.ceil(displayedGames.length / 2)).map((game) => (
           <div
             key={game.gameId}
             className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
@@ -269,9 +275,12 @@ const Featured = ({
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
               <button
                 onClick={() => handleGameLaunch(game.gameId)}
-                className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
               >
-                Play Now
+                <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
               </button>
             </div>
           </div>
@@ -295,9 +304,12 @@ const Featured = ({
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
               <button
                 onClick={() => handleGameLaunch(game.gameId)}
-                className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
               >
-                Play Now
+                <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
               </button>
             </div>
           </div>

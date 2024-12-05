@@ -16,7 +16,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-[#2E2E2E] text-white py-2 md:py-4 shadow-md">
+    <header className="bg-[#383838] text-white py-2 md:py-2 shadow-md">
       <div className="container mx-auto">
         {/* Navigation Items */}
         <nav className="flex items-center gap-4 px-2 overflow-x-auto md:gap-6 md:px-4 md:justify-center whitespace-nowrap scrollbar-hide">
@@ -27,7 +27,7 @@ const Header = () => {
               className={({ isActive }) =>
                 `flex flex-col items-center justify-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 ${
                   isActive
-                    ? "text-yellow-400 bg-gray-800"
+                    ? "text-white bg-gray-900"
                     : "text-gray-300 hover:text-yellow-400 hover:bg-gray-700"
                 }`
               }

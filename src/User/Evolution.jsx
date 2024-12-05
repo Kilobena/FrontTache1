@@ -107,12 +107,12 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-4xl font-extrabold text-yellow-400 uppercase tracking-wide">
+            <h2 className="text-4xl font-extrabold text-white uppercase tracking-wide">
               Live Casino
             </h2>
             {limit && (
               <button
-                className="text-yellow-400 font-semibold hover:underline"
+                className="text-white font-semibold hover:underline"
                 onClick={() => navigate("/livecasino")}
               >
                 View More
@@ -134,7 +134,7 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <p className="text-yellow-400 font-bold truncate">
+                  <p className="text-white font-bold truncate">
                     {game.name}
                   </p>
                 </div>

@@ -16,19 +16,22 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => (
       {/* Center Section */}
       <nav className="hidden md:flex items-center space-x-6 ">
         <Link to="/home" className="hover:text-yellow-400 text-base">
-          Home
+          HOME
         </Link>
         <Link to="/sports-betting" className="hover:text-yellow-400 text-base">
-          Sports Betting
+         SPORTS BETTING
+        </Link>
+        <Link to="/sports-betting" className="hover:text-yellow-400 text-base">
+          LIVE BETTING
         </Link>
         <Link to="/casino" className="hover:text-yellow-400 text-base">
-          Casino
+          CASINO
         </Link>
         <Link to="/livecasino" className="hover:text-yellow-400 text-base">
-          Live Casino
+          LIVE CASINO
         </Link>
         <Link to="/virtuals" className="hover:text-yellow-400 text-base">
-          Virtuals
+          VIRTUALS
         </Link>
       </nav>
 
