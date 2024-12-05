@@ -217,49 +217,97 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
 )}
 
           {/* Games Grid or Horizontal Scroll */}
+   
           <div
-  className={`${
-    horizontalOnMobile
-      ? "flex gap-4 overflow-x-auto scroll-smooth sm:grid sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8"
-      : "grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4"
-  }`}
-  style={{
-    margin: "0",
-    padding: "0",
-    maxHeight: horizontalOnMobile ? "260px" : "auto", // Two rows of height for mobile
-
-  }}
->
-  {displayedGames.map((game) => (
-    <div
-      key={game.gameId}
-      className="flex-shrink-0 bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
-      style={{
-        width: horizontalOnMobile ? "155px" : "auto", // Fix width for scrolling
-        height: horizontalOnMobile ? "155px" : "auto", // Fix width for scrolling
-
-
-      }}
-    >
-      {/* Game Image */}
-      <img
-  src={game.imageUrl || "default-image-url.png"}
-  alt={game.name}
-  className="w-full h-24 sm:h-28 md:h-36 object-cover rounded-lg shadow-md"
-/>
-
-      {/* Hover Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-        <button
-          onClick={() => handleGameLaunch(game.gameId)}
-          className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+          className={`${
+            horizontalOnMobile
+              ? 'md:grid md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 gap-4 hidden'
+              : 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4'
+          }`}
         >
-          Play Now
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
+          {displayedGames.map((game) => (
+            <div
+              key={game.gameId}
+              className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
+              style={{
+                aspectRatio: '1',
+              }}
+            >
+              <img
+                src={game.imageUrl || "default-image-url.png"}
+                alt={game.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button
+                  onClick={() => handleGameLaunch(game.gameId)}
+                  className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                >
+                  Play Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {horizontalOnMobile && (
+          <div className="md:hidden">
+            <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
+              <div className="flex gap-4 px-4">
+                {displayedGames.slice(0, Math.ceil(displayedGames.length / 2)).map((game) => (
+                  <div
+                    key={game.gameId}
+                    className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
+                    style={{
+                      width: '150px',
+                      aspectRatio: '1',
+                    }}
+                  >
+                    <img
+                      src={game.imageUrl || "default-image-url.png"}
+                      alt={game.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleGameLaunch(game.gameId)}
+                        className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                      >
+                        Play Now
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-4 px-4">
+                {displayedGames.slice(Math.ceil(displayedGames.length / 2)).map((game) => (
+                  <div
+                    key={game.gameId}
+                    className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
+                    style={{
+                      width: '150px',
+                      aspectRatio: '1',
+                    }}
+                  >
+                    <img
+                      src={game.imageUrl || "default-image-url.png"}
+                      alt={game.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleGameLaunch(game.gameId)}
+                        className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+                      >
+                        Play Now
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
   
           {/* Load More Button */}
