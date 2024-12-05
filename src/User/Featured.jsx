@@ -261,11 +261,11 @@ const Featured = ({
                       aspectRatio: '1',
                     }}
                   >
-                    <img
-                      src={game.imageUrl || "default-image-url.png"}
-                      alt={game.name}
-                      className="w-full h-full object-cover"
-                    />
+                          <img
+  src={game.imageUrl || "default-image-url.png"}
+  alt={game.name}
+  className="w-full h-24 sm:h-28 md:h-36 object-cover rounded-lg shadow-md"
+/>
                     <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => handleGameLaunch(game.gameId)}
