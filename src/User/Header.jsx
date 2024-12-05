@@ -16,33 +16,37 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-[#2E2E2E] text-white py-4 shadow-md">
+    <header className="bg-[#2E2E2E] text-white py-2 md:py-4 shadow-md">
       <div className="container mx-auto">
         {/* Navigation Items */}
-        <nav className="flex items-center gap-6 px-4 overflow-x-auto md:justify-center whitespace-nowrap scrollbar-hide">
+        <nav className="flex items-center gap-4 px-2 overflow-x-auto md:gap-6 md:px-4 md:justify-center whitespace-nowrap scrollbar-hide">
           {navItems.map((item, index) => (
             <NavLink
               key={index}
               to={item.path}
               className={({ isActive }) =>
-                `flex flex-col items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                `flex flex-col items-center justify-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 ${
                   isActive
                     ? "text-yellow-400 bg-gray-800"
                     : "text-gray-300 hover:text-yellow-400 hover:bg-gray-700"
                 }`
               }
             >
-             <span
-              role="img"
-              aria-label={item.label}
-              className="transition-transform duration-300 hover:scale-110"
-          >
-            {item.icon.includes('http') ? (
-                <img src={item.icon} alt={item.label} className="w-6 h-6"/>
-            ) : (
-                item.icon
-            )}
-          </span>
+              <span
+                role="img"
+                aria-label={item.label}
+                className="transition-transform duration-300 hover:scale-110"
+              >
+                {item.icon.includes("http") ? (
+                  <img
+                    src={item.icon}
+                    alt={item.label}
+                    className="w-4 h-4 md:w-6 md:h-6"
+                  />
+                ) : (
+                  item.icon
+                )}
+              </span>
               <span className="text-center">{item.label}</span>
             </NavLink>
           ))}

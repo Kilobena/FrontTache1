@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { 
-  FaHome, FaSearch, FaBars, FaHeart, FaFutbol, FaAngleDown, FaDice, FaStar, FaRocket, FaTable, FaVideo 
+import {
+  FaHome,
+  FaSearch,
+  FaBars,
+  FaHeart,
+  FaFutbol,
+  FaAngleDown,
+  FaDice,
+  FaStar,
+  FaRocket,
+  FaTable,
+  FaVideo,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
+import Login from "../Auth/LoginPage"; // Import the Login component
 
 const BottomBar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const { user, login, logout } = useAuth();
+  const { user, login } = useAuth();
 
   const handleNavigation = (path) => {
     setIsMenuOpen(false); // Close menu when navigating
     navigate(path);
+  };
+
+  const handleLoginSuccess = (userData) => {
+    login(userData); // Update the login context
+    setIsLoginModalOpen(false); // Close modal after login
   };
 
   return (
@@ -98,7 +114,7 @@ const BottomBar = () => {
             </div>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={logout}
+              onClick={() => logout()}
             >
               Logout
             </button>
@@ -109,7 +125,9 @@ const BottomBar = () => {
         <div className="py-4">
           {/* Casino Section */}
           <div className="px-4 pb-4 border-b border-gray-700">
-            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">Casino</h3>
+            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">
+              Casino
+            </h3>
             <ul className="space-y-3">
               <li
                 className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
@@ -148,22 +166,23 @@ const BottomBar = () => {
               </li>
             </ul>
           </div>
-
-          {/* Promotions Section */}
-          <div className="px-4 py-4">
-            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">Promotions</h3>
-            <ul className="space-y-3">
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/promotions")}
-              >
-                <FaAngleDown />
-                <span>English</span>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
+
+      {/* Login Modal */}
+      {isLoginModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[#1e1e1e] text-white rounded-lg p-6 w-11/12 max-w-md">
+            <Login onLoginSuccess={handleLoginSuccess} />
+            <button
+              className="mt-4 w-full text-sm text-gray-400 hover:underline"
+              onClick={() => setIsLoginModalOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Backdrop when Menu is Open */}
       {isMenuOpen && (

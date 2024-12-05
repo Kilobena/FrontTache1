@@ -14,154 +14,179 @@ const GamesPage = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-[#242424] text-white min-h-screen overflow-hidden mt-2 relative">
-      <div className="container mx-auto px-0 pb-20"> {/* Added padding-bottom */}
+    <section className="bg-[#242424] text-white min-h-screen overflow-hidden mt-2 relative scrollbar-hide">
+      <div className="container mx-auto px-0 pb-20 scrollbar-hide">
         {/* Featured Section */}
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="Featured">⭐</span>
-              <span>Featured</span>
-            </h2>
-            <button
-              onClick={() => navigate("/featured")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <Featured
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="New">🆕</span>
-              <span>New </span>
-            </h2>
-            <button
-              onClick={() => navigate("/new")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <New 
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            {/* Title Section */}
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_featured.svg&w=160&q=75"
+                  alt="Featured"
+          
+                />
+                <span>Featured</span>
+              </h2>
+              <button
+                onClick={() => navigate("/featured")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <div className="m-0 p-0 flex flex-wrap gap-4">
+              <Featured
+                limit={16}
+                hideFooter
+                hideExtras
+                horizontalOnMobile
+                className="m-0 p-0 flex-auto"
+              />
+            </div>
           </div>
         </div>
 
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="Slots">🎰</span>
-              <span>Slots</span>
-            </h2>
-            <button
-              onClick={() => navigate("/featured")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <Slots
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="Crash ">🚀 </span>
-              <span>Crash Games</span>
-            </h2>
-            <button
-              onClick={() => navigate("/featured")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <Crash
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
+        {/* New Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75"
+                  alt="LiveCasino"
+                 
+                />
+                <span>LiveCasino</span>
+              </h2>
+              <button
+                onClick={() => navigate("/livecasino")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <LiveCasino limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
           </div>
         </div>
 
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="Live Casino">🎨 </span>
-              <span> Amatic Games</span>
-            </h2>
-            <button
-              onClick={() => navigate("/featured")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <Amatic
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
-          </div>
-        </div>
 
-        <div className="space-y-0">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-2">
-              <span role="img" aria-label="Featured">🎯</span>
-              <span> Pragmatic Games</span>
-            </h2>
-            <button
-              onClick={() => navigate("/featured")}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold focus:outline-none"
-            >
-              View All
-            </button>
-          </div>
-          <div className="m-0 p-0">
-            <Pragmatic 
-              limit={16}
-              hideFooter
-              hideExtras
-              horizontalOnMobile
-              className="m-0 p-0"
-            />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75"
+                  alt="New"
+             
+                />
+                <span>New</span>
+              </h2>
+              <button
+                onClick={() => navigate("/new")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <New limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
           </div>
         </div>
 
         
+
+        {/* Slots Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_slots.svg&w=160&q=75"
+                  alt="Slots"
+               
+                />
+                <span>Slots</span>
+              </h2>
+              <button
+                onClick={() => navigate("/slots")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <Slots limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          </div>
+        </div>
+
+        {/* Crash Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Crash.svg&w=160&q=75"
+                  alt="Crash"
+                  className="w-6 h-6 object-contain bg-white rounded-full"
+                />
+                <span>Crash</span>
+              </h2>
+              <button
+                onClick={() => navigate("/crash")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <Crash limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          </div>
+        </div>
+
+        {/* Pragmatic Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2950/2950744.png"
+                  alt="Pragmatic"
+                  className="w-6 h-6 object-contain bg-white rounded-full"
+                />
+                <span>Pragmatic</span>
+              </h2>
+              <button
+                onClick={() => navigate("/pragmatic")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <Pragmatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          </div>
+        </div>
+
+        {/* Amatic Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="bg-[#1e1e1e] rounded-lg shadow-md p-6">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold flex items-center space-x-3 text-yellow-400">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/1453/1453446.png"
+                  alt="Amatic"
+                  className="w-6 h-6 object-contain bg-white rounded-full"
+                />
+                <span>Amatic</span>
+              </h2>
+              <button
+                onClick={() => navigate("/amatic")}
+                className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-yellow-500 transition"
+              >
+                View All
+              </button>
+            </div>
+            <Amatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          </div>
+        </div>
       </div>
 
       {/* Footer */}
