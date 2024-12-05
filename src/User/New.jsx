@@ -115,7 +115,7 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
   }
   return (
     <>
-      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto m-3 p-4">
+      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto m-3 p-4 rounded">
         {!hideExtras && (
           <div className="flex justify-center mb-6">
             <div className="relative w-full sm:w-4/4 lg:w-2/2">

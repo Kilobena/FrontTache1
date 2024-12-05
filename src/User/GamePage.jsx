@@ -36,13 +36,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <div className="m-0 p-0 flex flex-wrap gap-4 mt-4">
+            <div className="!m-0 !p-0 flex !flex-wrap !gap-4 !important">
               <Featured
                 limit={16}
                 hideFooter
                 hideExtras
                 horizontalOnMobile
-                className="m-0 p-0 flex-auto"
+                className="!m-0 !p-0 flex-auto !important"
               />
             </div>
           </div>
