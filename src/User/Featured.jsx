@@ -256,7 +256,7 @@ const Featured = ({
 
         {horizontalOnMobile && (
             <div className="md:hidden">
-              <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
+              <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-1">
                 <div className="flex gap-4 px-4">
                   {displayedGames.slice(0, Math.ceil(displayedGames.length / 2)).map((game) => (
           <div
