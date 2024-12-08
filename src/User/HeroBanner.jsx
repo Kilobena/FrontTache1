@@ -52,6 +52,7 @@ const HeroBanner = () => {
         style={{
           position: 'absolute',
           width: '100%',
+          bottom: "10px",
           display: 'flex',
           justifyContent: 'center',
           gap: '20px'
