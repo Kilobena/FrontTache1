@@ -91,7 +91,6 @@ function AppRoutes() {
         <Route path="/new" element={<New />} />
         <Route path="/menu" element={<Header />} />
 
-
         {/* Redirect Based on User Role */}
         <Route
           path="/user"

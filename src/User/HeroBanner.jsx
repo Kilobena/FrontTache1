@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import pragmaticPlayImage1 from "../assets/casino-image.jpg";
-import pragmaticPlayImage2 from "../assets/live-casino.webp";
-import pragmaticPlayImage3 from "../assets/live-sports.jpg";
+import pragmaticPlayImage1 from "../assets/live-bet-image.jpg";
+import pragmaticPlayImage2 from "../assets/casino-roulette-image.jpg";
+import pragmaticPlayImage3 from "../assets/sports-bet-image.jpg";
 
 const HeroBanner = () => {
-  // Arrow components with enhanced design
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+
   const NextArrow = ({ onClick }) => (
     <button
       onClick={onClick}
@@ -38,16 +39,25 @@ const HeroBanner = () => {
     autoplaySpeed: 5000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-  
+    beforeChange: (current, next) => setCurrentSlide(next),
     customPaging: (i) => (
-      <div className="w-8 h-2 bg-white opacity-50 rounded-full mx-2 relative">
-        {/* Progress Indicator */}
-        <motion.div
-          className="absolute inset-0 bg-yellow-500 h-full rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 5, ease: "linear" }} // Sync with autoplay speed
-        ></motion.div>
+      <div
+        className={`w-10 h-2 rounded-full transition-colors duration-300 ${
+          i === currentSlide ? "bg-yellow-500" : "bg-white"
+        }`}
+      />
+    ),
+    appendDots: (dots) => (
+      <div
+        style={{
+          position: 'absolute',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '20px'
+        }}
+      >
+        {dots}
       </div>
     ),
   };
@@ -71,7 +81,7 @@ const HeroBanner = () => {
   ];
 
   return (
-    <div className="relative [#242424] ">
+    <div className="relative bg-[#242424]">
       <Slider {...settings}>
         {slides.map((slide, index) => (
           <div key={index} className="relative h-96 md:h-[500px]">
@@ -79,12 +89,10 @@ const HeroBanner = () => {
               className="relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
               style={{ backgroundImage: `url(${slide.image})` }}
             >
-              {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-12 text-white">
+              <div className="absolute inset-0 flex flex-col justify-center items-start pl-6 md:pl-12 text-white">
                 <motion.h1
-                  className="text-3xl md:text-5xl font-bold"
+                  className="pl-14 text-3xl md:text-5xl font-bold"
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
@@ -92,7 +100,7 @@ const HeroBanner = () => {
                   {slide.title}
                 </motion.h1>
                 <motion.p
-                  className="mt-4 text-lg md:text-xl"
+                  className="pl-14 mt-4 text-lg md:text-xl"
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
@@ -100,7 +108,7 @@ const HeroBanner = () => {
                   {slide.description}
                 </motion.p>
                 <motion.button
-                  className="mt-6 bg-yellow-500 px-6 py-3 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 transition-all duration-300"
+                  className="ml-14 mt-6 bg-yellow-500 px-6 py-3 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 transition-all duration-300"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}

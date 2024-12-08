@@ -110,6 +110,7 @@ const BottomBar = () => {
           <div className="px-4 py-4 border-b border-gray-700 flex justify-between items-center">
             <div>
               <p className="text-sm">Hello, {user.username}</p>
+              <p className="text-sm">€{user.balance.toFixed(2)}</p>
               <p className="text-xs text-gray-400">{user.email}</p>
             </div>
             <button

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import sportsImage from "../assets/sports-image.webp";
-import liveSportsImage from "../assets/live-sports.jpg";
-import casinoImage from "../assets/casino-image.jpg";
+import sportsImage from "../assets/sports-image1.webp";
+import liveSportsImage from "../assets/live-sports-image.webp";
+import casinoImage from "../assets/casino-image.webp";
+import liveCasinoImage from "../assets/live-casino-image.webp";
 import { motion } from "framer-motion";
 import { useAuth } from "../providers/AuthContext";
 import HeroBanner from "./HeroBanner";
@@ -49,6 +50,14 @@ const LandingPage = () => {
     },
   ];
 
+  // Define image data and titles in an array of objects
+  const sections = [
+    { image: sportsImage, title: "sports" },
+    { image: liveSportsImage, title: "live sports" },
+    { image: casinoImage, title: "casino" },
+    { image: liveCasinoImage, title: "live casino" },
+  ];
+
   return (
     <div className="bg-2E2E2E text-white min-h-screen relative">
       {/* Conditionally Render Header */}
@@ -67,32 +76,30 @@ const LandingPage = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">
             Our Partners
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-12">
-            {[sportsImage, liveSportsImage, casinoImage].map((image, index) => (
-              <motion.div
-                key={index}
-                className="relative rounded-xl overflow-hidden shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src={image}
-                  alt={`Partner ${index + 1}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                <div className="relative p-4 text-white">
-                  <h3 className="text-lg md:text-xl font-bold">
-                    Partner {index + 1}
-                  </h3>
-                  <p className="mt-2 text-sm md:text-base">
-                    Brief description of partner {index + 1}.
-                  </p>
-                  <button className="mt-4 bg-yellow-500 px-4 py-2 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400">
-                    Learn More
-                  </button>
-                </div>
-              </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-12">
+            {sections.map((section, index) => (
+      <motion.div
+      key={index}
+      className="relative rounded-lg overflow-hidden shadow-lg min-h-[230px] flex flex-col"
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+    >
+      <img
+        src={section.image}
+        alt={section.title}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+      <div className="relative flex flex-col justify-end p-4 text-white h-full">
+        <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">
+          {section.title.toUpperCase()}
+        </h3>
+        <button className="mx-auto mt-4 bg-yellow-500 px-4 py-2 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 w-32">
+          Play Now →
+        </button>
+      </div>
+    </motion.div>
+    
             ))}
           </div>
         </section>
@@ -120,9 +127,7 @@ const LandingPage = () => {
                   >
                     <h3 className="font-medium">{faq.question}</h3>
                     <span
-                      className={`transform transition-transform duration-300 ${
-                        activeIndex === index ? "rotate-180" : ""
-                      }`}
+                      className={`transform transition-transform duration-300 ${activeIndex === index ? "rotate-180" : ""}`}
                     >
                       ▼
                     </span>
@@ -146,18 +151,16 @@ const LandingPage = () => {
             Why Choose Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {["Live Betting", "Secure Platform", "24/7 Support"].map(
-              (feature, index) => (
-                <div key={index} className="text-center">
-                  <h3 className="text-lg md:text-xl font-semibold text-yellow-500">
-                    {feature}
-                  </h3>
-                  <p className="mt-2 text-sm md:text-base">
-                    Description of {feature}.
-                  </p>
-                </div>
-              )
-            )}
+            {["Live Betting", "Secure Platform", "24/7 Support"].map((feature, index) => (
+              <div key={index} className="text-center">
+                <h3 className="text-lg md:text-xl font-semibold text-yellow-500">
+                  {feature}
+                </h3>
+                <p className="mt-2 text-sm md:text-base">
+                  Description of {feature}.
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       )}

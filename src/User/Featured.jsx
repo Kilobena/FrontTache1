@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { fetchGames, fetchGameUrl } from "../service/gameService";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Modal from "./Modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
 import BottomBar from "../pages/BottomBar";
+import GameFullscreen from "./GameFullscreen";
 
 const Featured = ({
   limit = null,
@@ -22,7 +23,7 @@ const Featured = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState("");
 
   const { user } = useAuth();
@@ -63,13 +64,13 @@ const Featured = ({
 
       if (url) {
         setGameUrl(url);
-        setIsModalOpen(true);
+        setIsGameFullscreenOpen(true);
       } else {
         toast.error("Failed to launch the game. Please try again.");
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error(err.message || "Error launching the game.");
+      toast.error("An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
@@ -335,8 +336,8 @@ const Featured = ({
         )}
       </div>
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+      {isGameFullscreenOpen && (
+        <GameFullscreen onClose={() => setIsGameFullscreenOpen(false)}>
           {!gameUrl ? (
             <div className="flex justify-center items-center h-64">
               <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
@@ -345,18 +346,31 @@ const Featured = ({
             <iframe
               src={gameUrl}
               title="Game"
-              className="w-full h-[500px] rounded-lg"
+              className="w-full h-[600px] rounded-lg"
               frameBorder="0"
               allowFullScreen
             ></iframe>
           )}
-        </Modal>
+        </GameFullscreen>
       )}
 
       {!hideFooter && <Footer />}
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
         <BottomBar />
       </div>
+
+      <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      />
     </>
   );
 };

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { fetchGames, fetchGameUrl } from "../service/gameService";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Modal from "./Modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
 import BottomBar from "../pages/BottomBar";
-
+import GameFullscreen from "./GameFullscreen";
 
 const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
@@ -18,7 +18,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
@@ -59,13 +59,13 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
 
       if (url) {
         setGameUrl(url);
-        setIsModalOpen(true);
+        setIsGameFullscreenOpen(true);
       } else {
         toast.error("Failed to launch the game. Please try again.");
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error(err.message || "Error launching the game.");
+      toast.error("An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
@@ -232,11 +232,17 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button
-                  onClick={() => handleGameLaunch(game.gameId)}
-                  className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
+              <button
+                    onClick={() => handleGameLaunch(game.gameId)}
+                    className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                 >
-                  Play Now
+
+                  <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
+
+
                 </button>
               </div>
             </div>
@@ -262,12 +268,18 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => handleGameLaunch(game.gameId)}
-                className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
-              >
-                Play Now
-              </button>
+            <button
+                    onClick={() => handleGameLaunch(game.gameId)}
+                    className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
+                >
+
+                  <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
+
+
+                </button>
             </div>
           </div>
         ))}
@@ -288,12 +300,18 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => handleGameLaunch(game.gameId)}
-                className="bg-yellow-400 px-4 py-2 rounded-full text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition"
-              >
-                Play Now
-              </button>
+            <button
+                    onClick={() => handleGameLaunch(game.gameId)}
+                    className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
+                >
+
+                  <img
+                      alt="All Ways Candy"
+                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
+
+
+                </button>
             </div>
           </div>
         ))}
@@ -318,8 +336,8 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
         )}
       </div>
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+      {isGameFullscreenOpen && (
+        <GameFullscreen onClose={() => setIsGameFullscreenOpen(false)}>
           {!gameUrl ? (
             <div className="flex justify-center items-center h-64">
               <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
@@ -328,18 +346,31 @@ const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
             <iframe
               src={gameUrl}
               title="Game"
-              className="w-full h-[500px] rounded-lg"
+              className="w-full h-[600px] rounded-lg"
               frameBorder="0"
               allowFullScreen
             ></iframe>
           )}
-        </Modal>
+        </GameFullscreen>
       )}
 
       {!hideFooter && <Footer />}
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
         <BottomBar />
       </div>
+
+      <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      />
     </>
   );
   

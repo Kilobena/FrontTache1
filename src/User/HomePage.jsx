@@ -1,7 +1,7 @@
 import React from 'react';
 import sportsImage from '../assets/sports-image.webp'; // Replace with your actual path
 import casinoImage from '../assets/casino-image.jpg'; // Replace with your actual path
-
+import { FaArrowRight } from "react-icons/fa";
 import BottomBar from '../pages/BottomBar';
 import Header from '../pages/Header';
 
@@ -43,7 +43,7 @@ const HomePage = () => {
           <div className="p-4 text-center">
             <h2 className="text-2xl font-bold mb-2">LIVE SPORTS</h2>
             <button className="inline-block bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded hover:bg-yellow-400 transition">
-              PLAY NOW →
+              PLAY NOW <FaArrowRight />
             </button>
           </div>
         </div>
