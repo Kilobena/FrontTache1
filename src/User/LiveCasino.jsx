@@ -8,7 +8,12 @@ import Footer from "./Footer";
 import BottomBar from "../pages/BottomBar";
 import GameFullscreen from "./GameFullscreen";
 
-const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false  }) => {
+const LiveCasino = ({
+  limit = null,
+  hideFooter = false,
+  hideExtras = false,
+  horizontalOnMobile = false,
+}) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,7 +33,9 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
     const loadGames = async () => {
       try {
         setLoading(true);
-        const fetchedGames = await fetchGames(offset, 30, { type: "livecasino" });
+        const fetchedGames = await fetchGames(offset, 30, {
+          type: "livecasino",
+        });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
@@ -78,11 +85,16 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
 
   // Filter and sort games
   const filteredGames = games
-    .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((game) => providerFilter === "all" || game.provider === providerFilter)
+    .filter((game) =>
+      game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(
+      (game) => providerFilter === "all" || game.provider === providerFilter
+    )
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
-      if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
+      if (sortBy === "new")
+        return new Date(b.releaseDate) - new Date(a.releaseDate);
       return 0; // No sorting for "featured"
     });
 
@@ -109,7 +121,7 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
   if (!loading && games.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">
-        No  games available at the moment.
+        No games available at the moment.
       </div>
     );
   }
@@ -194,7 +206,11 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
                     stroke="currentColor"
                     className="w-4 h-4"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </span>
               </div>
@@ -215,8 +231,8 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
         <div
           className={`${
             horizontalOnMobile
-              ? 'md:grid md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 gap-4 hidden'
-              : 'grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4'
+              ? "md:grid md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 gap-4 hidden"
+              : "grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
           }`}
         >
           {displayedGames.map((game) => (
@@ -224,7 +240,7 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
               key={game.gameId}
               className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
               style={{
-                aspectRatio: '1',
+                aspectRatio: "1",
               }}
             >
               <img
@@ -238,8 +254,8 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
                   className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                 >
                   <img
-                      alt="All Ways Candy"
-                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                    alt="All Ways Candy"
+                    src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
                   />
                 </button>
               </div>
@@ -248,70 +264,73 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
         </div>
 
         {horizontalOnMobile && (
-  <div className="md:hidden">
-    <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
-      <div className="flex gap-4 px-4">
-        {displayedGames.slice(0, Math.ceil(displayedGames.length / 2)).map((game) => (
-          <div
-            key={game.gameId}
-            className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
-            style={{
-              width: '100px', // Adjusted width for smaller images
-              aspectRatio: '1',
-            }}
-          >
-            <img
-              src={game.imageUrl || "default-image-url.png"}
-              alt={game.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => handleGameLaunch(game.gameId)}
-                className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
-              >
-                <img
-                      alt="All Ways Candy"
-                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                  />
-              </button>
+          <div className="md:hidden">
+            <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
+              <div className="flex gap-4 px-4">
+                {displayedGames
+                  .slice(0, Math.ceil(displayedGames.length / 2))
+                  .map((game) => (
+                    <div
+                      key={game.gameId}
+                      className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
+                      style={{
+                        width: "100px", // Adjusted width for smaller images
+                        aspectRatio: "1",
+                      }}
+                    >
+                      <img
+                        src={game.imageUrl || "default-image-url.png"}
+                        alt={game.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleGameLaunch(game.gameId)}
+                          className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
+                        >
+                          <img
+                            alt="All Ways Candy"
+                            src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              <div className="flex gap-4 px-4">
+                {displayedGames
+                  .slice(Math.ceil(displayedGames.length / 2))
+                  .map((game) => (
+                    <div
+                      key={game.gameId}
+                      className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
+                      style={{
+                        width: "100px", // Adjusted width for smaller images
+                        aspectRatio: "1",
+                      }}
+                    >
+                      <img
+                        src={game.imageUrl || "default-image-url.png"}
+                        alt={game.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleGameLaunch(game.gameId)}
+                          className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
+                        >
+                          <img
+                            alt="All Ways Candy"
+                            src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="flex gap-4 px-4">
-        {displayedGames.slice(Math.ceil(displayedGames.length / 2)).map((game) => (
-          <div
-            key={game.gameId}
-            className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
-            style={{
-              width: '100px', // Adjusted width for smaller images
-              aspectRatio: '1',
-            }}
-          >
-            <img
-              src={game.imageUrl || "default-image-url.png"}
-              alt={game.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => handleGameLaunch(game.gameId)}
-                className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
-              >
-                <img
-                      alt="All Ways Candy"
-                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                  />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
-
+        )}
 
         {!limit && games.length < totalGames && (
           <div className="text-center mt-8">
@@ -352,16 +371,16 @@ const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, hori
       </div>
 
       <ToastContainer
-      position="bottom-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
     </>
   );

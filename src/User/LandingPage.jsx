@@ -8,6 +8,7 @@ import { useAuth } from "../providers/AuthContext";
 import HeroBanner from "./HeroBanner";
 import BottomBar from "../pages/BottomBar";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -73,33 +74,29 @@ const LandingPage = () => {
       {/* Featured Partners Section */}
       {!isHeaderVisible && (
         <section className="py-12 bg-[#242424]">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">
-            Our Partners
-          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-12">
             {sections.map((section, index) => (
-      <motion.div
-      key={index}
-      className="relative rounded-lg overflow-hidden shadow-lg min-h-[230px] flex flex-col"
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.3 }}
-    >
-      <img
-        src={section.image}
-        alt={section.title}
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-      <div className="relative flex flex-col justify-end p-4 text-white h-full">
-        <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">
-          {section.title.toUpperCase()}
-        </h3>
-        <button className="mx-auto mt-4 bg-yellow-500 px-4 py-2 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 w-32">
-          Play Now →
-        </button>
-      </div>
-    </motion.div>
-    
+              <motion.div
+                key={index}
+                className="relative rounded-lg overflow-hidden shadow-lg min-h-[240px] flex flex-col"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <img
+                  src={section.image}
+                  alt={section.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div className="relative flex flex-col justify-end p-4 text-white h-full">
+                  <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">
+                    {section.title.toUpperCase()}
+                  </h3>
+                  <button className="mx-auto mt-4 bg-yellow-500 px-4 py-2 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 w-32">
+                    Play Now →
+                  </button>
+                </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -127,7 +124,9 @@ const LandingPage = () => {
                   >
                     <h3 className="font-medium">{faq.question}</h3>
                     <span
-                      className={`transform transition-transform duration-300 ${activeIndex === index ? "rotate-180" : ""}`}
+                      className={`transform transition-transform duration-300 ${
+                        activeIndex === index ? "rotate-180" : ""
+                      }`}
                     >
                       ▼
                     </span>
@@ -145,25 +144,7 @@ const LandingPage = () => {
       )}
 
       {/* Features Section */}
-      {!isHeaderVisible && (
-        <section className="p-4 md:p-8 bg-[#1D1D1D]">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-            Why Choose Us
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {["Live Betting", "Secure Platform", "24/7 Support"].map((feature, index) => (
-              <div key={index} className="text-center">
-                <h3 className="text-lg md:text-xl font-semibold text-yellow-500">
-                  {feature}
-                </h3>
-                <p className="mt-2 text-sm md:text-base">
-                  Description of {feature}.
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {!isHeaderVisible && <Footer />}
 
       {/* BottomBar */}
       <div className="md:hidden">

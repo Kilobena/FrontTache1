@@ -7,8 +7,6 @@ import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
 
 const Evolution = ({ limit = null, hideFooter = false }) => {
- 
-
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,7 +23,9 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
     const loadGames = async () => {
       try {
         setLoading(true);
-        const fetchedGames = await fetchGames(offset, 30, { type: "livecasino" });
+        const fetchedGames = await fetchGames(offset, 30, {
+          type: "livecasino",
+        });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
@@ -134,9 +134,7 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <p className="text-white font-bold truncate">
-                    {game.name}
-                  </p>
+                  <p className="text-white font-bold truncate">{game.name}</p>
                 </div>
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition">
                   <button
@@ -197,6 +195,5 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
     </>
   );
 };
-
 
 export default Evolution;

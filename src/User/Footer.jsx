@@ -1,39 +1,65 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.webp";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#2E2E2E] py-6 mt-12 border-t border-[#383838]">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-white">
-        {/* Left Section - Contact Info */}
-        <div className="space-y-2 text-center md:text-left">
-          <h2 className="text-lg font-bold text-white">Contact Us</h2>
-          <p>Email: <span className="text-gray-300">support@gamingbet.com</span></p>
-          <p>Phone: <span className="text-gray-300">+1 800 123 4567</span></p>
-          <p>Address: <span className="text-gray-300">123 Gaming Street, Las Vegas, NV</span></p>
+    <footer className="bg-[#2E2E2E] py-4 mt-12 border-t border-[#383838]">
+      <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+          <Link to="/home" className="flex items-center space-x-4">
+            <img src={logo} alt="Logo" className="w-16 h-1/2 h-8" />
+            <h1 className="text-xl font-bold text-yellow-500">CASHBET</h1>
+          </Link>
+          <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-white">
+            <li>
+              <a
+                href="#"
+                class="me-4 md:me-6 text-gray-300 hover:text-white transition"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="me-4 md:me-6 text-gray-300 hover:text-white transition"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="me-4 md:me-6 text-gray-300 hover:text-white transition"
+              >
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition">
+                FAQ
+              </a>
+            </li>
+          </ul>
         </div>
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          Copyright 2024 © CASHBET
+        </span>
+        <span class="pt-2 block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          All Rights Reserved 2024
+        </span>
 
-        {/* Middle Section - Navigation Links */}
-        <div className="flex space-x-6 mt-4 md:mt-0 text-center">
-          <a href="/privacy-policy" className="text-gray-300 hover:text-white transition">
-            Privacy Policy
-          </a>
-          <a href="/terms" className="text-gray-300 hover:text-white transition">
-            Terms of Service
-          </a>
-          <a href="/faq" className="text-gray-300 hover:text-white transition">
-            FAQ
-          </a>
-        </div>
-
-        {/* Right Section - Social Links */}
-        <div className="flex space-x-4 mt-4 md:mt-0">
+        <div className="pt-6 flex justify-center space-x-6 mt-4 md:mt-0">
           <a
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-300 transition"
           >
-            Facebook
+            <FaFacebook size={24} />
           </a>
           <a
             href="https://twitter.com"
@@ -41,7 +67,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-blue-300 hover:text-blue-200 transition"
           >
-            Twitter
+            <FaTwitter size={24} />
           </a>
           <a
             href="https://instagram.com"
@@ -49,7 +75,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-pink-400 hover:text-pink-300 transition"
           >
-            Instagram
+            <FaInstagram size={24} />
           </a>
         </div>
       </div>

@@ -65,8 +65,8 @@ function AppRoutes() {
 
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-  <div className="p-18 sm:p-18 bg-gray-800 text-white rounded-lg shadow-2xl max-w-2xl w-full mx-auto">
-  <Login onLoginSuccess={handleLoginSuccess} />
+          <div className="p-18 sm:p-18 bg-gray-800 text-white rounded-lg shadow-2xl max-w-2xl w-full mx-auto">
+            <Login onLoginSuccess={handleLoginSuccess} />
           </div>
         </Modal>
       )}

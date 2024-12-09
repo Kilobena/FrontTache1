@@ -1,9 +1,9 @@
-import React from 'react';
-import sportsImage from '../assets/sports-image.webp'; // Replace with your actual path
-import casinoImage from '../assets/casino-image.jpg'; // Replace with your actual path
+import React from "react";
+import sportsImage from "../assets/sports-image.webp"; // Replace with your actual path
+import casinoImage from "../assets/casino-image.jpg"; // Replace with your actual path
 import { FaArrowRight } from "react-icons/fa";
-import BottomBar from '../pages/BottomBar';
-import Header from '../pages/Header';
+import BottomBar from "../pages/BottomBar";
+import Header from "../pages/Header";
 
 const HomePage = () => {
   return (
@@ -23,7 +23,11 @@ const HomePage = () => {
         {/* Sports Section */}
         <div className="bg-gray-700 rounded-lg overflow-hidden">
           <div className="relative">
-            <img src={sportsImage} alt="Sports" className="w-full h-48 object-cover" />
+            <img
+              src={sportsImage}
+              alt="Sports"
+              className="w-full h-48 object-cover"
+            />
             <div className="absolute inset-0 bg-black opacity-30"></div>
           </div>
           <div className="p-4 text-center">
@@ -37,7 +41,11 @@ const HomePage = () => {
         {/* Live Sports Section */}
         <div className="bg-gray-700 rounded-lg overflow-hidden">
           <div className="relative">
-            <img src={casinoImage} alt="Live Sports" className="w-full h-48 object-cover" />
+            <img
+              src={casinoImage}
+              alt="Live Sports"
+              className="w-full h-48 object-cover"
+            />
             <div className="absolute inset-0 bg-black opacity-30"></div>
           </div>
           <div className="p-4 text-center">
