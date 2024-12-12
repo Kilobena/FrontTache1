@@ -52,31 +52,37 @@ const LiveCasino = ({
     loadGames();
   }, [offset]);
 
-  const handleGameLaunch = async (gameId) => {
-    setGameLoading((prev) => ({ ...prev, [gameId]: true }));
-    try {
-      const username = user?.username || "guest";
-
-      if (!username) {
-        toast.error("You must log in to launch a game.");
-        return;
-      }
-
-      const url = await fetchGameUrl(gameId, username);
-
-      if (url) {
-        setGameUrl(url);
-        setIsGameFullscreenOpen(true);
-      } else {
-        toast.error("Failed to launch the game. Please try again.");
-      }
-    } catch (err) {
-      console.error("Error launching the game:", err);
-      toast.error("An error occurred while launching the game.");
-    } finally {
-      setGameLoading((prev) => ({ ...prev, [gameId]: false }));
-    }
-  };
+   const handleGameLaunch = async (gameId) => {
+     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
+     try {
+       if (!user) {
+         toast.error("You must be signed in to launch a game.");
+         return;
+       }
+   
+       const username = user.username || "guest";
+       const role = user.role || "guest";
+   
+       if (role !== "User") {
+         toast.error("Only users  can launch a game.");
+         return;
+       }
+   
+       const url = await fetchGameUrl(gameId, username);
+   
+       if (url) {
+         setGameUrl(url);
+         setIsGameFullscreenOpen(true);
+       } else {
+         toast.error("Failed to launch the game. Please try again.");
+       }
+     } catch (err) {
+       console.error("Error launching the game:", err);
+       toast.error("An error occurred while launching the game.");
+     } finally {
+       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
+     }
+   };
 
   const handleLoadMore = (e) => {
     e.preventDefault();
@@ -265,69 +271,55 @@ const LiveCasino = ({
 
         {horizontalOnMobile && (
           <div className="md:hidden">
-            <div className="grid grid-rows-2 gap-y-8 overflow-x-auto pb-4">
-              <div className="flex gap-4 px-4">
-                {displayedGames
-                  .slice(0, Math.ceil(displayedGames.length / 2))
-                  .map((game) => (
-                    <div
-                      key={game.gameId}
-                      className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
-                      style={{
-                        width: "100px", // Adjusted width for smaller images
-                        aspectRatio: "1",
-                      }}
+            <div
+              className="grid auto-cols-[105px] grid-rows-2 gap-4 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
+              style={{
+                display: "grid",
+                gridAutoFlow: "column",
+                WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
+              }}
+            >
+              <style jsx>{`
+                .hide-scrollbar {
+                  -ms-overflow-style: none;
+                  scrollbar-width: none;
+                  scroll-snap-type: x mandatory;
+                  scroll-behavior: smooth;
+                }
+                .hide-scrollbar::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+              {displayedGames.map((game, index) => (
+                <div
+                  key={game.gameId}
+                  className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg will-change-transform"
+                  style={{
+                    aspectRatio: "1",
+                    scrollSnapAlign: "start",
+                  }}
+                >
+                  <img
+                    src={game.imageUrl || "default-image-url.png"}
+                    alt={game.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
+                    <button
+                      onClick={() => handleGameLaunch(game.gameId)}
+                      className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform"
                     >
                       <img
-                        src={game.imageUrl || "default-image-url.png"}
-                        alt={game.name}
-                        className="w-full h-full object-cover"
+                        alt="Play"
+                        src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                        className="w-full h-full"
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleGameLaunch(game.gameId)}
-                          className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
-                        >
-                          <img
-                            alt="All Ways Candy"
-                            src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              <div className="flex gap-4 px-4">
-                {displayedGames
-                  .slice(Math.ceil(displayedGames.length / 2))
-                  .map((game) => (
-                    <div
-                      key={game.gameId}
-                      className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all flex-shrink-0"
-                      style={{
-                        width: "100px", // Adjusted width for smaller images
-                        aspectRatio: "1",
-                      }}
-                    >
-                      <img
-                        src={game.imageUrl || "default-image-url.png"}
-                        alt={game.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleGameLaunch(game.gameId)}
-                          className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
-                        >
-                          <img
-                            alt="All Ways Candy"
-                            src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-              </div>
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

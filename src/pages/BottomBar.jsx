@@ -21,7 +21,7 @@ const BottomBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const { user, login } = useAuth();
+  const { user, login, logout } = useAuth();
 
   const handleNavigation = (path) => {
     setIsMenuOpen(false); // Close menu when navigating
@@ -31,6 +31,11 @@ const BottomBar = () => {
   const handleLoginSuccess = (userData) => {
     login(userData); // Update the login context
     setIsLoginModalOpen(false); // Close modal after login
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/home");
   };
 
   return (
@@ -115,7 +120,7 @@ const BottomBar = () => {
             </div>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              onClick={() => logout()}
+              onClick={handleLogout}
             >
               Logout
             </button>

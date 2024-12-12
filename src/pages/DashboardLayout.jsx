@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Header from './Header';
+import HeaderAdmin from './HeaderAdmin';
 import BottomBar from './BottomBar';
 
 const DashboardLayout = ({ user }) => {
@@ -14,7 +14,7 @@ const DashboardLayout = ({ user }) => {
     return (
         <div className="flex flex-col h-full min-h-screen">
             {/* Pass the isSidebarOpen state and toggleSidebar function to Header */}
-            <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+            <HeaderAdmin toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
             {/* Sidebar and main content */}
             <div className="flex flex-col sm:flex-row w-full flex-1">
@@ -28,7 +28,9 @@ const DashboardLayout = ({ user }) => {
             </div>
 
             {/* Bottom bar for mobile navigation */}
-            <BottomBar />
+        <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar />
+      </div>
         </div>
     );
 };

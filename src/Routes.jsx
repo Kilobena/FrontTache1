@@ -41,6 +41,22 @@ function AppRoutes() {
     setIsModalOpen(false);
   };
 
+  const excludedHeaderRoutes = [
+    "/transferaction",
+    "/transferhistory",
+    "/user-management",
+    "/regitreP",
+    "/registre",
+    "/tranfer_report",
+    "/gaming-report",
+    "/sportsbook-bets",
+    "/casino-bets",
+  ];
+
+  const isExcludedRoute = excludedHeaderRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+
   // Determine if the Header should be displayed
   const showHeader =
     location.pathname.startsWith("/game") ||
@@ -56,12 +72,15 @@ function AppRoutes() {
   return (
     <div className="bg-[#242424] text-white min-h-screen">
       {/* Main Navigation (Always Visible) */}
+      {!isExcludedRoute && (
       <Navigation
         user={user}
         onLoginClick={handleLoginClick}
         onRegisterClick={handleLoginClick}
         onLogout={logout}
       />
+    )}
+
 
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
