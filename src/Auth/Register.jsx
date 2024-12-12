@@ -35,6 +35,16 @@ const RegisterForm = () => {
     }
   
     try {
+      // Validate username
+      const usernameRegex = /^[a-zA-Z0-9._-]{4,16}$/;
+      if (!usernameRegex.test(profil.username)) {
+        setMessage(
+          "Username must be between 4 and 16 characters and can only contain letters, numbers, dots, underscores, and dashes."
+        );
+        setIsModalOpen(true);
+        return;
+      }
+  
       if (profil.role === "Select Role") {
         setMessage("Please select a role.");
         setIsModalOpen(true);
@@ -43,7 +53,7 @@ const RegisterForm = () => {
   
       const updatedProfil = {
         ...profil,
-        id: user._id
+        id: user._id,
       };
   
       const response = await auth.registerUser(updatedProfil);
@@ -60,7 +70,7 @@ const RegisterForm = () => {
       setIsModalOpen(true);
     }
   };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfil((prev) => ({
