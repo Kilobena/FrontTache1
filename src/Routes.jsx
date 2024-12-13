@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./providers/AuthContext.jsx";
-
 import RegisterForm from "./Auth/Register";
 import TransferHistory from "./Transactions/TransferHistory";
 import TransferForm from "./Transactions/TransferAction";
@@ -241,5 +240,6 @@ function AppRoutes() {
     </div>
   );
 }
+
 
 export default AppRoutes;
