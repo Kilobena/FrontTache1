@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import Auth from "../service/Auth";
 
 const AuthContext = createContext();
 
@@ -12,6 +13,8 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
   });
+
+  const auth = new Auth();
 
   const login = (userData) => {
     try {
@@ -42,6 +45,30 @@ export const AuthProvider = ({ children }) => {
       console.error("Error during logout:", error);
     }
   };
+
+  // Periodically update user balance
+  useEffect(() => {
+    const updateBalance = async () => {
+      if (!user?.username) return;
+
+      try {
+        const response = await auth.getBalance(user.username);
+        if (response.success) {
+          updateUser({ balance: response.balance });
+        } else {
+          console.error("Failed to update balance:", response.message);
+        }
+      } catch (error) {
+        console.error("Error fetching user balance:", error);
+      }
+    };
+
+    // Poll every 10 seconds
+    const interval = setInterval(updateBalance, 1000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, [user]);
 
   // Sync state with localStorage on mount
   useEffect(() => {

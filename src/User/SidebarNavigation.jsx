@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useAuth } from "../providers/AuthContext"; // Import the AuthContext hook
 import logo from "../assets/logo.webp";
 
-const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => {
+const Navigation = ({ onLoginClick, onRegisterClick }) => {
   const [activeItem, setActiveItem] = useState("home");
+  const { user, logout } = useAuth(); // Access user and logout from AuthContext
 
   const menuItems = [
     { path: "/home", label: "HOME", id: "home" },
@@ -16,7 +17,7 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => {
   ];
 
   return (
-    <header className="bg-[#0F0F0F]text-white shadow-lg">
+    <header className="bg-[#2E2E2E]text-white shadow-lg">
       <div className="flex items-center justify-between py-3 px-4">
         {/* Left Section */}
         <Link
@@ -50,10 +51,10 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => {
         <div className="flex items-center space-x-3">
           {user ? (
             <>
-              <span className="text-sm">€{user.balance.toFixed(2)}</span>
+              <span className="text-sm">€{user.balance?.toFixed(2) || "0.00"}</span>
               <span className="text-sm">{`Hello, ${user.username}`}</span>
               <button
-                onClick={onLogout}
+                onClick={logout} // Call logout from the AuthContext
                 className="bg-red-500 px-4 py-2 rounded-md text-sm hover:bg-red-400"
               >
                 Logout
@@ -79,13 +80,6 @@ const Navigation = ({ user, onLoginClick, onRegisterClick, onLogout }) => {
       </div>
     </header>
   );
-};
-
-Navigation.propTypes = {
-  user: PropTypes.object,
-  onLoginClick: PropTypes.func.isRequired,
-  onRegisterClick: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
 };
 
 export default Navigation;
