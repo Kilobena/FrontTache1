@@ -248,7 +248,7 @@ const Providers = ({
               }}
             >
               <img
-                src={game.imageUrl || "default-image-url.png"}
+                src={game.image|| "default-image-url.png"}
                 alt={game.name}
                 className="w-full h-full object-cover"
               />
@@ -298,7 +298,7 @@ const Providers = ({
                   }}
                 >
                   <img
-                    src={game.imageUrl || "default-image-url.png"}
+                    src={game.image|| "default-image-url.png"}
                     alt={game.name}
                     className="w-full h-full object-cover"
                     loading="lazy"

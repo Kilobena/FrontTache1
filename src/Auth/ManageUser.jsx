@@ -116,7 +116,7 @@ const ManageUser = () => {
                     <div className="relative mb-4" ref={suggestionBoxRef}>
                         <input
                             type="text"
-                            className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                            className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
                             placeholder="Enter username"
                             value={searchTerm}
                             onChange={handleInputChange}
@@ -128,7 +128,7 @@ const ManageUser = () => {
                                 {suggestions.map((suggestion) => (
                                     <li
                                         key={suggestion._id}
-                                        className="p-2 cursor-pointer hover:bg-gray-200"
+                                        className="p-2 cursor-pointer hover:bg-gray-200 text-black"
                                         onClick={() => setSearchTerm(suggestion.username)}
                                     >
                                         {suggestion.username} ({suggestion.role})
@@ -164,11 +164,11 @@ const ManageUser = () => {
                 {/* Display the user list table if there are filtered users */}
                 {filteredUsers.length > 0 && (
                     <div className="mt-6 max-w-4xl mx-auto">
-                        <h3 className="text-lg font-semibold mb-4">User List:</h3>
+                        <h3 className="text-lg font-semibold mb-4 text-black">User List:</h3>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white border border-gray-300">
+                            <table className="min-w-full bg-white border border-gray-300 bg-black">
                                 <thead>
-                                    <tr className="bg-gray-200">
+                                    <tr className=" bg-black">
                                         <th className="py-2 px-4 border">Username</th>
                                         <th className="py-2 px-4 border">Role</th>
                                         <th className="py-2 px-4 border">Actions</th>
@@ -176,7 +176,7 @@ const ManageUser = () => {
                                 </thead>
                                 <tbody>
                                     {filteredUsers.map((user) => (
-                                        <tr key={user._id} className="hover:bg-gray-100">
+                                        <tr key={user._id} className="bg-black">
                                             <td className="py-2 px-4 border text-center">{user.username}</td>
                                             <td className="py-2 px-4 border text-center">{user.role}</td>
                                             <td className="py-2 px-4 border text-center">

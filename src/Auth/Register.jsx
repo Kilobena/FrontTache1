@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
-import Auth from "../service/Auth.js";
-import { useAuth } from '../providers/AuthContext'; 
+import Auth from "../service/Auth";
+import { useAuth } from "../providers/AuthContext";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [profil, setProfil] = useState({ username: "", password: "", role: "Select Role" });
-  const [message, setMessage] = useState(""); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const auth = new Auth(); 
-  const { user } = useAuth();
+  const [message, setMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(""); // success or error
+  const auth = new Auth();
+  const { user, updateUser } = useAuth();
 
   const getAvailableRoles = () => {
-    if (user.role === "SuperPartner") {
+    if (user?.role === "SuperPartner") {
       return ["SuperAdmin", "Admin", "Partner", "Assistant", "User"];
-    } else if (user.role === "Partner") {
+    } else if (user?.role === "Partner") {
       return ["User", "Assistant", "Admin", "SuperAdmin"];
-    } else if (user.role === "SuperAdmin") {
+    } else if (user?.role === "SuperAdmin") {
       return ["User", "Assistant", "Admin"];
-    } else if (user.role === "Admin") {
+    } else if (user?.role === "Admin") {
       return ["User", "Assistant"];
     } else {
       return ["User"];
@@ -30,52 +31,56 @@ const RegisterForm = () => {
   const handleRegister = async () => {
     if (!user || !user._id) {
       setMessage("User ID is not available. Please try again.");
+      setModalType("error");
       setIsModalOpen(true);
       return;
     }
   
     try {
-      // Validate username
-      const usernameRegex = /^[a-zA-Z0-9._-]{4,16}$/;
-      if (!usernameRegex.test(profil.username)) {
-        setMessage(
-          "Username must be between 4 and 16 characters and can only contain letters, numbers, dots, underscores, and dashes."
-        );
-        setIsModalOpen(true);
-        return;
-      }
-  
       if (profil.role === "Select Role") {
         setMessage("Please select a role.");
+        setModalType("error");
         setIsModalOpen(true);
         return;
       }
   
       const updatedProfil = {
         ...profil,
-        id: user._id,
+        id: user._id, // ID of the currently logged-in user (creator)
       };
+  
+      console.log("Submitting Profile:", updatedProfil); // Debug log
   
       const response = await auth.registerUser(updatedProfil);
   
-      if (response.status === 201) {
-        setMessage("User registered successfully!");
+      console.log("Register Response:", response); // Debug log
+  
+      if (response.success && response.status === 201) {
+        // Successful registration
+        setMessage(response.message || "User registered successfully!");
+        setModalType("success");
       } else {
-        setMessage(response.message || "Error occurred.");
+        // Handle backend error responses
+        setMessage(response.message || "Error occurred during registration.");
+        setModalType("error");
       }
-      setIsModalOpen(true);
+  
+      setIsModalOpen(true); // Show the modal
     } catch (error) {
+      console.error("Error during user registration:", error); // Debug log
       setMessage("Error registering user. Please try again.");
-      console.error(error);
-      setIsModalOpen(true);
+      setModalType("error");
+      setIsModalOpen(true); // Show the modal
     }
   };
   
+  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfil((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -84,27 +89,21 @@ const RegisterForm = () => {
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   return (
     <div className="flex justify-center items-center h-screen w-full p-6 sm:p-8">
-      <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg"> {/* Updated to max-w-4xl */}
-
-      <header className="bg-[#242424] text-white w-full py-4 text-center">
-      <h1 className="text-3xl font-bold">Register User</h1>
-            </header>
+      <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
+        <header className="bg-[#242424] text-white w-full py-4 text-center">
+          <h1 className="text-3xl font-bold">Register User</h1>
+        </header>
         <div className="w-full p-6">
           <form>
             {/* Username Input */}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
               <div className="flex items-center border border-black rounded">
-                <img
-                  src="/images/account-circle.svg"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full p-2"
-                />
                 <input
                   className="ml-2 w-full py-2 text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   type="text"
@@ -120,11 +119,6 @@ const RegisterForm = () => {
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
               <div className="flex items-center border border-black rounded">
-                <img
-                  src="/images/lock.png"
-                  alt="Lock"
-                  className="w-10 h-10 rounded-full p-2"
-                />
                 <input
                   className="ml-2 w-full py-2 text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   type={showPassword ? "text" : "password"}
@@ -138,7 +132,7 @@ const RegisterForm = () => {
                   className="ml-2 focus:outline-none"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  <i className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'} text-xl`} aria-hidden="true"></i>
+                  <i className={`fa ${showPassword ? "fa-eye" : "fa-eye-slash"} text-xl`} aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -155,12 +149,11 @@ const RegisterForm = () => {
                 >
                   <option value="Select Role">Select Role</option>
                   {roles.map((role) => (
-                    <option key={role} value={role}>{role}</option>
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
                   ))}
                 </select>
-                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <i className="fa fa-caret-down text-gray-400" aria-hidden="true"></i>
-                </span>
               </div>
             </div>
 
@@ -187,12 +180,19 @@ const RegisterForm = () => {
 
       {/* Modal for showing messages */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-5 rounded shadow-md max-w-xs w-full mx-4">
-            <h2 className="text-lg font-bold mb-4">{message}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-5 rounded shadow-lg max-w-xs w-full">
+            <h2
+              className={`text-xl font-bold ${
+                modalType === "success" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {modalType === "success" ? "Success" : "Error"}
+            </h2>
+            <p className="text-black">{message}</p>
             <button
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"
               onClick={closeModal}
+              className="mt-4 bg-yellow-500 text-black py-2 px-4 rounded w-full hover:bg-yellow-600"
             >
               Close
             </button>

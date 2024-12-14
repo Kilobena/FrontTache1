@@ -121,6 +121,25 @@ const TransferForm = () => {
     };
   }, []);
 
+
+  const getFriendlyErrorMessage = (message) => {
+    switch (message) {
+      case "Sender or receiver not found":
+        return "The selected user could not be found. Please try again.";
+      case "Invalid amount specified":
+        return "Please enter a valid amount greater than zero.";
+      case "Insufficient balance for deposit including fees":
+        return "You do not have enough balance to complete this deposit.";
+      case "Insufficient balance for withdrawal including fees":
+        return "The receiver does not have enough balance to fulfill this withdrawal.";
+      case "Invalid transfer type":
+        return "An invalid transfer type was selected. Please try again.";
+      default:
+        return "An unexpected error occurred. Please try again later.";
+    }
+  };
+  
+
   const handleTransfer = async () => {
     if (!selectedUser) {
       setMessage('Please select a user.');
@@ -151,10 +170,10 @@ const TransferForm = () => {
         transferData.type,
         transferData.note
       );
-
+    
       if (result.success) {
         const updatedUserResponse = await authServ.getBalance(user.username);
-
+    
         if (updatedUserResponse.success) {
           const updatedUser = { ...user, balance: updatedUserResponse.balance };
           updateUser(updatedUser);
@@ -164,7 +183,7 @@ const TransferForm = () => {
           setMessage(`Failed to retrieve updated balance: ${updatedUserResponse.message}`);
           setModalType('error');
         }
-
+    
         setIsModalOpen(true);
         resetForm();
       } else {
@@ -179,7 +198,7 @@ const TransferForm = () => {
       setModalType('error');
       setIsModalOpen(true);
     }
-  };
+  }    
 
   const resetForm = () => {
     setAmount(0);
@@ -205,11 +224,11 @@ const TransferForm = () => {
 
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
-          <span className="font-medium">Search for user</span>
+          <span className="font-medium text-black">Search for user</span>
 
             <input
               type="text"
-              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black" 
               placeholder="Type the First 3 letters"
               value={searchTerm}
               onChange={handleInputChange}
@@ -220,7 +239,7 @@ const TransferForm = () => {
                 {filteredUsers.map((user) => (
                   <li
                     key={user._id}
-                    className="p-2 cursor-pointer hover:bg-gray-200"
+                    className="p-2 cursor-pointer hover:bg-gray-200 text-black"
                     onClick={() => handleSuggestionClick(user.username, user._id)}
                   >
                     {user.username} ({user.role})
@@ -260,17 +279,17 @@ const TransferForm = () => {
 
           {/* Transfer Amount Section */}
           <div className="mb-4">
-            <label className="block font-medium">Transfer Amount</label>
+            <label className="block font-medium text-black" >Transfer Amount</label>
             <div className="flex space-x-4 mb-2">
               <input
                 type="text"
                 value={amount}
                 readOnly
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full p-2 border border-gray-300 rounded text-black"
               />
               <button
                 onClick={() => setAmount(0)}
-                className="border border-black py-2 px-4 rounded focus:outline-none"
+                className="border border-black py-2 px-4 rounded focus:outline-none text-black"
               >
                 Clear
               </button>
@@ -281,7 +300,7 @@ const TransferForm = () => {
                 <button
                   key={value}
                   onClick={() => setAmount((prev) => prev + value)}
-                  className="p-2 bg-gray-300 rounded"
+                  className="p-2 bg-gray-300 rounded text-black"
                 >
                   +{value}
                 </button>
@@ -291,11 +310,11 @@ const TransferForm = () => {
 
           {/* Transfer Note Section */}
           <div className="mb-4">
-            <label className="block font-medium">Transfer Note</label>
+            <label className="block font-medium text-black">Transfer Note</label>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
               rows="4"
               placeholder="Add a note (optional)"
             />
@@ -315,21 +334,25 @@ const TransferForm = () => {
 
         {/* Modal for Success/Error Message */}
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-5 rounded shadow-lg max-w-xs w-full">
-              <h2 className={`text-xl font-bold ${modalType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                {modalType === 'success' ? 'Success' : 'Error'}
-              </h2>
-              <p>{message}</p>
-              <button
-                onClick={closeModal}
-                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded w-full"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="bg-white p-5 rounded shadow-lg max-w-xs w-full">
+      <h2
+        className={`text-xl font-bold ${
+          modalType === 'success' ? 'text-green-500' : 'text-black' // Set error title to black
+        }`}
+      >
+        {modalType === 'success' ? 'Success' : 'Error'}
+      </h2>
+      <p className="text-black">{message}</p> {/* Set the error message text to black */}
+      <button
+        onClick={closeModal}
+        className="mt-4 bg-yellow-500 text-black py-2 px-4 rounded w-full hover:bg-yellow-600"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );

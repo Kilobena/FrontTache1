@@ -155,9 +155,9 @@ const TransferHistory = () => {
             <div className="text-red-500 text-center mb-4">{errorMessage}</div>
           ) : transfers.length > 0 ? (
             <div className="max-h-64 overflow-y-auto">
-              <table className="min-w-full table-auto border-collapse">
+              <table className="min-w-full table-auto border-collapse bg-black">
                 <thead>
-                  <tr className="bg-gray-200">
+                  <tr className="bg-black-200">
                     <th className="border px-4 py-2">Type</th>
                     <th className="border px-4 py-2">Amount</th>
                     <th className="border px-4 py-2">Date</th>
@@ -167,7 +167,7 @@ const TransferHistory = () => {
                 </thead>
                 <tbody>
                   {transfers.map((transfer, index) => (
-                    <tr key={index} className="hover:bg-gray-100">
+                    <tr key={index} className="hover:bg-black-100">
                       <td className="border px-4 py-2 text-center">{transfer.type}</td>
                       <td className="border px-4 py-2 text-center">{transfer.amount}</td>
                       <td className="border px-4 py-2 text-center">{new Date(transfer.date).toLocaleString()}</td>
