@@ -37,6 +37,18 @@ const RegisterForm = () => {
     }
   
     try {
+      // Validate username
+      const usernameRegex = /^[a-zA-Z0-9._-]{4,16}$/; // Regular expression for validation
+      if (!profil.username || !usernameRegex.test(profil.username)) {
+        setMessage(
+          "Username must be between 4 and 16 characters, and can only contain letters, numbers, underscores (_), dots (.), and hyphens (-)."
+        );
+        setModalType("error");
+        setIsModalOpen(true);
+        return;
+      }
+  
+      // Validate role selection
       if (profil.role === "Select Role") {
         setMessage("Please select a role.");
         setModalType("error");
@@ -73,6 +85,7 @@ const RegisterForm = () => {
       setIsModalOpen(true); // Show the modal
     }
   };
+  
   
   
 
