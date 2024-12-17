@@ -18,11 +18,15 @@ const TransferHistory = () => {
     try {
       const result = await transferServ.getUserInfo(user.username, localStorage.getItem('token'));
       if (result.success) {
-        setTransferOptions(result.user); 
+        // Ensure transferOptions is always an array
+        setTransferOptions(Array.isArray(result.user) ? result.user : []);
+      } else {
+        setErrorMessage("Failed to load user options.");
       }
     } catch (error) {
       console.error("Error fetching users:", error);
       setErrorMessage("Failed to load user options.");
+      setTransferOptions([]); // Set a default empty array
     }
   };
 
@@ -114,17 +118,19 @@ const TransferHistory = () => {
           <div className="mb-8">
             <label className="block font-medium mb-2 text-gray-800 text-lg">Transfer To / From</label>
             <select
-              className="w-full p-2 border border-gray-300 rounded bg-white text-lg"
-              value={selectedUser}
-              onChange={(e) => setSelectedUser(e.target.value)}
-            >
-              <option value="">Select option</option>
-              {transferOptions.map((userOption) => (
-                <option key={userOption._id} value={userOption.username}>
-                  {userOption.username} ({userOption.role})
-                </option>
-              ))}
-            </select>
+  className="w-full p-2 border border-gray-300 rounded bg-white text-lg"
+  value={selectedUser}
+  onChange={(e) => setSelectedUser(e.target.value)}
+>
+  <option value="">Select option</option>
+  {Array.isArray(transferOptions) && transferOptions.length > 0
+    ? transferOptions.map((userOption) => (
+        <option key={userOption._id} value={userOption.username}>
+          {userOption.username} ({userOption.role})
+        </option>
+      ))
+    : <option disabled>No users available</option>}
+</select>
           </div>
 
           {/* Action Buttons */}

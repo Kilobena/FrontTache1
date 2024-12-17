@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Auth from '../service/Auth';
 import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
-import { v4 as uuidv4 } from 'uuid'; // Import UUID library at the top
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library for generating transaction IDs
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth(); 
@@ -142,31 +142,25 @@ const TransferForm = () => {
   
 
   const handleTransfer = async () => {
-    if (!selectedUser) {
-      setMessage('Please select a user.');
+    if (!selectedUser || amount <= 0) {
+      setMessage('Please select a valid user and amount.');
       setModalType('error');
       setIsModalOpen(true);
       return;
     }
-    if (amount <= 0) {
-      setMessage('The amount must be greater than zero.');
-      setModalType('error');
-      setIsModalOpen(true);
-      return;
-    }
-  
-    // Generate a unique transaction ID
-    const transactionId = uuidv4();
-  
+
+    const transactionId = uuidv4(); // Generate a unique transaction ID
+    console.log("Transaction ID being sent:", transactionId); // Debug log
+
     const transferData = {
-      transaction_id: transactionId, // Add transaction ID here
+      transaction_id: transactionId,
       senderId: user._id,
       receiverId: selectedUser,
       amount,
       type: transferType,
       note,
     };
-  
+
     try {
       const result = await transferServ.makeTransfer(
         transferData.senderId,
@@ -174,37 +168,28 @@ const TransferForm = () => {
         transferData.amount,
         transferData.type,
         transferData.note,
-        transferData.transaction_id // Send transaction ID to backend
+        transferData.transaction_id
       );
-  
+
       if (result.success) {
         const updatedUserResponse = await authServ.getBalance(user.username);
-  
         if (updatedUserResponse.success) {
-          const updatedUser = { ...user, balance: updatedUserResponse.balance };
-          updateUser(updatedUser);
+          updateUser({ ...user, balance: updatedUserResponse.balance });
           setMessage('Transfer successful!');
           setModalType('success');
-        } else {
-          setMessage(`Failed to retrieve updated balance: ${updatedUserResponse.message}`);
-          setModalType('error');
         }
-  
-        setIsModalOpen(true);
-        resetForm();
       } else {
-        const userFriendlyMessage = getFriendlyErrorMessage(result.message);
-        setMessage(userFriendlyMessage);
+        setMessage(result.message || 'Transfer failed.');
         setModalType('error');
-        setIsModalOpen(true);
       }
     } catch (error) {
-      const userFriendlyMessage = getFriendlyErrorMessage(error.message);
-      setMessage(userFriendlyMessage);
+      setMessage('An error occurred during transfer.');
       setModalType('error');
+    } finally {
       setIsModalOpen(true);
     }
-  };  
+  };
+
 
   const resetForm = () => {
     setAmount(0);
