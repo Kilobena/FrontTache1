@@ -34,26 +34,26 @@
         if (!username) {
           throw new Error("Username is required to launch the game.");
         }
-
+      
         try {
           const payload = {
             gameid: Number(gameId),
-            lang: "en",
-            play_for_fun: false,
-            homeurl: "https://catch-me.bet",
             username,
+            play_for_fun: false,
+            lang: "en",
+            homeurl: "https://catch-me.bet",
+            cashierurl: "https://catch-me.bet",
           };
-
+      
           console.log("Payload for get-game:", payload);
-
+      
           const response = await axios.post(`${API_BASE_URL}/get-game`, payload, {
             headers: { "Content-Type": "application/json" },
+            withCredentials: true, // Ensure cookies or auth tokens are sent
           });
-
+      
           if (response.data?.data?.gameUrl) {
-            const wrappedUrl = response.data.data.gameUrl;
-            const directUrl = extractDirectGameUrl(wrappedUrl);
-            return directUrl;
+            return response.data.data.gameUrl;
           } else {
             throw new Error("Game URL missing in response!");
           }
@@ -61,6 +61,10 @@
           throw new Error(error.response?.data?.message || "Failed to fetch game URL.");
         }
       };
+      
+      
+      
+      
 
 
       export const fetchGames = async (offset = 0, limit = 30, filters = {}) => {

@@ -54,17 +54,11 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
         toast.error("You must be signed in to launch a game.");
         return;
       }
-
-      const username = user.username || "guest";
-      const role = user.role || "guest";
-
-      if (role !== "User") {
-        toast.error("Only users  can launch a game.");
-        return;
-      }
-
+  
+      const username = user.username;
+  
       const url = await fetchGameUrl(gameId, username);
-
+  
       if (url) {
         setGameUrl(url);
         setIsGameFullscreenOpen(true);
@@ -73,11 +67,14 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error("An error occurred while launching the game.");
+      toast.error(err.message || "An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
   };
+  
+  
+  
 
   const handleLoadMore = (e) => {
     e.preventDefault();
