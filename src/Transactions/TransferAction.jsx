@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Auth from '../service/Auth';
 import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library at the top
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth(); 
@@ -153,27 +154,32 @@ const TransferForm = () => {
       setIsModalOpen(true);
       return;
     }
-
+  
+    // Generate a unique transaction ID
+    const transactionId = uuidv4();
+  
     const transferData = {
+      transaction_id: transactionId, // Add transaction ID here
       senderId: user._id,
       receiverId: selectedUser,
       amount,
       type: transferType,
       note,
     };
-
+  
     try {
       const result = await transferServ.makeTransfer(
         transferData.senderId,
         transferData.receiverId,
         transferData.amount,
         transferData.type,
-        transferData.note
+        transferData.note,
+        transferData.transaction_id // Send transaction ID to backend
       );
-    
+  
       if (result.success) {
         const updatedUserResponse = await authServ.getBalance(user.username);
-    
+  
         if (updatedUserResponse.success) {
           const updatedUser = { ...user, balance: updatedUserResponse.balance };
           updateUser(updatedUser);
@@ -183,7 +189,7 @@ const TransferForm = () => {
           setMessage(`Failed to retrieve updated balance: ${updatedUserResponse.message}`);
           setModalType('error');
         }
-    
+  
         setIsModalOpen(true);
         resetForm();
       } else {
@@ -198,7 +204,7 @@ const TransferForm = () => {
       setModalType('error');
       setIsModalOpen(true);
     }
-  }    
+  };  
 
   const resetForm = () => {
     setAmount(0);

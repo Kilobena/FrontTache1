@@ -7,22 +7,23 @@ class TransferService {
         });
     }
 
-    async makeTransfer(senderId, receiverId, amount, type, note) {
+    async makeTransfer(senderId, receiverId, amount, type, note, transactionId) {
         try {
             const token = localStorage.getItem('token');
-
+    
             const response = await this.api.post("/tr/transfer", {
                 senderId,
                 receiverId,
                 amount,
                 type,
-                note
+                note,
+                transaction_id: transactionId, // Include transaction_id in the payload
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
-
+    
             return {
                 success: true,
                 message: response.data.message,
@@ -32,7 +33,7 @@ class TransferService {
             };
         } catch (error) {
             console.error("Erreur lors de la création du transfert :", error);
-
+    
             if (error.response) {
                 return {
                     success: false,
@@ -48,6 +49,7 @@ class TransferService {
             }
         }
     }
+    
 
     async getUserInfo(username, token) {
         try {
