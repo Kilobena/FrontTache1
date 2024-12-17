@@ -49,27 +49,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Periodically update user balance
-  useEffect(() => {
-    const updateBalance = async () => {
-      if (!user?.username) return;
 
-      try {
-        const response = await auth.getBalance(user.username);
-        if (response.success) {
-          updateUser({ balance: response.balance });
-        } else {
-          console.error("Failed to update balance:", response.message);
-        }
-      } catch (error) {
-        console.error("Error fetching user balance:", error);
-      }
-    };
-
-    // Poll every 10 seconds
-    const interval = setInterval(updateBalance, 10000);
-
-    return () => clearInterval(interval);
-  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, updateUser }}>

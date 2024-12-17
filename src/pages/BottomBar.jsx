@@ -119,7 +119,7 @@ const BottomBar = () => {
             <div>
               <p className="text-sm">Hello, {user.username}</p>
               <p className="text-sm">
-                €{user.balance?.toFixed(2) || "0.00"} {/* Safeguard null balance */}
+           
               </p>
               <p className="text-xs text-gray-400">{user.email}</p>
             </div>
