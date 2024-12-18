@@ -25,16 +25,20 @@ import Navigation from "./User/SidebarNavigation.jsx";
 import Header from "./User/Header.jsx";
 import Login from "./Auth/LoginPage.jsx";
 import Modal from "./Component/UI/Modal.jsx";
+import { SearchGames } from "./User/SearchGames.jsx";
 
 function AppRoutes() {
   const { user, login, logout } = useAuth();
   const isAuthenticated = !!user;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
   const isUserRole = user?.role === "User";
   const location = useLocation();
 
   const handleLoginClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+  const handleSearchModal = () => setIsSearchModalOpen(true);
   const handleLoginSuccess = (userData) => {
     login(userData);
     setIsModalOpen(false);
@@ -72,13 +76,19 @@ function AppRoutes() {
       {!isExcludedRoute && <Navigation user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
 
       {isModalOpen && (
-        <Modal title="Login" onClose={handleCloseModal}>
+        <Modal title={<h2 className="font-light text-2xl">LOGIN</h2>} onClose={handleCloseModal}>
           <Login onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
 
+      {isSearchModalOpen && (
+        <Modal width="w-full max-w-[60rem]" title={<h2 className="font-bold text-2xl">Search Engine</h2>} onClose={() => setIsSearchModalOpen(false)}>
+          <SearchGames />
+        </Modal>
+      )}
+
       {/* Conditionally Render Secondary Navigation (Header) */}
-      {showHeader && <Header />}
+      {showHeader && <Header openSearchModal={handleSearchModal} />}
 
       {/* Routes */}
       <Routes>
