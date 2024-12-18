@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth();
-  const [transferType, setTransferType] = useState("deposit");
+  const [transferType, setTransferType] = useState('deposit');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -74,8 +74,8 @@ const TransferForm = () => {
 
     const filtered = value
       ? filteredUsersForInteraction.filter((user) =>
-          user.username.toLowerCase().includes(value.toLowerCase())
-        )
+        user.username.toLowerCase().includes(value.toLowerCase())
+      )
       : filteredUsersForInteraction;
 
     setFilteredUsers(filtered);
@@ -88,12 +88,21 @@ const TransferForm = () => {
   };
 
   const handleInputFocus = () => {
-    if (!isUserListFetched) {
-      setMessage("Still loading users...");
+    if (isUserListFetched) {
+      if (noUsersFound) {
+        setMessage('No users found.');
+        setModalType('error');
+        setIsModalOpen(true);
+      } else {
+        setFilteredUsers(filteredUsersForInteraction);
+        setShowSuggestions(true);
+      }
+    } else {
+      setMessage('Still loading users...');
+      setModalType('error');
+      setIsModalOpen(true);
     }
-     else {
-      setMessage(null);
-    }
+    
     setShowSuggestions(true);
   };
 
@@ -162,12 +171,12 @@ const TransferForm = () => {
 
   return (
     <div className="flex flex-col h-screen w-full">
-      <header className="bg-[#242424] text-white w-full py-4 text-center">
+      <header className="bg-[#474747] font-bold   rounded-lg py-2 px-3 text-sm ltr:lg:text-left rtl:lg:text-right md:text-2xl">
         <h1 className="text-3xl font-bold">Transfer</h1>
       </header>
 
-      <div className="flex-1 overflow-auto p-6 sm:p-8">
-        <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <div className="flex-1 pt-8">
+        <div className="w-2/5  rounded-lg ">
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
             <span className="font-medium text-black">Search for user</span>
@@ -198,25 +207,17 @@ const TransferForm = () => {
           {/* Transfer Type Section */}
           <div className="mb-4">
             <label className="block font-medium text-gray-800 mb-2">Transfer Type</label>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2">
               {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option) => (
                 <label
                   key={option.value}
-                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
+                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform  ${
                     transferType === option.value
                       ? "bg-yellow-400 text-white shadow-md"
                       : "bg-gray-100 text-gray-700"
                   }`}
                 >
-                  <input
-                    type="radio"
-                    name="transferType"
-                    value={option.value}
-                    checked={transferType === option.value}
-                    onChange={() => setTransferType(option.value)}
-                    className="form-radio h-5 w-5 text-yellow-500 mr-2"
-                  />
-                  <span className="font-medium">{option.label}</span>
+                  {user.username} ({user.role})
                 </label>
               ))}
             </div>

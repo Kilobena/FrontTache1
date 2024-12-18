@@ -61,13 +61,13 @@ const Login = ({ onLoginSuccess }) => {
     <div className="w-full max-w-lg mx-auto p-5 bg-[#242424] rounded-2xl shadow-lg">
       <form onSubmit={handleSubmit}>
         <div className="relative">
-          <label className="block text-gray-300 text-sm font-medium mb-2">
+          <label className="block text-gray-300 text-sm font-medium mb-1">
             Email or Username
           </label>
           <div className="relative">
             {/* Icon */}
             <span className="absolute inset-y-0 left-0 pt-3 pl-3">
-            <i class="fa fa-user-circle-o text-black"  aria-hidden="true"></i>
+            <i class="fa fa-user-circle-o text-black fa-lg"  aria-hidden="true"></i>
             </span>
             {/* Input Field */}
             <input
@@ -76,37 +76,39 @@ const Login = ({ onLoginSuccess }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              autoComplete="off"
             />
           </div>
         </div>
 
         {/* Password Field */}
         <div className="relative">
-      <label className="block text-gray-300 text-sm font-medium mb-2">
+      <label className="block text-gray-300 text-sm font-medium mb-1">
         Password
       </label>
       <div className="relative">
         {/* Input Field */}
        
          <span className="absolute inset-y-0 left-0 pt-3 pl-4">
-         <i class="fa fa-lock text-black" aria-hidden="true"></i>
+         <i class="fa fa-lock text-black fa-lg" aria-hidden="true"></i>
             </span>
         {/* Toggle Icon */}
         <input
           type={showPassword ? "text" : "password"}
-          className="indent-7 passwordField bg-no-repeat bg-left appearance-none border-2 border-gray rounded-lg p-3 text-sm text-black w-full mb-4"
+          className="indent-8 passwordField bg-no-repeat bg-left appearance-none border-2 border-gray rounded-lg p-3 text-sm text-black w-full mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          autoComplete="off"
         />
         <span
           onClick={() => setShowPassword(!showPassword)}
           className="absolute inset-y-0  pt-3 right-1.5"
         >
           {showPassword ? (
-           <i class="fa fa-eye text-black" aria-hidden="true"></i>
+           <i class="fa fa-eye text-black fa-lg" aria-hidden="true"></i>
           ) : (
-            <i class="fa fa-eye-slash text-black" aria-hidden="true"></i>
+            <i class="fa fa-eye-slash text-black fa-lg" aria-hidden="true"></i>
           )}
         </span>
       </div>
