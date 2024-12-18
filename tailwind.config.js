@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary-dark": "#1D1D1D", // Dark background
+        "primary-dark": "#1C1C1C", // Dark background
         "primary-yellow": "#F2C41A", // Main yellow
         "secondary-yellow": "#f2a500", // Hover yellow
         "light-gray": "#2E2E2E", // Light gray for cards
