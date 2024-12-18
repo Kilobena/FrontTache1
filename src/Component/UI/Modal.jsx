@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ onClose, children, title, className, width }) => {
+const Modal = ({ onClose, children, title, size }) => {
   return (
     <>
       <style jsx>
@@ -17,11 +17,7 @@ const Modal = ({ onClose, children, title, className, width }) => {
       </style>
       <div className="fixed inset-0 flex backdrop-blur-md items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
         {/* Modal Container */}
-        <div
-          className={`relative text-white  mb-5 rounded-2xl bg-[#2e2e2e] w-full transform transition-all duration-300 scale-100 ${className} ${
-            width ? width : "max-w-md"
-          }`}
-        >
+        <div className={`relative text-white rounded-2xl bg-[#2e2e2e] transform transition-all duration-300 scale-100 w-full ${size}`}>
           {/* Modal Header*/}
           <div className="flex items-center justify-between px-4 rounded-t font-bold relative">
             {title}

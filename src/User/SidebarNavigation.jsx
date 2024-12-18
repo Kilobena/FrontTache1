@@ -172,8 +172,7 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
           )}
           {isModalOpen && (
             <Modal
-              className="h-[calc(100vh-200px)] overflow-y-auto"
-              width="w-full max-w-[60rem]"
+              size="h-[calc(100vh-200px)] w-full max-w-[60rem] overflow-y-auto "
               title={<h2 className="font-bold text-2xl"></h2>}
               onClose={handleCloseModal}
             >

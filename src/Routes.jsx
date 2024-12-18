@@ -80,13 +80,17 @@ function AppRoutes() {
       {!isExcludedRoute && <Navigation user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
 
       {isModalOpen && (
-        <Modal title={<h2 className="font-light text-2xl">LOGIN</h2>} onClose={handleCloseModal}>
+        <Modal size="max-w-md" title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>} onClose={handleCloseModal}>
           <Login onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
 
       {isSearchModalOpen && (
-        <Modal width="w-full max-w-[60rem]" title={<h2 className="font-bold text-2xl">Search Engine</h2>} onClose={() => setIsSearchModalOpen(false)}>
+        <Modal
+          size="w-full max-w-[60rem]"
+          title={<h2 className="mt-5 font-bold text-2xl">Search Engine</h2>}
+          onClose={() => setIsSearchModalOpen(false)}
+        >
           <SearchGames />
         </Modal>
       )}
