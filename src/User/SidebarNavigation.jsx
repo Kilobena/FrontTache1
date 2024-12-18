@@ -7,11 +7,24 @@ import { FaBars, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import Modal from "../Component/UI/Modal";
+import MyAccount from "./MyAccount";
+
 
 const Navigation = ({ onLoginClick, onRegisterClick }) => {
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleLoginClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const handleClick = (title) => {
+console.log(title,"ss-")
+if(title === "My Acount"){
+  setIsModalOpen(true);
+}
+
+  }
   const menuItems = [
     { path: "/home", label: "HOME", id: "home" },
     { path: "/sports-betting", label: "SPORTS BETTING", id: "sports" },
@@ -113,6 +126,7 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
                               key={index} // Make sure to add a key for each element when rendering a list
                               href="#"
                               className="border-b border-gray-900 block px-4 py-2 text-sm text-gray-900 text-gray-700 text-white"
+                              onClick={() => handleClick(e.title)} // Add click handler here
                             >
                               <div className="flex items-center gap-2 justify-between">
                                 <ul className="flex gap-3 hover:text-yellow-500 group">
@@ -150,6 +164,13 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
               </button>
             </>
           )}
+           {isModalOpen && (
+        
+          <Modal className="h-[calc(100vh-200px)] overflow-y-auto" width="w-full max-w-[60rem]" title={<h2 className="font-bold text-2xl"></h2>} onClose={handleCloseModal}>
+            <MyAccount />
+          </Modal>
+        
+      )}
         </div>
       </div>
     </header>
