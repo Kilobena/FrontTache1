@@ -82,11 +82,7 @@ const HeaderAdmin = ({ toggleSidebar }) => {
                     <div className="flex items-center gap-2 justify-between">
                       <ul>
                         <li className="flex items-center gap-2 hover:text-primary-yellow">
-                          <img
-                            src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_My%20account.svg&w=160&q=75"
-                            alt="item icon"
-                            className="w-6"
-                          />
+                          <i className="fa fa-dice text-xl"></i>
                           My Account
                         </li>
                       </ul>

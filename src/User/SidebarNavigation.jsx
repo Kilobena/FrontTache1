@@ -7,11 +7,22 @@ import { FaBars, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import BalanceDropDown from "./BalanceDropDown";
+import Modal from "../Component/UI/Modal";
+import MyAccount from "./MyAccount";
 
 const Navigation = ({ onLoginClick, onRegisterClick }) => {
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleLoginClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const handleClick = (title) => {
+    console.log(title, "ss-");
+    if (title === "My Acount") {
+      setIsModalOpen(true);
+    }
+  };
   const menuItems = [
     { path: "/home", label: "HOME", id: "home" },
     { path: "/sports-betting", label: "SPORTS BETTING", id: "sports" },
@@ -46,23 +57,23 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
   const UserActions = [
     {
       title: "My Acount",
-      image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_My%20account.svg&w=160&q=75",
+      image: <i className="fa fa-dice text-xl"></i>,
     },
     {
       title: "Casino Bets",
-      image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2…ra%2Fmenus%2Faccount_Casino%20bets.svg&w=160&q=75",
+      image: <i className="fa fa-dice text-xl"></i>,
     },
     {
       title: "Sports Bets",
-      image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2…ra%2Fmenus%2Faccount_Casino%20bets.svg&w=160&q=75",
+      image: <i className="fa fa-futbol text-xl"></i>,
     },
     {
       title: "Transaction History",
-      image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2…ra%2Fmenus%2Faccount_Casino%20bets.svg&w=160&q=75",
+      image: <i className=" fa fa-history text-xl"></i>,
     },
     {
       title: "Verify Account",
-      image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2…ra%2Fmenus%2Faccount_Casino%20bets.svg&w=160&q=75",
+      image: <i className=" fa fa-check-circle text-xl"></i>,
     },
   ];
 
@@ -119,11 +130,12 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
                               key={index} // Make sure to add a key for each element when rendering a list
                               href="#"
                               className="border-b border-gray-900 block px-4 py-2 text-sm text-white"
+                              onClick={() => handleClick(item.title)} // Add click handler here
                             >
                               <div className="flex items-center gap-2 justify-between">
                                 <ul>
                                   <li className="flex items-center gap-2 hover:text-primary-yellow">
-                                    <img src={item.image} alt="item icon" className="w-6" />
+                                    {item.image}
                                     {item.title}
                                   </li>
                                 </ul>
@@ -157,6 +169,16 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
                 REGISTER
               </button>
             </>
+          )}
+          {isModalOpen && (
+            <Modal
+              className="h-[calc(100vh-200px)] overflow-y-auto"
+              width="w-full max-w-[60rem]"
+              title={<h2 className="font-bold text-2xl"></h2>}
+              onClose={handleCloseModal}
+            >
+              <MyAccount />
+            </Modal>
           )}
         </div>
       </div>
