@@ -52,8 +52,8 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto p-5 bg-[#242424] rounded-2xl shadow-lg">
-      <form onSubmit={handleSubmit}>
+    <div className="w-full max-w-lg mx-auto mt-4">
+      <form onSubmit={handleSubmit} className="px-4">
         <div className="relative">
           <label className="block text-[#ababab] text-md font-medium mb-1">Email or Username</label>
           <div className="relative">
@@ -124,9 +124,11 @@ const Login = ({ onLoginSuccess }) => {
       </form>
 
       {/* Additional Links */}
-      <button className="w-full font-medium p-4 uppercase text-sm text-center mb-6 bg-primary-dark duration-300  border-primary-yellow text-white hover:bg-[#494949] leading-3 rounded-lg cursor-pointer">
-        Register
-      </button>
+      <div className="px-4">
+        <button className="w-full font-medium p-4 uppercase text-sm text-center mb-6 bg-primary-dark duration-300  border-primary-yellow text-white hover:bg-[#494949] leading-3 rounded-lg cursor-pointer">
+          Register
+        </button>
+      </div>
     </div>
   );
 };

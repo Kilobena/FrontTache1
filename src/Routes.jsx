@@ -52,9 +52,7 @@ function AppRoutes() {
     "/casino-bets",
   ];
 
-  const isExcludedRoute = excludedHeaderRoutes.some((route) =>
-    location.pathname.startsWith(route)
-  );
+  const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
 
   // Determine if the Header should be displayed
   const showHeader =
@@ -71,21 +69,11 @@ function AppRoutes() {
   return (
     <div className="bg-[#242424] text-white min-h-screen">
       {/* Main Navigation (Always Visible) */}
-      {!isExcludedRoute && (
-      <Navigation
-        user={user}
-        onLoginClick={handleLoginClick}
-        onRegisterClick={handleLoginClick}
-        onLogout={logout}
-      />
-    )}
-
+      {!isExcludedRoute && <Navigation user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
 
       {isModalOpen && (
-        <Modal onClose={handleCloseModal}>
-          <div className="p-18 sm:p-18 text-white rounded-lg bg-[#242424] w-full mx-auto">
-            <Login onLoginSuccess={handleLoginSuccess} />
-          </div>
+        <Modal title="Login" onClose={handleCloseModal}>
+          <Login onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
 
@@ -127,111 +115,16 @@ function AppRoutes() {
 
         {/* Protected Routes for Admin/Other Roles */}
         <Route element={<DashboardLayout />}>
-          <Route
-            path="/"
-            element={
-              <Navigate
-                to={
-                  isAuthenticated
-                    ? isUserRole
-                      ? "/home"
-                      : "/transferaction"
-                    : "/home"
-                }
-                replace
-              />
-            }
-          />
-          <Route
-            path="/transferaction"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <TransferForm />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/transferhistory"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <TransferHistory />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/user-management"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <ManageUser />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/regitreP"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <RegisterPartner />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/registre"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <RegisterForm />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/tranfer_report"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <TransferReport />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/gaming-report"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <GamingReport />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/sportsbook-bets"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <SportBetBook />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
-          <Route
-            path="/casino-bets"
-            element={
-              isAuthenticated && !isUserRole ? (
-                <CasinoBets />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
+          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transferaction") : "/home"} replace />} />
+          <Route path="/transferaction" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
+          <Route path="/transferhistory" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
+          <Route path="/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
+          <Route path="/regitreP" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
+          <Route path="/registre" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />
+          <Route path="/tranfer_report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
+          <Route path="/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
+          <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
+          <Route path="/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
         </Route>
 
         {/* Fallback Route */}
@@ -240,6 +133,5 @@ function AppRoutes() {
     </div>
   );
 }
-
 
 export default AppRoutes;
