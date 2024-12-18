@@ -182,7 +182,7 @@ const TransferForm = () => {
             <span className="font-medium text-black">Search for user</span>
             <input
               type="text"
-              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
+              className="border-slate-800 border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
               placeholder="Type the First 3 letters"
               value={searchTerm}
               onChange={handleInputChange}
@@ -211,9 +211,9 @@ const TransferForm = () => {
               {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option) => (
                 <label
                   key={option.value}
-                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform  ${
+                  className={`flex items-center justify-center p-2  cursor-pointer transition transform  ${
                     transferType === option.value
-                      ? "bg-yellow-400 text-white shadow-md"
+                      ? "bg-yellow-500 text-white shadow-md"
                       : "bg-gray-100 text-gray-700"
                   }`}
                 >
@@ -231,7 +231,7 @@ const TransferForm = () => {
                 type="text"
                 value={amount}
                 readOnly
-                className="w-full p-2 border border-gray-300 rounded text-black"
+                className="w-full p-2 border border-slate-800 rounded text-black"
               />
               <button
                 onClick={() => setAmount(0)}
@@ -260,7 +260,7 @@ const TransferForm = () => {
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
+              className="w-full p-2 border border-slate-800 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
               rows="4"
               placeholder="Add a note (optional)"
             />
@@ -268,9 +268,15 @@ const TransferForm = () => {
 
           <button
             onClick={handleTransfer}
-            className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition duration-300"
+            className="w-full font-semibold bg-yellow-500 text-black px-5 py-3 rounded-lg hover:bg-[#ccaa00] transition duration-300"
           >
-            Transfer
+            TRANSFER
+          </button>
+          <button
+            onClick={handleTransfer}
+            className="w-full a k mt-3 font-semibold border border-slate-800 bg-white text-black px-5 py-3 rounded-lg hover:bg-[#e2e2e2] transition duration-300"
+          >
+            RESET
           </button>
 
           {message && <div className="mt-4 p-2 text-center text-red-600">{message}</div>}

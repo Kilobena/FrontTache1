@@ -50,22 +50,22 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
           <ul className="space-y-6">
             {/* Transfer Section */}
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
-                isActive('/transferaction') ? 'bg-yellow-500' : ''
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+                isActive('/transferaction') ? 'bg-[#f2c41a]' : ''
               }`}
               onClick={() => handleMenuClick('/transferaction')}
             >
-              <FaMoneyCheckAlt className="mr-3" />
+              <FaMoneyCheckAlt className="mr-3 ml-3" />
               Transfer
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/transferhistory') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/transferhistory')}
             >
-              <FaHistory className="mr-3" />
+              <FaHistory className="mr-3 ml-3" />
               Transfers History
             </li>
 
@@ -73,22 +73,22 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* Reports Section */}
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/transfers-report') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/tranfer_report')}
             >
-              <FaChartBar className="mr-3" />
+              <FaChartBar className="mr-3 ml-3" />
               Transfers Report
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/gaming-report') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/gaming-report')}
             >
-              <FaGamepad className="mr-3" />
+              <FaGamepad className="mr-3 ml-3" />
               Gaming Report
             </li>
 
@@ -96,22 +96,22 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* Betting Section */}
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/sportsbook-bets') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/sportsbook-bets')}
             >
-              <FaTrophy className="mr-3" />
+              <FaTrophy className="mr-3 ml-3" />
               Sportsbook Bets
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/casino-bets') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/game')}
             >
-              <FaWallet className="mr-3" />
+              <FaWallet className="mr-3 ml-3" />
               Casino Bets
             </li>
 
@@ -119,22 +119,22 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* User Management Section */}
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/user-management') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/user-management')}
             >
-              <FaUsers className="mr-3" />
+              <FaUsers className="mr-3 ml-3" />
               Manage Users
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-3 rounded hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
                 isActive('/registre') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/registre')}
             >
-              <FaUserPlus className="mr-3" />
+              <FaUserPlus className="mr-3 ml-3" />
               Register User
             </li>
 
@@ -142,10 +142,10 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* Logout Section */}
             <li
-              className="flex items-center cursor-pointer p-3 rounded hover:bg-gray-700"
+              className="flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-gray-700"
               onClick={() => handleMenuClick('/logout')}
             >
-              <FaSignOutAlt className="mr-3" />
+              <FaSignOutAlt className="mr-3 ml-3" />
               Logout
             </li>
           </ul>
