@@ -118,7 +118,7 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto m-3 p-4 rounded">
-        {!hideExtras && (
+        {/* {!hideExtras && (
           <div className="flex justify-center mb-6">
             <div className="relative w-full sm:w-4/4 lg:w-2/2">
               <input
@@ -135,7 +135,7 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
               </span>
             </div>
           </div>
-        )}
+        )} */}
 
         {!hideExtras && (
           <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
