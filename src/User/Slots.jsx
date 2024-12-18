@@ -54,11 +54,11 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
         toast.error("You must be signed in to launch a game.");
         return;
       }
-  
+
       const username = user.username;
-  
+
       const url = await fetchGameUrl(gameId, username);
-  
+
       if (url) {
         setGameUrl(url);
         setIsGameFullscreenOpen(true);
@@ -72,9 +72,6 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
   };
-  
-  
-  
 
   const handleLoadMore = (e) => {
     e.preventDefault();
@@ -310,7 +307,7 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
         </GameFullscreen>
       )}
 
-      {!hideFooter && <Footer />}
+      {/* {!hideFooter && <Footer />}
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
         <BottomBar />
       </div>
@@ -326,7 +323,7 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
         draggable
         pauseOnHover
         theme="dark"
-      />
+      /> */}
     </>
   );
 };

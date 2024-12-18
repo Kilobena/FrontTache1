@@ -301,7 +301,7 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
         </GameFullscreen>
       )}
 
-      {!hideFooter && <Footer />}
+      {/* {!hideFooter && <Footer />}
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
         <BottomBar />
       </div>
@@ -317,7 +317,7 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
         draggable
         pauseOnHover
         theme="dark"
-      />
+      /> */}
     </>
   );
 };

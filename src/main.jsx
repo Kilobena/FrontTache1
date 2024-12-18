@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")).render(
       <Router>
         <AppRoutes />
       </Router>
+
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

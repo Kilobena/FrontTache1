@@ -26,6 +26,8 @@ import Header from "./User/Header.jsx";
 import Login from "./Auth/LoginPage.jsx";
 import Modal from "./Component/UI/Modal.jsx";
 import { SearchGames } from "./User/SearchGames.jsx";
+import Footer from "./User/Footer.jsx";
+import BottomBar from "./pages/BottomBar.jsx";
 
 function AppRoutes() {
   const { user, login, logout } = useAuth();
@@ -69,6 +71,8 @@ function AppRoutes() {
     location.pathname.startsWith("/pragmatic") ||
     location.pathname.startsWith("/featured") ||
     location.pathname.startsWith("/new");
+
+  // console.log(user, "user");
 
   return (
     <div className="bg-[#242424] text-white min-h-screen">
@@ -140,6 +144,11 @@ function AppRoutes() {
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
+
+      <Footer />
+      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar openSearchModal={handleSearchModal} />
+      </div>
     </div>
   );
 }

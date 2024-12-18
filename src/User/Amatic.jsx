@@ -283,12 +283,12 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
         </GameFullscreen>
       )}
 
-      {!hideFooter && <Footer />}
+      {/* {!hideFooter && <Footer />}
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
         <BottomBar />
-      </div>
+      </div> */}
 
-      <ToastContainer
+      {/* <ToastContainer
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -299,7 +299,7 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
         draggable
         pauseOnHover
         theme="dark"
-      />
+      /> */}
     </>
   );
 };

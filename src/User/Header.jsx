@@ -57,7 +57,6 @@ const Header = ({ openSearchModal }) => {
       icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
     },
   ];
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   return (
     <>
       <header className="casino-header bg-[#383838] text-white py-2 px-4 md:py-2 shadow-md">
@@ -112,7 +111,7 @@ const Header = ({ openSearchModal }) => {
               </NavLink>
             ))}
           </nav>
-          <div className="flex justify-center ml-auto">
+          <div className="flex justify-center ml-auto md:block hidden">
             <div className="relative w-52">
               <input
                 onClick={() => openSearchModal(true)}
