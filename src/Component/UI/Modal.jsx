@@ -22,7 +22,7 @@ const Modal = ({ onClose, children, title, className }) => {
         >
           {/* Modal Header*/}
           <div className="flex items-center justify-between px-4 mt-5 rounded-t font-bold relative">
-            <h2 className="font-light text-2xl uppercase max-w-[90%]">{title}</h2>
+            {title ? <h2 className="font-light text-2xl uppercase max-w-[90%]">{title}</h2> : null}
             <button
               onClick={onClose}
               className="icon-modal-close hover:bg-[#494949] bg-primary-dark border-0 leading-none right-4 outline-none focus:outline-none absolute z-10 w-9 h-9 flex justify-center items-center"
