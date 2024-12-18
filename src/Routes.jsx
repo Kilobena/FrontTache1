@@ -24,7 +24,7 @@ import New from "./User/New.jsx";
 import Navigation from "./User/SidebarNavigation.jsx";
 import Header from "./User/Header.jsx";
 import Login from "./Auth/LoginPage.jsx";
-import Modal from "./Home/Modal.jsx";
+import Modal from "./Component/UI/Modal.jsx";
 
 function AppRoutes() {
   const { user, login, logout } = useAuth();
