@@ -15,8 +15,8 @@ const Modal = ({ onClose, children }) => {
         >
           &times;
         </button>
-        <h2 className="mx-5 text-3xl font-bold text-left">
-        Login      </h2>
+        <h2 className="font-normal mx-5 text-3xl font-bold text-left">
+        LOGIN      </h2>
         
 
         {/* Modal Content */}
