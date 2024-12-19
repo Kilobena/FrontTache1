@@ -169,7 +169,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
           </div>
         </div>
       </header>
-      {isMobile && user?.role !== "User" && (
+      {isMobile && !isUserRole && (
         <div className=" mt-6 p-5 sm:mt-2">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
