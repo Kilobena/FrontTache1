@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth();
-  const [transferType, setTransferType] = useState('deposit');
+  const [transferType, setTransferType] = useState("deposit");
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState("");
   const [allUsers, setAllUsers] = useState([]);
@@ -70,15 +70,20 @@ const TransferForm = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    setShowSuggestions(true);
 
-    const filtered = value
-      ? filteredUsersForInteraction.filter((user) =>
+    if (value.length >= 3) {
+      setShowSuggestions(true);
+
+      const filtered = filteredUsersForInteraction.filter((user) =>
         user.username.toLowerCase().includes(value.toLowerCase())
-      )
-      : filteredUsersForInteraction;
+      );
 
-    setFilteredUsers(filtered);
+      setFilteredUsers(filtered);
+    } else {
+      // If less than 3 characters, clear suggestions
+      setFilteredUsers([]);
+      setShowSuggestions(false);
+    }
   };
 
   const handleSuggestionClick = (username, userId) => {
@@ -88,22 +93,11 @@ const TransferForm = () => {
   };
 
   const handleInputFocus = () => {
-    if (isUserListFetched) {
-      if (noUsersFound) {
-        setMessage('No users found.');
-        setModalType('error');
-        setIsModalOpen(true);
-      } else {
-        setFilteredUsers(filteredUsersForInteraction);
-        setShowSuggestions(true);
-      }
-    } else {
+    if (!isUserListFetched) {
       setMessage('Still loading users...');
       setModalType('error');
       setIsModalOpen(true);
     }
-
-    setShowSuggestions(true);
   };
 
   useEffect(() => {
@@ -167,16 +161,18 @@ const TransferForm = () => {
     setNote("");
     setSelectedUser("");
     setSearchTerm("");
+    setFilteredUsers([]);
+    setShowSuggestions(false);
   };
 
   return (
     <div className="flex flex-col">
-      <header className="bg-[#474747]  font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
+      <header className="bg-[#474747] font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
         <h1 className="lg:text-2xl font-bold">Transfer</h1>
       </header>
 
       <div className="flex-1 pt-8">
-        <div className="max-w-lg  rounded-lg ">
+        <div className="max-w-lg rounded-lg">
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
             <span className="font-medium text-[#242424] ml-2">Search for user</span>
@@ -197,7 +193,7 @@ const TransferForm = () => {
                     className="p-2 cursor-pointer hover:bg-gray-200 text-black"
                     onClick={() => handleSuggestionClick(user.username, user._id)}
                   >
-                    {user.username} ({user.role})
+                    {user.username} ({user.role}) ({user.balance} dt)
                   </li>
                 ))}
               </ul>
@@ -207,15 +203,16 @@ const TransferForm = () => {
           {/* Transfer Type Section */}
           <div className="mb-4">
             <label className="block font-medium ml-2 text-[#242424] mb-2">Transfer Type</label>
-            <div className="grid grid-cols-2 overflow-hidden ">
+            <div className="grid grid-cols-2 overflow-hidden">
               {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option, index) => (
                 <div
                   key={option.value}
                   onClick={() => setTransferType(option.value)}
-                  className={`flex items-center p-3 cursor-pointer transition transform ${transferType === option.value
+                  className={`flex items-center p-3 cursor-pointer transition transform ${
+                    transferType === option.value
                       ? "bg-yellow-500 text-sm font-semibold text-black shadow-md"
                       : "bg-[#e2e2e2] text-sm text-black font-semibold"
-                    } ${index === 0 ? "rounded-tl-lg rounded-bl-lg" : "rounded-tr-lg rounded-br-lg"}`}
+                  } ${index === 0 ? "rounded-tl-lg rounded-bl-lg" : "rounded-tr-lg rounded-br-lg"}`}
                 >
                   <input
                     type="radio"
@@ -233,8 +230,6 @@ const TransferForm = () => {
               ))}
             </div>
           </div>
-
-
 
           {/* Transfer Amount Section */}
           <div className="mb-4">
@@ -286,8 +281,8 @@ const TransferForm = () => {
             TRANSFER
           </button>
           <button
-            onClick={handleTransfer}
-            className="w-full a k mt-3 font-semibold border border-slate-800 bg-white text-black px-5 py-3 rounded-lg hover:bg-[#e2e2e2] transition duration-300"
+            onClick={resetForm}
+            className="w-full mt-3 font-semibold border border-slate-800 bg-white text-black px-5 py-3 rounded-lg hover:bg-[#e2e2e2] transition duration-300"
           >
             RESET
           </button>
