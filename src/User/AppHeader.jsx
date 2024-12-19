@@ -32,9 +32,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
-    if (isMobile) {
-      toggleSidebar(false);
-    }
+
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
