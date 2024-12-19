@@ -13,14 +13,12 @@ const RegisterForm = () => {
   const { user, updateUser } = useAuth();
 
   const getAvailableRoles = () => {
-    if (user?.role === "SuperPartner") {
-      return ["SuperAdmin", "Admin", "Partner", "Assistant", "User"];
+    if (user?.role === "Owner") {
+      return ["Partner", "SuperAgent", "Agent", "User"];
     } else if (user?.role === "Partner") {
-      return ["User", "Assistant", "Admin", "SuperAdmin"];
-    } else if (user?.role === "SuperAdmin") {
-      return ["User", "Assistant", "Admin"];
-    } else if (user?.role === "Admin") {
-      return ["User", "Assistant"];
+      return ["SuperAgent"];
+    } else if (user?.role === "SuperAgent") {
+      return ["Agent"];
     } else {
       return ["User"];
     }

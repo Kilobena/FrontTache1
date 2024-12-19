@@ -21,7 +21,7 @@ const ManageUser = () => {
     const fetchAllUsers = async () => {
         try {
             let response;
-            if (user.role === 'SuperPartner') {
+            if (user.role === 'Owner') {
                 response = await authServ.api.get(`/auth/getAllUsers`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });

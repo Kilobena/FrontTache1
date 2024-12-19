@@ -26,7 +26,7 @@ const TransferForm = () => {
   const fetchAllUsers = async () => {
     try {
       let response;
-      if (user.role === "SuperPartner") {
+      if (user.role === "Owner") {
         response = await authServ.api.get(`/auth/getAllUsers`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
@@ -50,22 +50,23 @@ const TransferForm = () => {
 
   const canInteractWith = (currentRole, targetRole) => {
     const permissions = {
-      partner: ["superadmin", "admin", "assistant", "user"],
-      superadmin: ["admin", "assistant", "user"],
-      admin: ["assistant", "user"],
-      assistant: ["user"],
+      Owner: ["Partner", "SuperAgent", "Agent", "User"],
+      Partner: ["SuperAgent"],
+      SuperAgent: ["Agent"],
+      Agent: [], // Agents cannot create deposits/withdrawals
+      User: [], // Users cannot create deposits/withdrawals
     };
-    if (currentRole === "SuperPartner") {
-      return true;
-    }
-    return permissions[currentRole.toLowerCase()]?.includes(targetRole.toLowerCase());
+  
+    // If current role doesn't exist in permissions or target role isn't allowed, deny interaction
+    return permissions[currentRole]?.includes(targetRole) || false;
   };
-
+  
   const filteredUsersForInteraction = allUsers.filter((listedUser) => {
     const canInteract = canInteractWith(user.role, listedUser.role);
     const isNotSelf = listedUser.username !== user.username;
     return canInteract && isNotSelf;
   });
+  
 
   const handleInputChange = (e) => {
     const value = e.target.value;
