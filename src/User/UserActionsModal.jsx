@@ -4,7 +4,7 @@ import AccountSettings from "./Actions/AccountSetting";
 import Modal from "../Component/UI/Modal";
 import { FaCopy } from "react-icons/fa";
 
-const UserActionsModal = ({ user, setIsUserActionsModalOpen }) => {
+const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
   console.log(user, "user");
   return (
     <>
@@ -40,7 +40,7 @@ const UserActionsModal = ({ user, setIsUserActionsModalOpen }) => {
           <div className="px-4 mb-5">
             <UserBalance />
           </div>
-          <AccountSettings setActionModal={setIsUserActionsModalOpen} />
+          <AccountSettings logout={logout} setActionModal={setIsUserActionsModalOpen} />
         </div>
       </Modal>
     </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import HeaderAdmin from "./HeaderAdmin";
@@ -11,6 +11,12 @@ const DashboardLayout = ({ user }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle sidebar open/close state
   };
+
+  useEffect(() => {
+    if (window.innerWidth <= 991) {
+      setIsSidebarOpen(false);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col h-full min-h-screen">

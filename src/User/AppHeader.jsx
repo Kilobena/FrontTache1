@@ -25,7 +25,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
       setIsModalOpen(true);
     }
   };
-
+  const isUserRole = user?.role === "User";
   const [isMobile, setIsMobile] = useState(window?.innerWidth <= 991);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
       <header className="bg-[#2E2E2E]text-white shadow-lg">
         <div className="flex items-center justify-between py-3 px-4">
           {/* Left Section */}
-          <Link to="/home" className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
+          <Link to={isUserRole ? "/home" : "/transferhistory"} className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
             <a className="flex mr-5 max-w-52" href="/">
               <img src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png" alt="Bet24" title="Bet24" />
             </a>
@@ -83,7 +83,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
                 {!isMobile ? (
                   <div className="flex gap-3">
                     <BalanceDropDown user={user} />
-                    {user?.role !== "User" && (
+                    {!isUserRole && (
                       <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
                         {user && user?.role ? user?.role : "Guest"}
                       </button>
@@ -96,7 +96,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
                       <span className="text-nowrap justify-center gap-x-1.5 rounded-md text-white px-2 py-1 text-[12px] font-light border border-gray-300 hover:border-primary-yellow">
                         {user && user?.balance ? user?.balance.toFixed(2) : "0.00"} د.ت
                       </span>
-                      {user?.role !== "User" && (
+                      {!isUserRole && (
                         <button className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light">
                           {user && user?.role ? user?.role : "Guest"}
                         </button>
@@ -111,7 +111,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
                       </span>
                     </div>
                     {isUserActionsModalOpen ? (
-                      <UserActionsModal user={user} setIsUserActionsModalOpen={() => setIsUserActionsModalOpen(false)} />
+                      <UserActionsModal user={user} logout={logout} setIsUserActionsModalOpen={() => setIsUserActionsModalOpen(false)} />
                     ) : null}
                   </>
                 )}
@@ -146,7 +146,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
           </div>
         </div>
       </header>
-      {isMobile && user && user?.role !== "User" && (
+      {isMobile && user && !isUserRole && (
         <div className="text-center mt-6 sm:mt-2">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">

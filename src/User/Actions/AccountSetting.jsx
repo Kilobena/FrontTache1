@@ -26,7 +26,7 @@ const AccountSettings = ({ logout, onClickActions, setActionModal }) => {
   ];
   return (
     <>
-      <div className="lg:h-auto h-[calc(100vh-250px)]">
+      <div className="lg:h-auto h-[calc(100vh-350px)]">
         {UserActions.map((item, index) => (
           <a
             key={index} // Make sure to add a key for each element when rendering a list
@@ -49,7 +49,7 @@ const AccountSettings = ({ logout, onClickActions, setActionModal }) => {
       </div>
       <div className="px-2">
         <button
-          className="flex items-center justify-center space-x-1 bg-yellow-500 text-white px-3 my-2 py-2 rounded-md hover:bg-yellow-600 transition cursor-pointer lg:static absolute bottom-4 w-full"
+          className="flex items-center justify-center space-x-1 bg-yellow-500 text-white px-3 my-2 py-2 rounded-md hover:bg-yellow-600 transition cursor-pointer w-full"
           onClick={logout}
         >
           <FaSignOutAlt className="mr-2 text-lg" />
