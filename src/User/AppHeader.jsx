@@ -18,6 +18,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserActionsModalOpen, setIsUserActionsModalOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const isUserRole = user?.role === "User";
 
@@ -38,6 +39,27 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup the timer on component unmount
+  }, []);
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Tunis",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(currentTime);
+
+  const formattedTime = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Tunis",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(currentTime);
 
   const menuItems = [
     { path: "/home", label: "HOME", id: "home" },
@@ -147,15 +169,15 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
           </div>
         </div>
       </header>
-      {isMobile && user && !isUserRole && (
-        <div className="text-center mt-6 sm:mt-2">
+      {isMobile && user?.role !== "User" && (
+        <div className=" mt-6 m-3 sm:mt-2">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
               <p className="text-xl font-semibold">AGENT MENU</p>
-              <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
+              <p className="text-sm mt-2 flex-row space-x-1 rtl:space-x-reverse opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</p>
             </div>
 
-            <button onClick={() => toggleSidebar(!isSidebarOpen)} className=" text-white  text-2xl focus:outline-none mr-3">
+            <button onClick={toggleSidebar} className=" text-white  text-4xl focus:outline-none mr-3">
               {isSidebarOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>

@@ -102,7 +102,7 @@ const TransferForm = () => {
       setModalType('error');
       setIsModalOpen(true);
     }
-    
+
     setShowSuggestions(true);
   };
 
@@ -171,8 +171,8 @@ const TransferForm = () => {
 
   return (
     <div className="flex flex-col flex flex-col">
-      <header className="bg-[#474747] font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
-        <h1 className="text-3xl font-bold">Transfer</h1>
+      <header className="bg-[#474747]  font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-2 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
+        <h1 className="lg:text-3xl font-bold">Transfer</h1>
       </header>
 
       <div className="flex-1 pt-8">
@@ -207,21 +207,34 @@ const TransferForm = () => {
           {/* Transfer Type Section */}
           <div className="mb-4">
             <label className="block font-medium ml-2 text-[#242424] mb-2">Transfer Type</label>
-            <div className="grid grid-cols-2">
-              {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option) => (
-                <label
+            <div className="grid grid-cols-2 overflow-hidden ">
+              {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option, index) => (
+                <div
                   key={option.value}
-                  className={`flex items-center justify-center p-2  cursor-pointer transition transform  ${
-                    transferType === option.value
-                      ? "bg-yellow-500 text-white shadow-md"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
+                  onClick={() => setTransferType(option.value)}
+                  className={`flex items-center p-3 cursor-pointer transition transform ${transferType === option.value
+                      ? "bg-yellow-500 text-sm font-semibold text-black shadow-md"
+                      : "bg-[#e2e2e2] text-sm text-black font-semibold"
+                    } ${index === 0 ? "rounded-tl-lg rounded-bl-lg" : "rounded-tr-lg rounded-br-lg"}`}
                 >
-                  {user.username} ({user.role})
-                </label>
+                  <input
+                    type="radio"
+                    name="transferType"
+                    value={option.value}
+                    checked={transferType === option.value}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setTransferType(option.value);
+                    }}
+                    className="mr-2"
+                  />
+                  {option.label}
+                </div>
               ))}
             </div>
           </div>
+
+
 
           {/* Transfer Amount Section */}
           <div className="mb-4">

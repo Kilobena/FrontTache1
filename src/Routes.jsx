@@ -149,7 +149,7 @@ function AppRoutes() {
         />
 
         {/* Protected Routes for Admin/Other Roles */}
-        <Route element={<DashboardLayout />}>
+        <Route element={<DashboardLayout  user={user}/>}>
           <Route
             path="/"
             element={

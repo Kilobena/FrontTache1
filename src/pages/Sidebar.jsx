@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaUserPlus,
   FaUsers,
@@ -15,8 +15,10 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
+  console.log(user,"useruser")
   const location = useLocation();
   const navigate = useNavigate();
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const handleMenuClick = (path) => {
     navigate(path);
@@ -29,19 +31,27 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
   };
 
   const isActive = (path) => location.pathname === path;
-  const options = {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup the timer on component unmount
+  }, []);
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Africa/Tunis",
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
+  }).format(currentTime);
+
+  const formattedTime = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Tunis",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-  };
-
-  const tunisTime = new Intl.DateTimeFormat("en-GB", options).format(new Date());
-  const formattedTime = tunisTime.replace(",", " -");
+  }).format(currentTime);
 
   return (
     <>
@@ -57,11 +67,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
           <div className="flex items-center agentMenuBorderBottom">
             <div className="hidden lg:flex px-3 py-2  flex-col space-y-2 agentToolPadding">
               <div className="text-lg font-bold mb-2 uppercase">Agent Menu</div>
-              <div className="text-sm mb-4 opacity-70">{`${formattedTime} ${options.timeZone}`}</div>
+              <div className="text-sm mb-4 opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</div>
             </div>
           </div>
           <hr className="border-gray-700 mb-4" />
-          <ul className="flex flex-col space-y-3">
+          <ul className="flex flex-col space-y-3 mb-3">
             {/* Transfer Section */}
             <li
               className={`flex items-center w-full p-2 bg-yellow-500 text-black rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold ${
@@ -161,11 +171,12 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
               Logout
             </li>
           </ul>
+          <hr className="border-gray-700" />
 
           {/* User Info */}
-          <div className="mt-4 ml-4 text-sm text-gray-500">
-            <p>Last Login:</p>
-            <p>{new Date(user?.lastLogin).toLocaleString()}</p>
+          <div className="p-4 text-xs flex flex-col space-y-1 opacity-70 mb-5">
+            <p className="text-sm">Last Login:</p>
+            <p className="mt-5 text-sm">{new Date(user?.userdate).toLocaleString()}</p>
           </div>
         </div>
       </div>

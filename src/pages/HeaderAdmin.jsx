@@ -17,6 +17,19 @@ const HeaderAdmin = ({ isSidebarOpen,toggleSidebar }) => {
       toggleSidebar();
     }
   };
+  const options = {
+    timeZone: "Africa/Tunis",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  };
+
+  const tunisTime = new Intl.DateTimeFormat("en-GB", options).format(new Date());
+  const formattedTime = tunisTime.replace(",", " -");
 
   const handleLogout = () => {
     logout();
@@ -132,12 +145,13 @@ const HeaderAdmin = ({ isSidebarOpen,toggleSidebar }) => {
         <div className="flex flex-col justify-start float-start gap-1">
 
         <p className="text-xl font-semibold">AGENT MENU</p>
-        <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
+
+        <p className="text-sm text-gray-400 mt-2">{`${formattedTime} ${options.timeZone}`}</p>
         </div>
         <div className="fixed right-0 z-50">
         <button
           onClick={toggleSidebar}
-          className="sm:hidden text-white text-2xl focus:outline-none mr-3"
+          className="sm:hidden text-white text-4xl focus:outline-none mr-3"
         >
           {isSidebarOpen ? <FaTimes /> : <FaBars />}
         </button>
