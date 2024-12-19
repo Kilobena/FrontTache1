@@ -23,9 +23,9 @@ const MyAccount = () => {
 
   return (
     <>
-      <div className="bg-gray-900 flex flex-grow">
+      <div className="flex flex-grow">
         {/* Sidebar */}
-        <div className="w-64 bg-[#1c1c1c]  ">
+        <div className="w-64 bg-primary-dark">
           {/* My Account Header */}
 
           {/* Navigation List */}
@@ -73,7 +73,7 @@ const MyAccount = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 w-96 bg-gray-900 text-white p-6">
+        <div className="flex-1 w-96  text-white p-6">
           <h1 className="text-2xl font-bold mb-6">My Account</h1>
 
           {/* Form */}
@@ -84,7 +84,12 @@ const MyAccount = () => {
               <label className="block mb-2 text-gray-400">User ID</label>
               <div className="flex items-center bg-[#fff] px-4 py-2 rounded-lg h-11">
                 <FaUserCircle className="text-primary-dark" size={20} />
-                <input type="text" value="186100010261" readOnly className="text-black bg-transparent focus:outline-none border-none flex-1" />
+                <input
+                  type="text"
+                  value="186100010261"
+                  readOnly
+                  className="text-black bg-transparent focus:outline-none border-none flex-1"
+                />
                 <button className="text-yellow-500">📋</button>
               </div>
             </div>
@@ -94,7 +99,12 @@ const MyAccount = () => {
               <label className="block mb-2 text-gray-400">Username</label>
               <div className="flex items-center bg-[#595d60] px-4 rounded-lg h-11">
                 <FaUserCircle className="text-primary-dark" size={20} />
-                <input type="text" value="testinguser" readOnly className="bg-transparent focus:outline-none border-none flex-1" />
+                <input
+                  type="text"
+                  value="testinguser"
+                  readOnly
+                  className="bg-transparent focus:outline-none border-none flex-1"
+                />
               </div>
             </div>
 
@@ -103,7 +113,11 @@ const MyAccount = () => {
               <label className="block mb-2 text-gray-400">Email</label>
               <div className="flex items-center bg-[#fff] px-4 rounded-lg h-11">
                 <i class="fa fa-envelope text-black" aria-hidden="true"></i>
-                <input type="email" value="" className="bg-transparent focus:outline-none border-none flex-1" />
+                <input
+                  type="email"
+                  value=""
+                  className="bg-transparent focus:outline-none border-none flex-1"
+                />
               </div>
             </div>
 
@@ -122,7 +136,11 @@ const MyAccount = () => {
               <label className="block mb-2 text-gray-400">Mobile Number</label>
               <div className="flex bg-gray-700 px-4 py-2 rounded h-11 rounded-lg">
                 <span className="mr-2">🇵🇰</span>
-                <input type="text" placeholder="+92" className="bg-transparent focus:outline-none flex-1 border-none" />
+                <input
+                  type="text"
+                  placeholder="+92"
+                  className="bg-transparent focus:outline-none flex-1 border-none"
+                />
               </div>
             </div>
 
@@ -130,7 +148,11 @@ const MyAccount = () => {
             <div className="w-full md:w-[calc(50%-0.75rem)]">
               <label className="block mb-2 text-gray-400">First Name</label>
               <div className="flex items-center bg-[#fff] px-4 rounded-lg h-11">
-                <input type="text" value="" className="bg-transparent focus:outline-none border-none flex-1" />
+                <input
+                  type="text"
+                  value=""
+                  className="bg-transparent focus:outline-none border-none flex-1"
+                />
               </div>
             </div>
 
@@ -138,7 +160,11 @@ const MyAccount = () => {
             <div className="w-full md:w-[calc(50%-0.75rem)]">
               <label className="block mb-2 text-gray-400">Last Name</label>
               <div className="flex items-center bg-[#fff] px-4 rounded-lg h-11">
-                <input type="text" value="" className="bg-transparent focus:outline-none border-none flex-1" />
+                <input
+                  type="text"
+                  value=""
+                  className="bg-transparent focus:outline-none border-none flex-1"
+                />
               </div>
             </div>
           </div>
@@ -151,11 +177,15 @@ const MyAccount = () => {
             </button>
           </div>
 
-          <h1 className="md:mt-12  profileModalTitle text-2xl text-center md:text-left font-bold hidden lg:block">Change Password </h1>
+          <h1 className="md:mt-12  profileModalTitle text-2xl text-center md:text-left font-bold hidden lg:block">
+            Change Password{" "}
+          </h1>
           <div className="flex flex-wrap gap-x-6 gap-y-4 mb-2 md:mt-10">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="relative w-full md:w-[calc(102%-0.75rem)]">
-                <label className="block text-[#ababab] text-md font-medium mb-1">Current Password</label>
+                <label className="block text-[#ababab] text-md font-medium mb-1">
+                  Current Password
+                </label>
                 <div className="relative">
                   {/* Input Field */}
                   <span className="absolute inset-y-0 left-0 pt-3 pl-4">
@@ -168,15 +198,24 @@ const MyAccount = () => {
                     required
                     autoComplete="off"
                   />
-                  <span onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 pt-3 right-3">
-                    {showPassword ? <FaEye className="text-primary-dark" size={24} /> : <FaEyeSlash className="text-primary-dark" size={24} />}
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 pt-3 right-3"
+                  >
+                    {showPassword ? (
+                      <FaEye className="text-primary-dark" size={24} />
+                    ) : (
+                      <FaEyeSlash className="text-primary-dark" size={24} />
+                    )}
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="relative w-full md:w-[calc(50%-0.75rem)]">
-              <label className="block text-[#ababab] text-md font-medium mb-1">New Password</label>
+              <label className="block text-[#ababab] text-md font-medium mb-1">
+                New Password
+              </label>
               <div className="relative">
                 {/* Input Field */}
 
@@ -190,13 +229,22 @@ const MyAccount = () => {
                   required
                   autoComplete="off"
                 />
-                <span onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0  pt-3 right-3">
-                  {showPassword ? <FaEye className="text-primary-dark" size={24} /> : <FaEyeSlash className="text-primary-dark" size={24} />}
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0  pt-3 right-3"
+                >
+                  {showPassword ? (
+                    <FaEye className="text-primary-dark" size={24} />
+                  ) : (
+                    <FaEyeSlash className="text-primary-dark" size={24} />
+                  )}
                 </span>
               </div>
             </div>
             <div className="relative w-full md:w-[calc(50%-0.75rem)]">
-              <label className="block text-[#ababab] text-md font-medium mb-1">Repeat New Password</label>
+              <label className="block text-[#ababab] text-md font-medium mb-1">
+                Repeat New Password
+              </label>
               <div className="relative">
                 {/* Input Field */}
 
@@ -210,8 +258,15 @@ const MyAccount = () => {
                   required
                   autoComplete="off"
                 />
-                <span onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0  pt-3 right-3">
-                  {showPassword ? <FaEye className="text-primary-dark" size={24} /> : <FaEyeSlash className="text-primary-dark" size={24} />}
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0  pt-3 right-3"
+                >
+                  {showPassword ? (
+                    <FaEye className="text-primary-dark" size={24} />
+                  ) : (
+                    <FaEyeSlash className="text-primary-dark" size={24} />
+                  )}
                 </span>
               </div>
             </div>
