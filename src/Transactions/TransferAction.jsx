@@ -170,9 +170,9 @@ const TransferForm = () => {
   };
 
   return (
-    <div className="flex flex-col flex flex-col">
-      <header className="bg-[#474747]  font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-2 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
-        <h1 className="lg:text-3xl font-bold">Transfer</h1>
+    <div className="flex flex-col">
+      <header className="bg-[#474747]  font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
+        <h1 className="lg:text-2xl font-bold">Transfer</h1>
       </header>
 
       <div className="flex-1 pt-8">

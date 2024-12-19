@@ -32,7 +32,7 @@ const DashboardLayout = ({ user }) => {
         <Sidebar user={user} isSidebarOpen={isSidebarOpen} toggleSidebar={setIsSidebarOpen} />
 
         {/* Main content */}
-        <div className="flex-1 p-3 bg-[#fff] rounded-xl ltr:lg:rounded-r-xl ltr:lg:rounded-l-none rtl:lg:rounded-l-xl rtl:lg:rounded-r-none">
+        <div className="flex-1 lg:p-5 p-3 bg-[#fff] rounded-xl ltr:lg:rounded-r-xl ltr:lg:rounded-l-none rtl:lg:rounded-l-xl rtl:lg:rounded-r-none">
           <Outlet />
         </div>
       </div>
