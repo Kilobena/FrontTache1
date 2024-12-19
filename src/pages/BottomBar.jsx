@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import { FaHome, FaSearch, FaBars, FaHeart, FaFutbol, FaAngleDown, FaDice, FaStar, FaRocket, FaTable, FaVideo } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import {
+  FaBars,
+  FaDice,
+  FaStar,
+  FaRocket,
+  FaTable,
+  FaVideo,
+} from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
 import Login from "../Auth/LoginPage"; // Import the Login component
+import { HEADER_NAV, SPORTS_NAV } from "../routes/routes_data";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const BottomBar = ({ openSearchModal }) => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isCasinoMenu, setIsCasinoMenu] = useState(false);
+  const [isSportsMenu, setIsSportsMenu] = useState(false);
 
   const { user, login, logout } = useAuth();
 
@@ -26,70 +36,112 @@ const BottomBar = ({ openSearchModal }) => {
     logout();
     navigate("/home");
   };
-
   return (
-    <div>
+    <>
       {/* Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#1e1e1e] text-white flex justify-around items-center py-3 z-50">
-        <button className="flex flex-col items-center" onClick={() => handleNavigation("/game")}>
-          <FaHeart size={20} />
-          <span className="text-xs">Casino</span>
-        </button>
-        <button className="flex flex-col items-center" onClick={() => handleNavigation("/sports")}>
-          <FaFutbol size={20} />
-          <span className="text-xs">Sports</span>
-        </button>
-        <button className="flex flex-col items-center" onClick={() => handleNavigation("/home")}>
-          <FaHome size={20} />
-          <span className="text-xs">Home</span>
-        </button>
-        <button className="flex flex-col items-center" onClick={() => openSearchModal(true)}>
-          <FaSearch size={20} />
-          <span className="text-xs">Search</span>
-        </button>
-        <button className="flex flex-col items-center" onClick={() => setIsMenuOpen(true)}>
-          <FaBars size={20} />
-          <span className="text-xs">Menu</span>
-        </button>
+      <div className="fixed bottom-0 w-full z-50">
+        <div className="py-3 bg-[#1e1e1e] text-white flex justify-around items-center ">
+          <button
+            className="flex flex-col items-center"
+            onClick={() => handleNavigation("/game")}
+          >
+            {/* <FaHeart size={20} /> */}
+            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Casino.svg&w=160&q=75" />
+            <span className="text-xs">Casino</span>
+          </button>
+          <button
+            className="flex flex-col items-center"
+            onClick={() => handleNavigation("/sports")}
+          >
+            {/* <MdSportsSoccer size={20} /> */}
+            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Sports.svg&w=160&q=75" />
+            <span className="text-xs">Sports</span>
+          </button>
+          <button
+            className="flex flex-col items-center"
+            onClick={() => handleNavigation("/home")}
+          >
+            {/* <FaHome size={20} /> */}
+            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Home.svg&w=160&q=75" />
+            <span className="text-xs">Home</span>
+          </button>
+          <button
+            className="flex flex-col items-center"
+            onClick={() => openSearchModal(true)}
+          >
+            {/* <FaSearch size={20} /> */}
+            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Search.svg&w=160&q=75" />
+            <span className="text-xs">Search</span>
+          </button>
+          <button
+            className="flex flex-col items-center"
+            onClick={() => setIsMenuOpen(true)}
+          >
+            <FaBars size={20} />
+            <span className="text-xs">Menu</span>
+          </button>
+        </div>
       </div>
 
       {/* Slide-Out Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-3/4 bg-[#1e1e1e] text-white transform ${
+        className={`fixed top-0 right-0 h-screen w-full bg-[#1e1e1e] text-white transform ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out z-50 shadow-lg`}
       >
         {/* Header Section */}
-        <div className="flex justify-between items-center px-4 py-3 border-b border-gray-700">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold">Menu</h2>
+        <div className="flex justify-between items-center px-2 py-3 border-b border-gray-700">
+          <div className="w-36">
+            <a
+              class="flex h-headerLogoMobileHeight ltr:mr-1.5 rtl:ml-1.5"
+              href="/"
+            >
+              <img
+                src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png"
+                alt="Bet24"
+                title="Bet24"
+                class="h-headerLogoMobileHeight"
+              />
+            </a>
           </div>
-          <button className="text-white text-2xl" onClick={() => setIsMenuOpen(false)}>
-            &times;
+          <button
+            className="text-white text-2xl"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <img
+              alt="Close"
+              src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75"
+            />
           </button>
         </div>
 
         {/* Login/Register Section */}
         {!user ? (
-          <div className="px-4 py-4 border-b border-gray-700 flex gap-4">
+          <div className="px-2 py-4 border-b border-gray-700 flex gap-4">
             <button
-              className="bg-transparent border border-yellow-400 text-yellow-400 px-4 py-2 rounded hover:bg-yellow-400 hover:text-black"
-              onClick={() => setIsLoginModalOpen(true)}
+              className="flex-1 bg-transparent border border-gray-500 text-white px-4 h-[36px] uppercase text-[14px] rounded-lg hover:bg-yellow-400 hover:text-black"
+              onClick={() => handleNavigation("/login")}
             >
               Login
             </button>
-            <button className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500" onClick={() => handleNavigation("/register")}>
+            <button
+              className="bg-yellow-400 text-black px-4 h-[36px] uppercase text-[14px] rounded-lg hover:bg-yellow-500 flex-1 "
+              onClick={() => handleNavigation("/register")}
+            >
               Register
             </button>
           </div>
         ) : (
-          <div className="px-4 py-4 border-b border-gray-700 flex justify-between items-center">
+          <div className="px-2 py-4 border-b border-gray-700 flex justify-between items-center">
             <div>
               <p className="text-sm">Hello, {user.username}</p>
               <p className="text-sm"></p>
               <p className="text-xs text-gray-400">{user.email}</p>
             </div>
-            <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" onClick={handleLogout}>
+            <button
+              className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+              onClick={handleLogout}
+            >
               Logout
             </button>
           </div>
@@ -98,45 +150,111 @@ const BottomBar = ({ openSearchModal }) => {
         {/* Menu Items */}
         <div className="py-4">
           {/* Casino Section */}
-          <div className="px-4 pb-4 border-b border-gray-700">
-            <h3 className="text-sm font-bold uppercase text-gray-400 mb-2">Casino</h3>
-            <ul className="space-y-3">
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/featured")}
-              >
-                <FaStar />
-                <span>Featured</span>
-              </li>
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/new")}
-              >
-                <FaRocket />
-                <span>New</span>
-              </li>
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/slots")}
-              >
-                <FaDice />
-                <span>Slots</span>
-              </li>
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/livecasino")}
-              >
-                <FaVideo />
-                <span>Live Casino</span>
-              </li>
-              <li
-                className="flex items-center gap-2 cursor-pointer hover:bg-yellow-400 hover:text-black px-3 py-2 rounded"
-                onClick={() => handleNavigation("/providers")}
-              >
-                <FaTable />
-                <span>Providers</span>
-              </li>
-            </ul>
+          <div className="px-2">
+            <span
+              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white mb-2 ${
+                isCasinoMenu ? "bg-[#494949]" : ""
+              }`}
+              onClick={() => setIsCasinoMenu(!isCasinoMenu)}
+            >
+              Casino{" "}
+              <ChevronDownIcon
+                aria-hidden="true"
+                className={`size-6 text-white ${
+                  isCasinoMenu ? "rotate-180 " : ""
+                }`}
+              />
+            </span>
+            {isCasinoMenu ? (
+              <nav>
+                {HEADER_NAV.filter((fi) => fi.label !== "Lobby").map(
+                  (item, index) => (
+                    <NavLink
+                      key={index}
+                      to={item.path}
+                      onClick={() => handleNavigation(item.path)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 py-2  px-3 font-light ${
+                          isActive
+                            ? " text-primary-yellow active"
+                            : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
+                        }`
+                      }
+                    >
+                      <span
+                        role="img"
+                        aria-label={item.label}
+                        className="icon transition-transform"
+                      >
+                        {item?.icon?.includes("http") ? (
+                          <img
+                            src={item?.icon}
+                            alt={item.label}
+                            className="w-5 h-5"
+                          />
+                        ) : null}
+                      </span>
+                      <span className="text-center">{item.label}</span>
+                    </NavLink>
+                  )
+                )}
+              </nav>
+            ) : null}
+          </div>
+
+          {/* Sports Section */}
+          <div className="px-2 mb-4">
+            <span
+              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white mb-2 ${
+                isSportsMenu ? "bg-[#494949]" : ""
+              }`}
+              onClick={() => setIsSportsMenu(!isSportsMenu)}
+            >
+              Sports{" "}
+              <ChevronDownIcon
+                aria-hidden="true"
+                className={`size-6 text-white ${
+                  isSportsMenu ? "rotate-180 " : ""
+                }`}
+              />
+            </span>
+            {isSportsMenu ? (
+              <nav>
+                {SPORTS_NAV.filter((fi) => fi.label !== "Lobby").map(
+                  (item, index) => (
+                    <NavLink
+                      key={index}
+                      to={item.path}
+                      onClick={() => handleNavigation(item.path)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 py-2  px-3 font-light ${
+                          isActive
+                            ? " text-primary-yellow active"
+                            : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
+                        }`
+                      }
+                    >
+                      <span className="text-center">{item.label}</span>
+                    </NavLink>
+                  )
+                )}
+              </nav>
+            ) : null}
+          </div>
+          <div className="px-2">
+            <NavLink
+              to="/promotions"
+              onClick={() => handleNavigation("/promotions")}
+              className={({ isActive }) =>
+                `flex items-center gap-2 py-2 px-3 font-light text-sm ${
+                  isActive
+                    ? " text-primary-yellow active"
+                    : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
+                }`
+              }
+            >
+              PROMOTIONS
+            </NavLink>
           </div>
         </div>
       </div>
@@ -146,7 +264,10 @@ const BottomBar = ({ openSearchModal }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#1e1e1e] text-white rounded-lg p-6 w-11/12 max-w-md">
             <Login onLoginSuccess={handleLoginSuccess} />
-            <button className="mt-4 w-full text-sm text-gray-400 hover:underline" onClick={() => setIsLoginModalOpen(false)}>
+            <button
+              className="mt-4 w-full text-sm text-gray-400 hover:underline"
+              onClick={() => setIsLoginModalOpen(false)}
+            >
               Cancel
             </button>
           </div>
@@ -154,8 +275,13 @@ const BottomBar = ({ openSearchModal }) => {
       )}
 
       {/* Backdrop when Menu is Open */}
-      {isMenuOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsMenuOpen(false)}></div>}
-    </div>
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsMenuOpen(false)}
+        ></div>
+      )}
+    </>
   );
 };
 
