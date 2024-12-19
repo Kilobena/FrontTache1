@@ -7,6 +7,7 @@ import { useAuth } from "../providers/AuthContext";
 import Footer from "./Footer";
 import BottomBar from "../pages/BottomBar";
 import GameFullscreen from "./GameFullscreen";
+import FiltersGames from "./Filters/FiltersGames";
 
 const Featured = ({
   limit = null,
@@ -135,36 +136,6 @@ const Featured = ({
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto  p-4">
-        {/* {!hideExtras && (
-          <div className="flex justify-center mb-6">
-            <div className="relative w-full sm:w-4/4 lg:w-2/2">
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white text-gray-800 px-12 py-3 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              />
-              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </span>
-            </div>
-          </div>
-        )} */}
-
         {!hideExtras && (
           <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
             <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
@@ -192,45 +163,12 @@ const Featured = ({
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-4">
-              <div className="relative w-full sm:w-auto">
-                <select
-                  value={providerFilter}
-                  onChange={(e) => setProviderFilter(e.target.value)}
-                  className="bg-white text-black w-full px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none"
-                >
-                  <option value="all">Providers: All</option>
-                  <option value="provider1">Provider 1</option>
-                  <option value="provider2">Provider 2</option>
-                </select>
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </span>
-              </div>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white text-black w-full sm:w-auto px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none"
-              >
-                <option value="popular">Sort By: Popular</option>
-                <option value="new">Sort By: New</option>
-                <option value="featured">Sort By: Featured</option>
-              </select>
-            </div>
+            <FiltersGames
+              setSelectedProviderFilter={setProviderFilter}
+              selectedProviderFilter={providerFilter}
+              selectedSortByFilter={sortBy}
+              setSelectedSortByFilter={setSortBy}
+            />
           </div>
         )}
 

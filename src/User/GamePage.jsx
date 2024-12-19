@@ -389,14 +389,6 @@ const GamesPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      {/* <Footer />
-
-      {/* Bottom Bar */}
-      {/* <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]"> */}
-      {/* <BottomBar /> */}
-      {/* </div> */}
     </section>
   );
 };
