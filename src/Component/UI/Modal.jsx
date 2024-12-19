@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ onClose, children, title, size }) => {
+const Modal = ({ onClose, children, title, className }) => {
   return (
     <>
       <style jsx>
@@ -17,7 +17,9 @@ const Modal = ({ onClose, children, title, size }) => {
       </style>
       <div className="fixed inset-0 flex backdrop-blur-md items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
         {/* Modal Container */}
-        <div className={`relative text-white rounded-2xl bg-[#2e2e2e] transform transition-all duration-300 scale-100 w-full ${size}`}>
+        <div
+          className={`overflow-y-auto relative text-white md:rounded-2xl rounded-none bg-[#2e2e2e] transform transition-all duration-300 scale-100 w-full ${className}`}
+        >
           {/* Modal Header*/}
           <div className="flex items-center justify-between px-4 rounded-t font-bold relative">
             {title}
@@ -25,7 +27,10 @@ const Modal = ({ onClose, children, title, size }) => {
               onClick={onClose}
               className="icon-modal-close hover:bg-[#494949] bg-primary-dark border-0 leading-none right-4 top-4 outline-none focus:outline-none absolute z-20 w-9 h-9 flex justify-center items-center"
             >
-              <img src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75" alt="icon button" />
+              <img
+                src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75"
+                alt="icon button"
+              />
             </button>
           </div>
           {/* Modal Content */}

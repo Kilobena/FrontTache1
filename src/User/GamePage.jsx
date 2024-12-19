@@ -14,7 +14,7 @@ const GamesPage = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-[#242424] text-white min-h-screen overflow-hidden mt-2 relative scrollbar-hide">
+    <section className=" text-white min-h-screen overflow-hidden relative scrollbar-hide">
       <div className=" container mx-auto px-0 pb-20 scrollbar-hide">
         {/* mobil Section */}
 
@@ -36,7 +36,13 @@ const GamesPage = () => {
             </button>
           </div>
           <div className="!m-0 !p-0 flex !flex-wrap !gap-4 !important">
-            <Featured limit={16} hideFooter hideExtras horizontalOnMobile className="!m-0 !p-0 flex-auto !important" />
+            <Featured
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="!m-0 !p-0 flex-auto !important"
+            />
           </div>
 
           <div className="flex justify-between items-center  border-gray-700">
@@ -54,7 +60,13 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <LiveCasino limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0 flex flex-wrap gap-4 mt-4" />
+          <LiveCasino
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-0 p-0 flex flex-wrap gap-4"
+          />
 
           <div className="flex justify-between items-center  border-gray-700">
             <h2 className="text-xl md:text-2xl p-2 font-bold flex items-center space-x-3 text-white">
@@ -71,7 +83,13 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <New limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          <New
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-0 p-0"
+          />
 
           <div className="flex justify-between items-center  border-gray-700">
             <h2 className="text-xl md:text-2xl p-2  font-bold flex items-center space-x-3 text-white">
@@ -88,7 +106,13 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <Slots limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          <Slots
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-0 p-0"
+          />
 
           <div className="flex justify-between items-center  border-gray-700">
             <h2 className="text-xl md:text-2xl p-2 font-bold flex items-center space-x-3 text-white">
@@ -106,7 +130,13 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <Crash limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          <Crash
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-0 p-0"
+          />
 
           <div className="flex justify-between items-center  border-gray-700">
             <h2 className="text-xl md:text-2xl p-2 font-bold flex items-center space-x-3 text-white">
@@ -124,7 +154,13 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <Pragmatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+          <Pragmatic
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-0 p-0"
+          />
 
           <div className="flex justify-between items-center  border-gray-700">
             <h2 className="text-xl md:text-2xl p-2 font-bold flex items-center space-x-3 text-white">
@@ -142,13 +178,19 @@ const GamesPage = () => {
               View All
             </button>
           </div>
-          <Amatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-2 p-0" />
+          <Amatic
+            limit={16}
+            hideFooter
+            hideExtras
+            horizontalOnMobile
+            className="m-2 p-0"
+          />
         </div>
 
         {/* Featured Section */}
 
         <div className="hidden md:block container mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-[80rem]">
-          <div className="bg-[#2E2E2E] rounded-lg shadow-md p-6">
+          <div className="bg-[#2E2E2E] lg:rounded-lg shadow-md p-6">
             {/* Title Section */}
             <div className="flex justify-between items-center  border-gray-700 ">
               <h2 className="text-xl md:text-2xl font-bold flex items-center space-x-3 text-white">
@@ -160,13 +202,19 @@ const GamesPage = () => {
               </h2>
               <button
                 onClick={() => navigate("/featured")}
-                className="bg-[#1C1C1C] duration-300 min-w-[112px] cursor-pointer space-x-2 rtl:space-x-reverse font-semibold p-1.5 px-3 sm:p-2.5 sm:px-4 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-[#494949] transition"
+                className="bg-[#1C1C1C] duration-300 min-w-[112px] cursor-pointer space-x-2 rtl:space-x-reverse font-semibold p-1.5 px-3 sm:p-2.5 sm:px-4 text-white py-2 rounded-lg text-sm shadow hover:bg-[#494949] transition"
               >
                 View All
               </button>
             </div>
             <div className="!m-0 !p-0 flex !flex-wrap !gap-4 !important">
-              <Featured limit={16} hideFooter hideExtras horizontalOnMobile className="!m-0 !p-0 flex-auto !important" />
+              <Featured
+                limit={16}
+                hideFooter
+                hideExtras
+                horizontalOnMobile
+                className="!m-0 !p-0 flex-auto"
+              />
             </div>
           </div>
         </div>
@@ -189,7 +237,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <LiveCasino limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0 flex flex-wrap gap-4 mt-4" />
+            <LiveCasino
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0 flex flex-wrap gap-4"
+            />
           </div>
         </div>
 
@@ -210,7 +264,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <New limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+            <New
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0"
+            />
           </div>
         </div>
 
@@ -232,7 +292,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <Slots limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+            <Slots
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0"
+            />
           </div>
         </div>
 
@@ -255,7 +321,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <Crash limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+            <Crash
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0"
+            />
           </div>
         </div>
 
@@ -278,7 +350,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <Pragmatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+            <Pragmatic
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0"
+            />
           </div>
         </div>
 
@@ -301,7 +379,13 @@ const GamesPage = () => {
                 View All
               </button>
             </div>
-            <Amatic limit={16} hideFooter hideExtras horizontalOnMobile className="m-0 p-0" />
+            <Amatic
+              limit={16}
+              hideFooter
+              hideExtras
+              horizontalOnMobile
+              className="m-0 p-0"
+            />
           </div>
         </div>
       </div>

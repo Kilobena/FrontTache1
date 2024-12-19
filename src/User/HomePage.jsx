@@ -58,7 +58,7 @@ const HomePage = () => {
       </main>
 
       {/* Bottom bar for navigation */}
-      <BottomBar />
+      {/* <BottomBar /> */}
     </div>
   );
 };

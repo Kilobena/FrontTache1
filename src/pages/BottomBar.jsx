@@ -7,7 +7,7 @@ import {
   FaTable,
   FaVideo,
 } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
 import Login from "../Auth/LoginPage"; // Import the Login component
 import { HEADER_NAV, SPORTS_NAV } from "../routes/routes_data";
@@ -36,52 +36,88 @@ const BottomBar = ({ openSearchModal }) => {
     logout();
     navigate("/home");
   };
+
+  const APPBAR_NAV = [
+    {
+      label: "Casino",
+      path: "/game",
+      image:
+        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Casino.svg&w=160&q=75",
+    },
+    {
+      label: "Sports",
+      path: "/sports",
+      image:
+        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Sports.svg&w=160&q=75",
+    },
+    {
+      label: "Home",
+      path: "/home",
+      image:
+        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Home.svg&w=160&q=75",
+    },
+  ];
   return (
     <>
+      <style jsx>{`
+        nav a.active img,
+        nav a:hover img {
+          filter: brightness(0) saturate(100%) invert(83%) sepia(25%)
+            saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);
+        }
+        nav a.active svg,
+        nav a:hover svg {
+          fill: yellow !important;
+        }
+      `}</style>
       {/* Bottom Navigation Bar */}
-      <div className="fixed bottom-0 w-full z-50">
-        <div className="py-3 bg-[#1e1e1e] text-white flex justify-around items-center ">
-          <button
-            className="flex flex-col items-center"
-            onClick={() => handleNavigation("/game")}
-          >
-            {/* <FaHeart size={20} /> */}
-            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Casino.svg&w=160&q=75" />
-            <span className="text-xs">Casino</span>
-          </button>
-          <button
-            className="flex flex-col items-center"
-            onClick={() => handleNavigation("/sports")}
-          >
-            {/* <MdSportsSoccer size={20} /> */}
-            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Sports.svg&w=160&q=75" />
-            <span className="text-xs">Sports</span>
-          </button>
-          <button
-            className="flex flex-col items-center"
-            onClick={() => handleNavigation("/home")}
-          >
-            {/* <FaHome size={20} /> */}
-            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Home.svg&w=160&q=75" />
-            <span className="text-xs">Home</span>
-          </button>
-          <button
-            className="flex flex-col items-center"
+      <nav className="fixed bottom-0 w-full z-50">
+        <div className="py-1 bg-[#1e1e1e] text-white flex justify-around items-center ">
+          {APPBAR_NAV.filter((fi) => fi.label !== "Lobby").map(
+            (item, index) => (
+              <NavLink
+                key={index}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex flex-col items-center gap-1 font-light ${
+                    isActive
+                      ? " text-primary-yellow active"
+                      : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
+                  }`
+                }
+                onClick={() => handleNavigation(item.path)}
+              >
+                <img className="h-6" src={item.image} />
+                <span className="text-xs">{item.label}</span>
+              </NavLink>
+            )
+          )}
+          <NavLink
+            to="search"
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-1 font-light ${
+                isActive
+                  ? " text-primary-yellow active"
+                  : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
+              }`
+            }
             onClick={() => openSearchModal(true)}
           >
-            {/* <FaSearch size={20} /> */}
-            <img src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Search.svg&w=160&q=75" />
+            <img
+              className="h-6"
+              src="https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Search.svg&w=160&q=75"
+            />
             <span className="text-xs">Search</span>
-          </button>
+          </NavLink>
           <button
-            className="flex flex-col items-center"
+            className="flex flex-col items-center gap-1 py-2 font-light text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
             onClick={() => setIsMenuOpen(true)}
           >
             <FaBars size={20} />
             <span className="text-xs">Menu</span>
           </button>
         </div>
-      </div>
+      </nav>
 
       {/* Slide-Out Menu */}
       <div
@@ -92,9 +128,9 @@ const BottomBar = ({ openSearchModal }) => {
         {/* Header Section */}
         <div className="flex justify-between items-center px-2 py-3 border-b border-gray-700">
           <div className="w-36">
-            <a
+            <Link
               class="flex h-headerLogoMobileHeight ltr:mr-1.5 rtl:ml-1.5"
-              href="/"
+              top="/home"
             >
               <img
                 src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png"
@@ -102,7 +138,7 @@ const BottomBar = ({ openSearchModal }) => {
                 title="Bet24"
                 class="h-headerLogoMobileHeight"
               />
-            </a>
+            </Link>
           </div>
           <button
             className="text-white text-2xl"

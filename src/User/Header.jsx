@@ -8,7 +8,7 @@ import { HEADER_NAV } from "../routes/routes_data";
 const Header = ({ openSearchModal }) => {
   return (
     <>
-      <header className="casino-header bg-[#383838] text-white py-2 px-4 md:py-2 shadow-md md:block hidden">
+      <header className="casino-header bg-[#383838] text-white md:mb-3 md:py-2 md:px-4 shadow-md">
         <style jsx>{`
           .casino-header nav a.active img,
           .casino-header nav a:hover img {
@@ -22,13 +22,13 @@ const Header = ({ openSearchModal }) => {
         `}</style>
         <div className="flex items-center">
           {/* Navigation Items */}
-          <nav className="flex items-center gap-4 px-2 md:gap-5 md:px-4 md:justify-center whitespace-nowrap scrollbar-hide w-3/4 overflow-x-auto">
+          <nav className="flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
             {HEADER_NAV.map((item, index) => (
               <NavLink
                 key={index}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex flex-col items-center justify-center gap-1 md:gap-2 px-2 py-1 md:px-2 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all ${
+                  `flex flex-col min-w-[25%] md:min-w-max items-center justify-center gap-1 md:gap-2 px-2 py-2 md:px-2 md:py-2 md:rounded-lg text-xs md:text-sm font-semibold transition-all ${
                     isActive
                       ? "bg-[#1c1c1c] text-primary-yellow active"
                       : "text-gray-300 hover:text-yellow-400 hover:bg-[#1c1c1c]"
@@ -44,13 +44,13 @@ const Header = ({ openSearchModal }) => {
                     <img
                       src={item?.icon}
                       alt={item.label}
-                      className="w-4 h-4 md:w-6 md:h-6"
+                      className="w-6 h-6"
                     />
                   ) : item.label === "Lobby" ? (
                     <svg
-                      className="fill-white"
-                      width="24"
-                      height="24"
+                      className="fill-white w-6 h-6"
+                      width="20"
+                      height="20"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >

@@ -8,7 +8,12 @@ import Footer from "./Footer";
 import BottomBar from "../pages/BottomBar";
 import GameFullscreen from "./GameFullscreen";
 
-const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Pragmatic = ({
+  limit = null,
+  hideFooter = false,
+  hideExtras = false,
+  horizontalOnMobile = false,
+}) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -87,11 +92,16 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
 
   // Filter and sort games
   const filteredGames = games
-    .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((game) => providerFilter === "all" || game.provider === providerFilter)
+    .filter((game) =>
+      game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(
+      (game) => providerFilter === "all" || game.provider === providerFilter
+    )
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
-      if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
+      if (sortBy === "new")
+        return new Date(b.releaseDate) - new Date(a.releaseDate);
       return 0; // No sorting for "featured"
     });
 
@@ -108,18 +118,24 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-red-500">
-        {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
+        {error.includes("Failed to fetch games")
+          ? "Unable to load games. Please try again later."
+          : error}
       </div>
     );
   }
 
   if (!loading && games.length === 0) {
-    return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">
+        No games available at the moment.
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto m-3 p-4 rounded">
+      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4">
         {/* {!hideExtras && (
           <div className="flex justify-center mb-6">
             <div className="relative w-full sm:w-4/4 lg:w-2/2">
@@ -165,7 +181,11 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
                   stroke="currentColor"
                   className="w-5 h-5 sm:w-6 sm:h-6"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <div className="block w-full text-left">
@@ -185,8 +205,19 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
                   <option value="provider2">Provider 2</option>
                 </select>
                 <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </span>
               </div>
@@ -219,13 +250,20 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
                 aspectRatio: "1",
               }}
             >
-              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
+              <img
+                src={game.image || "default-image-url.png"}
+                alt={game.name}
+                className="w-full h-full object-cover"
+              />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
                   className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                 >
-                  <img alt="All Ways Candy" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
+                  <img
+                    alt="All Ways Candy"
+                    src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                  />
                 </button>
               </div>
             </div>
@@ -309,7 +347,13 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
               <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
-            <iframe src={gameUrl} title="Game" className="w-full h-[600px] rounded-lg" frameBorder="0" allowFullScreen></iframe>
+            <iframe
+              src={gameUrl}
+              title="Game"
+              className="w-full h-[600px] rounded-lg"
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
           )}
         </GameFullscreen>
       )}

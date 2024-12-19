@@ -90,7 +90,7 @@ function AppRoutes() {
 
       {isModalOpen && (
         <Modal
-          size="max-w-md"
+          className="max-w-md"
           title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>}
           onClose={handleCloseModal}
         >
@@ -100,8 +100,10 @@ function AppRoutes() {
 
       {isSearchModalOpen && (
         <Modal
-          size="w-full max-w-[60rem]"
-          title={<h2 className="mt-5 font-bold text-2xl">Search Engine</h2>}
+          className="w-full lg:max-w-[60rem]  lg:h-[calc(100vh-200px)] h-screen"
+          title={
+            <h2 className="mt-5 font-bold md:text-xl text-lg">Search Engine</h2>
+          }
           onClose={() => setIsSearchModalOpen(false)}
         >
           <SearchGames />
