@@ -60,12 +60,12 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
 
           {/* Center Section (Desktop) */}
           {user?.role === "User" && (
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden lg:flex items-center space-x-6">
               {menuItems.map((item) => (
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`text-base md:text-sm text-nowrap ${
+                  className={`text-base lg:text-sm text-nowrap ${
                     activeItem === item.id ? "text-primary-yellow" : "text-white hover:text-yellow-400"
                   }`}
                   onClick={() => setActiveItem(item.id)}
