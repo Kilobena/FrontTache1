@@ -22,7 +22,7 @@ const Header = ({ openSearchModal }) => {
         `}</style>
         <div className="flex items-center">
           {/* Navigation Items */}
-          <nav className="flex items-center gap-4 px-2 overflow-x-auto md:gap-6 md:px-4 md:justify-center whitespace-nowrap scrollbar-hide">
+          <nav className="flex items-center gap-4 px-2 md:gap-5 md:px-4 md:justify-center whitespace-nowrap scrollbar-hide w-3/4 overflow-x-auto">
             {HEADER_NAV.map((item, index) => (
               <NavLink
                 key={index}
@@ -77,7 +77,7 @@ const Header = ({ openSearchModal }) => {
               </NavLink>
             ))}
           </nav>
-          <div className="flex justify-center ml-auto md:block hidden">
+          <div className="ml-auto pl-5 md:block hidden">
             <div className="relative w-52">
               <input
                 onClick={() => openSearchModal(true)}
