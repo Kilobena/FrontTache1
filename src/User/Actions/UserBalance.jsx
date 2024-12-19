@@ -5,26 +5,22 @@ const UserBalance = ({ logout, onClickActions }) => {
   const userBalanceData = [
     {
       title: "Cash",
-      image:
-        "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcash.9e24785d.svg&w=160&q=75",
+      image: "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcash.9e24785d.svg&w=160&q=75",
       cash: 290,
     },
     {
       title: "Sportsbook Bonus",
-      image:
-        "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbonus.6a39706b.svg&w=160&q=75",
+      image: "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbonus.6a39706b.svg&w=160&q=75",
       cash: 0,
     },
     {
       title: "Casino Bonus",
-      image:
-        "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbonus.6a39706b.svg&w=160&q=75",
+      image: "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbonus.6a39706b.svg&w=160&q=75",
       cash: 0,
     },
     {
       title: "Total",
-      image:
-        "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftotal.14d0c515.svg&w=160&q=75",
+      image: "https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftotal.14d0c515.svg&w=160&q=75",
       cash: 290,
     },
   ];
@@ -41,7 +37,9 @@ const UserBalance = ({ logout, onClickActions }) => {
           <div className="flex items-center gap-2 justify-between">
             <ul>
               <li className="flex items-center gap-2 hover:text-primary-yellow">
-                <img src={item.image} alt="item icon" className="w-6" />
+                <span className="w-7">
+                  <img className="w-6 h-6" src={item.image} alt={item.title} />
+                </span>
                 {item.title}
               </li>
             </ul>

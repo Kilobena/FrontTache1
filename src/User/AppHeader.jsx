@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext"; // Import the AuthContext hook
 import logo from "../assets/logo.webp";
-import { FaBars, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { FaBars, FaSignOutAlt, FaTimes, FaUserCircle } from "react-icons/fa";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -12,7 +12,7 @@ import MyAccount from "./MyAccount";
 import UserActionsDropdown from "./UserActionsDropdown";
 import UserActionsModal from "./UserActionsModal";
 
-const AppHeader = ({ onLoginClick, onRegisterClick,isOpen,toggleSidebar }) => {
+const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
@@ -26,12 +26,15 @@ const AppHeader = ({ onLoginClick, onRegisterClick,isOpen,toggleSidebar }) => {
     }
   };
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 991);
     };
+    if (isMobile) {
+      toggleSidebar(false);
+    }
 
     window.addEventListener("resize", handleResize);
 
@@ -49,139 +52,117 @@ const AppHeader = ({ onLoginClick, onRegisterClick,isOpen,toggleSidebar }) => {
 
   return (
     <>
-    
-    <header className="bg-[#2E2E2E]text-white shadow-lg">
-      <div className="flex items-center justify-between py-3 px-4">
-        {/* Left Section */}
-        <Link to="/home" className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
-          <a class="flex mr-5 max-w-52" href="/">
-            <img src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png" alt="Bet24" title="Bet24" />
-          </a>
-        </Link>
+      <header className="bg-[#2E2E2E]text-white shadow-lg">
+        <div className="flex items-center justify-between py-3 px-4">
+          {/* Left Section */}
+          <Link to="/home" className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
+            <a className="flex mr-5 max-w-52" href="/">
+              <img src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png" alt="Bet24" title="Bet24" />
+            </a>
+          </Link>
 
-        {/* Center Section (Desktop) */}
-        {user.role === "User" &&
-        
-        <nav className="hidden md:flex items-center space-x-6">
-          {menuItems.map((item) => (
-            <Link
-              key={item.id}
-              to={item.path}
-              className={`text-base md:text-sm text-nowrap ${activeItem === item.id ? "text-primary-yellow" : "text-white hover:text-yellow-400"}`}
-              onClick={() => setActiveItem(item.id)}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        }
+          {/* Center Section (Desktop) */}
+          {user?.role === "User" && (
+            <nav className="hidden md:flex items-center space-x-6">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  className={`text-base md:text-sm text-nowrap ${
+                    activeItem === item.id ? "text-primary-yellow" : "text-white hover:text-yellow-400"
+                  }`}
+                  onClick={() => setActiveItem(item.id)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          )}
 
-        {/* Right Section */}
-        <div className="flex items-center space-x-3 pl-4">
-          {user ? (
-            <>
-              {!isMobile ? (
-                <div className="flex gap-3">
-                  <BalanceDropDown user={user} />
-                  {user.role !== "User" &&
-                    <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
-                      {user?.role}
-                    </button>
-                  }
-                  <UserActionsDropdown user={user} logout={logout} onClickActions={handleUserActions} />
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center gap-3" onClick={() => setIsUserActionsModalOpen(true)}>
-                    <span className="text-nowrap justify-center gap-x-1.5 rounded-md text-white px-2 py-1 text-[12px] font-light border border-gray-300 hover:border-primary-yellow">
-                      {user.balance.toFixed(2)} د.ت
-                    </span>
-                    {user.role !== "User" &&
-                    <button className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light">
-                      {user?.role}
-                    </button>
-                  }
-                    <span>
-                      <svg className="md:w-4 w-6 md:h-4 h-6" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M8 0.000671387C3.58218 0.000671387 0 3.58215 0 8.00032C0 12.4185 3.58183 16 8 16C12.4185 16 16 12.4185 16 8.00032C16 3.58215 12.4185 0.000671387 8 0.000671387ZM8 2.39266C9.46183 2.39266 10.6464 3.57758 10.6464 5.03871C10.6464 6.50019 9.46183 7.68476 8 7.68476C6.53887 7.68476 5.3543 6.50019 5.3543 5.03871C5.3543 3.57758 6.53887 2.39266 8 2.39266ZM7.99824 13.9084C6.54028 13.9084 5.20495 13.3775 4.175 12.4986C3.9241 12.2846 3.77932 11.9708 3.77932 11.6415C3.77932 10.1597 4.97865 8.9737 6.46086 8.9737H9.53984C11.0224 8.9737 12.2172 10.1597 12.2172 11.6415C12.2172 11.9712 12.0731 12.2843 11.8218 12.4983C10.7922 13.3775 9.45656 13.9084 7.99824 13.9084Z"
-                          fill="white"
-                        ></path>
-                      </svg>
-                    </span>
+          {/* Right Section */}
+          <div className="flex items-center space-x-3 pl-4">
+            {user ? (
+              <>
+                {!isMobile ? (
+                  <div className="flex gap-3">
+                    <BalanceDropDown user={user} />
+                    {user?.role !== "User" && (
+                      <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
+                        {user?.role}
+                      </button>
+                    )}
+                    <UserActionsDropdown user={user} logout={logout} onClickActions={handleUserActions} />
                   </div>
-                  {isUserActionsModalOpen ? (
-                    <UserActionsModal user={user} setIsUserActionsModalOpen={() => setIsUserActionsModalOpen(false)} />
-                  ) : null}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => {
-                  isMobile ? navigate("/login") : onLoginClick();
-                }}
-                className="lg:px-4 lg:py-2 px-3 lg:text-sm text-[10px] py-1 rounded-md border border-gray-500 hover:border-primary-yellow transition-all"
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3" onClick={() => setIsUserActionsModalOpen(true)}>
+                      <span className="text-nowrap justify-center gap-x-1.5 rounded-md text-white px-2 py-1 text-[12px] font-light border border-gray-300 hover:border-primary-yellow">
+                        {user.balance.toFixed(2)} د.ت
+                      </span>
+                      {user?.role !== "User" && (
+                        <button className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light">
+                          {user?.role}
+                        </button>
+                      )}
+                      <span>
+                        <svg className="md:w-4 w-6 md:h-4 h-6" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M8 0.000671387C3.58218 0.000671387 0 3.58215 0 8.00032C0 12.4185 3.58183 16 8 16C12.4185 16 16 12.4185 16 8.00032C16 3.58215 12.4185 0.000671387 8 0.000671387ZM8 2.39266C9.46183 2.39266 10.6464 3.57758 10.6464 5.03871C10.6464 6.50019 9.46183 7.68476 8 7.68476C6.53887 7.68476 5.3543 6.50019 5.3543 5.03871C5.3543 3.57758 6.53887 2.39266 8 2.39266ZM7.99824 13.9084C6.54028 13.9084 5.20495 13.3775 4.175 12.4986C3.9241 12.2846 3.77932 11.9708 3.77932 11.6415C3.77932 10.1597 4.97865 8.9737 6.46086 8.9737H9.53984C11.0224 8.9737 12.2172 10.1597 12.2172 11.6415C12.2172 11.9712 12.0731 12.2843 11.8218 12.4983C10.7922 13.3775 9.45656 13.9084 7.99824 13.9084Z"
+                            fill="white"
+                          ></path>
+                        </svg>
+                      </span>
+                    </div>
+                    {isUserActionsModalOpen ? (
+                      <UserActionsModal user={user} setIsUserActionsModalOpen={() => setIsUserActionsModalOpen(false)} />
+                    ) : null}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    isMobile ? navigate("/login") : onLoginClick();
+                  }}
+                  className="lg:px-4 lg:py-2 px-3 lg:text-sm text-[10px] py-1 rounded-md border border-gray-500 hover:border-primary-yellow transition-all"
+                >
+                  LOGIN
+                </button>
+                <button
+                  onClick={onRegisterClick}
+                  className="bg-primary-yellow text-black lg:px-4 lg:py-2 px-3 py-1 rounded-md lg:text-sm text-[10px] hover:bg-yellow-400"
+                >
+                  REGISTER
+                </button>
+              </>
+            )}
+            {isModalOpen && (
+              <Modal
+                className="h-[calc(100vh-40px)] w-full max-w-[60rem] overflow-y-auto "
+                title={<h2 className="font-bold text-2xl"></h2>}
+                onClose={handleCloseModal}
               >
-                LOGIN
-              </button>
-              <button
-                onClick={onRegisterClick}
-                className="bg-primary-yellow text-black lg:px-4 lg:py-2 px-3 py-1 rounded-md lg:text-sm text-[10px] hover:bg-yellow-400"
-              >
-                REGISTER
-              </button>
-            </>
-          )}
-          {isModalOpen && (
-            <Modal
-              className="h-[calc(100vh-40px)] w-full max-w-[60rem] overflow-y-auto "
-              title={<h2 className="font-bold text-2xl"></h2>}
-              onClose={handleCloseModal}
-            >
-              <MyAccount />
-            </Modal>
-          )}
-        </div>
-      </div>
-    </header>
-    {isMobile && user.role !=="User" && 
-    
-    <div className="text-center mt-6 sm:mt-2 lg:hidden">
-        {/* <div className="flex items-center justify-center space-x-3 mt-2">
-          <FaUserCircle className="text-2xl md:text-3xl" />
-          <div className="flex flex-col items-center">
-            <span className="text-md md:text-lg font-semibold">{user?.username || "Guest"}</span>
-            <span className="text-sm text-gray-400">£{user?.balance || 0} د.ت</span>
+                <MyAccount />
+              </Modal>
+            )}
           </div>
-          <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">{user?.role || "User"}</span>
-          <div
-            className="flex items-center space-x-1 bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
-            onClick={logout}
-          >
-            <FaSignOutAlt className="mr-2 text-lg" />
-            <span className="text-md">Logout</span>
+        </div>
+      </header>
+      {isMobile && user?.role !== "User" && (
+        <div className="text-center mt-6 sm:mt-2">
+          <div className="flex justify-between">
+            <div className="flex flex-col justify-start float-start gap-1">
+              <p className="text-xl font-semibold">AGENT MENU</p>
+              <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
+            </div>
+
+            <button onClick={toggleSidebar} className=" text-white  text-2xl focus:outline-none mr-3">
+              {isOpen ? <FaTimes /> : <FaBars />}
+            </button>
           </div>
-        </div> */}
-        <div className="flex justify-between">
-
-        <div className="flex flex-col justify-start float-start gap-1">
-
-        <p className="text-xl font-semibold">AGENT MENU</p>
-        <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
         </div>
-        
-        <button
-          onClick={toggleSidebar}
-          className="sm:hidden text-white  text-2xl focus:outline-none mr-3"
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </button>
-        </div>
-     
-      </div>
-    }
+      )}
     </>
   );
 };

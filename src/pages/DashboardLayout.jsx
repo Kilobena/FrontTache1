@@ -6,7 +6,7 @@ import BottomBar from "./BottomBar";
 import AppHeader from "../User/AppHeader";
 
 const DashboardLayout = ({ user }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle sidebar open/close state
@@ -17,10 +17,10 @@ const DashboardLayout = ({ user }) => {
       {/* Pass the isSidebarOpen state and toggleSidebar function to Header */}
       {/* <HeaderAdmin toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} /> */}
 
-      <AppHeader toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen}/>
+      <AppHeader toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
 
       {/* Sidebar and main content */}
-      <div className="lg:p-5  flex flex-col sm:flex-row w-full flex-1">
+      <div className="lg:p-5 flex flex-col lg:flex-row w-full flex-1">
         {/* Sidebar can be toggled */}
         <Sidebar user={user} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
