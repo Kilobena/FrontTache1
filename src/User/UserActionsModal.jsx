@@ -5,7 +5,6 @@ import Modal from "../Component/UI/Modal";
 import { FaCopy } from "react-icons/fa";
 
 const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
-  console.log(user, "user");
   return (
     <>
       <style jsx>{`

@@ -23,8 +23,6 @@ const Login = ({ onLoginSuccess }) => {
 
     try {
       const response = await authApi.loginUser({ username, password });
-
-      console.log(response, "responseresponseresponseresponseresponse");
       if (response.success) {
         updateUser(response.user);
 

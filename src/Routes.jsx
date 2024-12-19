@@ -31,7 +31,6 @@ import BottomBar from "./pages/BottomBar.jsx";
 
 function AppRoutes() {
   const { user, login, logout } = useAuth();
-  console.log(user, "user");
   const isAuthenticated = !!user;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -73,7 +72,6 @@ function AppRoutes() {
     location.pathname.startsWith("/featured") ||
     location.pathname.startsWith("/new");
 
-  // console.log(user, "user");
 
   return (
     <div className="bg-[#242424] text-white min-h-screen">
