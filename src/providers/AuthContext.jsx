@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     try {
+      localStorage.setItem("token", userData.token);
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
     } catch (error) {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setUser((prevUser) => {
         const newUser = { ...prevUser, ...updatedUserData };
+        localStorage.setItem("token", newUser.token);
         localStorage.setItem("user", JSON.stringify(newUser));
         return newUser;
       });
@@ -50,12 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   // Periodically update user balance
 
-
-  return (
-    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, login, logout, updateUser }}>{children}</AuthContext.Provider>;
 };
 
 // Custom Hook for Auth

@@ -75,9 +75,9 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
         <div className="flex items-center justify-between py-3 px-4">
           {/* Left Section */}
           <Link to={isUserRole ? "/home" : "/transferhistory"} className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
-            <a className="flex mr-5 max-w-52" href="/">
+            <span className="flex mr-5 max-w-52">
               <img src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png" alt="Bet24" title="Bet24" />
-            </a>
+            </span>
           </Link>
 
           {/* Center Section (Desktop) */}
