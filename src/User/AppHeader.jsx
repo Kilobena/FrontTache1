@@ -19,13 +19,14 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUserActionsModalOpen, setIsUserActionsModalOpen] = useState(false);
 
+  const isUserRole = user?.role === "User";
+
   const handleCloseModal = () => setIsModalOpen(false);
   const handleUserActions = (title) => {
     if (title === "My Acount") {
       setIsModalOpen(true);
     }
   };
-  const isUserRole = user?.role === "User";
   const [isMobile, setIsMobile] = useState(window?.innerWidth <= 991);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
     { path: "/livecasino", label: "LIVE CASINO", id: "livecasino" },
     { path: "/virtuals", label: "VIRTUALS", id: "virtuals" },
   ];
-
+  console.log(user, "user");
   return (
     <>
       <header className="bg-[#2E2E2E]text-white shadow-lg">
@@ -59,7 +60,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
           </Link>
 
           {/* Center Section (Desktop) */}
-          {user?.role === "User" && (
+          {isUserRole || !user ? (
             <nav className="hidden lg:flex items-center space-x-6">
               {menuItems.map((item) => (
                 <Link
@@ -74,7 +75,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
                 </Link>
               ))}
             </nav>
-          )}
+          ) : null}
 
           {/* Right Section */}
           <div className="flex items-center space-x-3 pl-4">

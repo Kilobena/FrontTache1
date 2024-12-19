@@ -21,7 +21,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
   const handleMenuClick = (path) => {
     navigate(path);
     // Close the sidebar on mobile view after clicking a menu item
-    toggleSidebar(false);
+    if (window.innerWidth > 991) {
+      toggleSidebar(true);
+    } else {
+      toggleSidebar(false);
+    }
   };
 
   const isActive = (path) => location.pathname === path;
