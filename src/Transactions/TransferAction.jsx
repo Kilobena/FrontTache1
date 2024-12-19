@@ -170,19 +170,19 @@ const TransferForm = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full">
-      <header className="bg-[#474747] font-bold   rounded-lg py-2 px-3 text-sm ltr:lg:text-left rtl:lg:text-right md:text-2xl">
+    <div className="flex flex-col flex flex-col">
+      <header className="bg-[#474747] font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
         <h1 className="text-3xl font-bold">Transfer</h1>
       </header>
 
       <div className="flex-1 pt-8">
-        <div className="w-2/5  rounded-lg ">
+        <div className="max-w-lg  rounded-lg ">
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
-            <span className="font-medium text-black">Search for user</span>
+            <span className="font-medium text-[#242424] ml-2">Search for user</span>
             <input
               type="text"
-              className="border-slate-800 border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
+              className="border-slate-800 border p-1.5 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
               placeholder="Type the First 3 letters"
               value={searchTerm}
               onChange={handleInputChange}
@@ -206,7 +206,7 @@ const TransferForm = () => {
 
           {/* Transfer Type Section */}
           <div className="mb-4">
-            <label className="block font-medium text-gray-800 mb-2">Transfer Type</label>
+            <label className="block font-medium ml-2 text-[#242424] mb-2">Transfer Type</label>
             <div className="grid grid-cols-2">
               {[{ label: "Deposit", value: "deposit" }, { label: "Withdraw", value: "withdraw" }].map((option) => (
                 <label
@@ -225,7 +225,7 @@ const TransferForm = () => {
 
           {/* Transfer Amount Section */}
           <div className="mb-4">
-            <label className="block font-medium text-black">Transfer Amount</label>
+            <label className="block font-medium ml-2 text-[#242424]">Transfer Amount</label>
             <div className="flex space-x-4 mb-2">
               <input
                 type="text"
@@ -246,7 +246,7 @@ const TransferForm = () => {
                 <button
                   key={value}
                   onClick={() => setAmount((prev) => prev + value)}
-                  className="p-2 bg-gray-300 rounded text-black"
+                  className="flex-1 p-2 bg-gray-300 rounded text-black"
                 >
                   +{value}
                 </button>
@@ -256,7 +256,7 @@ const TransferForm = () => {
 
           {/* Transfer Note Section */}
           <div className="mb-4">
-            <label className="block font-medium text-black">Transfer Note</label>
+            <label className="block font-medium ml-2 text-[#242424]">Transfer Note</label>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}

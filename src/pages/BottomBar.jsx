@@ -168,19 +168,20 @@ const BottomBar = ({ openSearchModal }) => {
             </button>
           </div>
         ) : (
-          <div className="px-2 py-4 border-b border-gray-700 flex justify-between items-center">
-            <div>
-              <p className="text-sm">Hello, {user.username}</p>
-              <p className="text-sm"></p>
-              <p className="text-xs text-gray-400">{user.email}</p>
-            </div>
-            <button
-              className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
+          // <div className="px-2 py-4 border-b border-gray-700 flex justify-between items-center">
+          //   <div>
+          //     <p className="text-sm">Hello, {user.username}</p>
+          //     <p className="text-sm"></p>
+          //     <p className="text-xs text-gray-400">{user.email}</p>
+          //   </div>
+          //   <button
+          //     className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+          //     onClick={handleLogout}
+          //   >
+          //     Logout
+          //   </button>
+          // </div> 
+          null
         )}
 
         {/* Menu Items */}

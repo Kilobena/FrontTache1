@@ -12,7 +12,7 @@ import MyAccount from "./MyAccount";
 import UserActionsDropdown from "./UserActionsDropdown";
 import UserActionsModal from "./UserActionsModal";
 
-const Navigation = ({ onLoginClick, onRegisterClick }) => {
+const AppHeader = ({ onLoginClick, onRegisterClick,isOpen,toggleSidebar }) => {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
@@ -48,6 +48,8 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
   ];
 
   return (
+    <>
+    
     <header className="bg-[#2E2E2E]text-white shadow-lg">
       <div className="flex items-center justify-between py-3 px-4">
         {/* Left Section */}
@@ -58,6 +60,8 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
         </Link>
 
         {/* Center Section (Desktop) */}
+        {user.role === "User" &&
+        
         <nav className="hidden md:flex items-center space-x-6">
           {menuItems.map((item) => (
             <Link
@@ -70,6 +74,7 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
             </Link>
           ))}
         </nav>
+        }
 
         {/* Right Section */}
         <div className="flex items-center space-x-3 pl-4">
@@ -78,6 +83,11 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
               {!isMobile ? (
                 <div className="flex gap-3">
                   <BalanceDropDown user={user} />
+                  {user.role !== "User" &&
+                    <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
+                      {user?.role}
+                    </button>
+                  }
                   <UserActionsDropdown user={user} logout={logout} onClickActions={handleUserActions} />
                 </div>
               ) : (
@@ -86,6 +96,11 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
                     <span className="text-nowrap justify-center gap-x-1.5 rounded-md text-white px-2 py-1 text-[12px] font-light border border-gray-300 hover:border-primary-yellow">
                       {user.balance.toFixed(2)} د.ت
                     </span>
+                    {user.role !== "User" &&
+                    <button className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light">
+                      {user?.role}
+                    </button>
+                  }
                     <span>
                       <svg className="md:w-4 w-6 md:h-4 h-6" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -131,7 +146,44 @@ const Navigation = ({ onLoginClick, onRegisterClick }) => {
         </div>
       </div>
     </header>
+    {isMobile && user.role !=="User" && 
+    
+    <div className="text-center mt-6 sm:mt-2 lg:hidden">
+        {/* <div className="flex items-center justify-center space-x-3 mt-2">
+          <FaUserCircle className="text-2xl md:text-3xl" />
+          <div className="flex flex-col items-center">
+            <span className="text-md md:text-lg font-semibold">{user?.username || "Guest"}</span>
+            <span className="text-sm text-gray-400">£{user?.balance || 0} د.ت</span>
+          </div>
+          <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">{user?.role || "User"}</span>
+          <div
+            className="flex items-center space-x-1 bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
+            onClick={logout}
+          >
+            <FaSignOutAlt className="mr-2 text-lg" />
+            <span className="text-md">Logout</span>
+          </div>
+        </div> */}
+        <div className="flex justify-between">
+
+        <div className="flex flex-col justify-start float-start gap-1">
+
+        <p className="text-xl font-semibold">AGENT MENU</p>
+        <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
+        </div>
+        
+        <button
+          onClick={toggleSidebar}
+          className="sm:hidden text-white  text-2xl focus:outline-none mr-3"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        </div>
+     
+      </div>
+    }
+    </>
   );
 };
 
-export default Navigation;
+export default AppHeader;

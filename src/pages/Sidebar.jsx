@@ -27,30 +27,46 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
   };
 
   const isActive = (path) => location.pathname === path;
+  const options = {
+    timeZone: "Africa/Tunis",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  };
+  
+  const tunisTime = new Intl.DateTimeFormat("en-GB", options).format(new Date());
+  const formattedTime = tunisTime.replace(",", " -");
+  
 
   return (
     <>
       {/* Toggle icon for sidebar */}
-      <div className="fixed top-4 right-4 z-50">
-        <button
-          onClick={toggleSidebar}
-          className="sm:hidden text-white text-2xl focus:outline-none mr-3"
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </button>
-      </div>
+      
 
       {/* Sidebar Menu */}
       <div
-        className={`fixed top-0 right-0 h-full bg-[#242424] text-white z-40 transform transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`lg:fixed top-0 right-0 sm:mt-0 lg:w-64 bg-[#242424] text-white z-40 transform transition-transform duration-300 ${
+          isOpen ? 'lg:translate-x-0 translate-y-0' : 'translate-x-full translate-x-full h-0'
         } sm:translate-x-0 sm:static sm:w-64 w-full sm:h-auto overflow-y-auto`}
-      >
-        <div className="p-4">
-          <ul className="space-y-6">
+        >
+        <div className="pr-3">
+          <div className='flex items-center agentMenuBorderBottom'>
+
+          <div className='px-3 py-2 flex flex-col space-y-2 agentToolPadding'>
+
+        <div className='hidden sm:block text-lg font-bold mb-2 uppercase'>Agent Menu</div>
+        <div className='hidden sm:block text-sm mb-4 opacity-70'>{`${formattedTime} ${options.timeZone}`}</div>
+          </div>
+          </div>
+          <hr class="border-gray-700 mb-4" />
+          <ul className="flex flex-col space-y-3">
             {/* Transfer Section */}
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center w-full p-2 bg-yellow-500 text-black rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold ${
                 isActive('/transferaction') ? 'bg-[#f2c41a]' : ''
               }`}
               onClick={() => handleMenuClick('/transferaction')}
@@ -60,7 +76,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/transferhistory') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/transferhistory')}
@@ -73,7 +89,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* Reports Section */}
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/transfers-report') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/tranfer_report')}
@@ -83,7 +99,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/gaming-report') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/gaming-report')}
@@ -92,11 +108,10 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
               Gaming Report
             </li>
 
-            <hr className="border-gray-700" />
-
+            
             {/* Betting Section */}
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/sportsbook-bets') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/sportsbook-bets')}
@@ -106,7 +121,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/casino-bets') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/game')}
@@ -119,7 +134,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* User Management Section */}
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/user-management') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/user-management')}
@@ -129,7 +144,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-yellow-500 ${
+              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive('/registre') ? 'bg-yellow-500' : ''
               }`}
               onClick={() => handleMenuClick('/registre')}
@@ -142,7 +157,9 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
 
             {/* Logout Section */}
             <li
-              className="flex items-center cursor-pointer py-2 px-4  rounded-lg  hover:bg-gray-700"
+            
+            className="flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500"
+
               onClick={() => handleMenuClick('/logout')}
             >
               <FaSignOutAlt className="mr-3 ml-3" />
@@ -151,7 +168,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
           </ul>
 
           {/* User Info */}
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 ml-4 text-sm text-gray-500">
             <p>Last Login:</p>
             <p>{new Date(user?.lastLogin).toLocaleString()}</p>
           </div>

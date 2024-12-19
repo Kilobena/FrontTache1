@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Auth from "../service/Auth";
-import { useAuth } from '../providers/AuthContext'; 
+import { useAuth } from '../providers/AuthContext';
 
 const ManageUser = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -20,29 +20,29 @@ const ManageUser = () => {
 
     const fetchAllUsers = async () => {
         try {
-          let response;
-          if (user.role === 'SuperPartner') {
-            response = await authServ.api.get(`/auth/getAllUsers`, {
-              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
-          } else {
-            response = await authServ.getUsersByCreaterId(user._id);
-          }
-    
-          console.log('API response:', response);
-    
-          if (response.success && Array.isArray(response.users)) {
-            setAllUsers(response.users);
-            setNoUsersFound(response.users.length === 0);
-            setIsUserListFetched(true);
-          } else {
-            setNoUsersFound(true);
-          }
+            let response;
+            if (user.role === 'SuperPartner') {
+                response = await authServ.api.get(`/auth/getAllUsers`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                });
+            } else {
+                response = await authServ.getUsersByCreaterId(user._id);
+            }
+
+            console.log('API response:', response);
+
+            if (response.success && Array.isArray(response.users)) {
+                setAllUsers(response.users);
+                setNoUsersFound(response.users.length === 0);
+                setIsUserListFetched(true);
+            } else {
+                setNoUsersFound(true);
+            }
         } catch (error) {
-          console.error('Error fetching users:', error);
-          setNoUsersFound(true);
+            console.error('Error fetching users:', error);
+            setNoUsersFound(true);
         }
-      };
+    };
 
     const handleSearch = () => {
         if (!searchTerm.trim()) {
@@ -105,8 +105,8 @@ const ManageUser = () => {
 
     return (
         <div className="flex flex-col h-screen w-full">
-<header className="bg-[#242424] text-white w-full py-4 text-center">
-<h1 className="text-3xl font-bold">Manage Users</h1>
+            <header className="bg-[#242424] text-white w-full py-4 text-center">
+                <h1 className="text-3xl font-bold">Manage Users</h1>
             </header>
 
             <div className="flex-1 overflow-auto p-6 sm:p-8">

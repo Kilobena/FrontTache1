@@ -21,7 +21,7 @@ import Amatic from "./User/Amatic.jsx";
 import Pragmatic from "./User/Pragmatic.jsx";
 import Featured from "./User/Featured.jsx";
 import New from "./User/New.jsx";
-import Navigation from "./User/SidebarNavigation.jsx";
+import AppHeader from "./User/AppHeader.jsx";
 import Header from "./User/Header.jsx";
 import Login from "./Auth/LoginPage.jsx";
 import Modal from "./Component/UI/Modal.jsx";
@@ -80,7 +80,7 @@ function AppRoutes() {
     <div className="bg-[#242424] text-white min-h-screen">
       {/* Main Navigation (Always Visible) */}
       {!isExcludedRoute && (
-        <Navigation
+        <AppHeader
           user={user}
           onLoginClick={handleLoginClick}
           onRegisterClick={handleLoginClick}

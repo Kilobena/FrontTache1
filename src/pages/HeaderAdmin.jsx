@@ -6,9 +6,17 @@ import BalanceDropDown from "../User/BalanceDropDown";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-const HeaderAdmin = ({ toggleSidebar }) => {
+const HeaderAdmin = ({ isSidebarOpen,toggleSidebar }) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const handleMenuClick = (path) => {
+    navigate(path);
+    // Close the sidebar on mobile view after clicking a menu item
+    if (window.innerWidth < 640) {
+      toggleSidebar();
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -38,12 +46,15 @@ const HeaderAdmin = ({ toggleSidebar }) => {
   ];
 
   return (
-    <div className="bg-[#242424] text-white p-3 sm:p-4 shadow-lg flex flex-col w-full mr-4">
+    <div className="bg-[#242424] text-white p-1 sm:p-2 shadow-lg flex flex-col w-full mr-4">
       {" "}
       {/* Ajout de 'mr-4' */}
-      <div className="w-full flex flex-col lg:flex-row items-center justify-between">
+      <div className="w-full flex flex-col  lg:flex-row items-center justify-between">
         {/* Title aligned to the left only on larger screens */}
-        <h1 className="text-xl md:text-2xl font-semibold hidden lg:block">AGENT MENU</h1>
+        <a className="flex h-headerLogoHeight">
+          <img className="h-headerLogoHeight w-56  hidden lg:block" src="https://assets.bet24.gg/sites/bet24/Bet24-New%20logo.png"/>
+        </a>
+        
 
         {/* User information aligned to the right only on larger screens */}
         <div className="hidden lg:flex items-center space-x-3 ml-auto">
@@ -102,8 +113,7 @@ const HeaderAdmin = ({ toggleSidebar }) => {
         </div>
       </div>
       {/* Center user information on mobile */}
-      <div className="text-center mt-4 sm:mt-2 lg:hidden">
-        <h1 className="text-xl font-semibold">AGENT MENU</h1>
+      <div className="text-center mt-6 sm:mt-2 lg:hidden">
         <div className="flex items-center justify-center space-x-3 mt-2">
           <FaUserCircle className="text-2xl md:text-3xl" />
           <div className="flex flex-col items-center">
@@ -112,14 +122,26 @@ const HeaderAdmin = ({ toggleSidebar }) => {
           </div>
           <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">{user?.role || "User"}</span>
           <div
-            className="flex items-center space-x-1 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition"
+            className="flex items-center space-x-1 bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition"
             onClick={handleLogout}
           >
             <FaSignOutAlt className="mr-2 text-lg" />
             <span className="text-md">Logout</span>
           </div>
         </div>
+        <div className="flex flex-col justify-start float-start gap-1">
+
+        <p className="text-xl font-semibold">AGENT MENU</p>
         <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
+        </div>
+        <div className="fixed right-0 z-50">
+        <button
+          onClick={toggleSidebar}
+          className="sm:hidden text-white text-2xl focus:outline-none mr-3"
+        >
+          {isSidebarOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
       </div>
     </div>
   );

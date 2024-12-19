@@ -3,12 +3,12 @@ import TransferService from '../service/Transfer';
 import { useAuth } from '../providers/AuthContext';
 
 const TransferHistory = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState('today');
   const [chosenDate, setChosenDate] = useState('');
-  const [transferOptions, setTransferOptions] = useState([]); 
-  const [selectedUser, setSelectedUser] = useState(''); 
-  const [transfers, setTransfers] = useState([]); 
+  const [transferOptions, setTransferOptions] = useState([]);
+  const [selectedUser, setSelectedUser] = useState('');
+  const [transfers, setTransfers] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const transferServ = new TransferService();
@@ -47,7 +47,7 @@ const TransferHistory = () => {
 
   useEffect(() => {
     fetchUsers();
-    fetchTransferHistory(); 
+    fetchTransferHistory();
   }, [selectedDate, chosenDate]);
 
   const dateOptions = [
@@ -60,8 +60,8 @@ const TransferHistory = () => {
 
   return (
     <div className="flex flex-col h-screen w-full"> {/* Ensure full height */}
-<header className="bg-[#242424] text-white w-full py-4 text-center">
-<h1 className="text-3xl font-bold ">Transfer History</h1>
+      <header className="bg-[#242424] text-white w-full py-4 text-center">
+        <h1 className="text-3xl font-bold ">Transfer History</h1>
       </header>
 
       <div className="flex-1 overflow-auto p-6 sm:p-8">
@@ -75,11 +75,10 @@ const TransferHistory = () => {
               {dateOptions.map((option) => (
                 <label
                   key={option.value}
-                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
-                    selectedDate === option.value
+                  className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${selectedDate === option.value
                       ? 'bg-yellow-400 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700'
-                  }`}
+                    }`}
                 >
                   <input
                     type="radio"
@@ -118,19 +117,19 @@ const TransferHistory = () => {
           <div className="mb-8">
             <label className="block font-medium mb-2 text-gray-800 text-lg">Transfer To / From</label>
             <select
-  className="w-full p-2 border border-gray-300 rounded bg-white text-lg"
-  value={selectedUser}
-  onChange={(e) => setSelectedUser(e.target.value)}
->
-  <option value="">Select option</option>
-  {Array.isArray(transferOptions) && transferOptions.length > 0
-    ? transferOptions.map((userOption) => (
-        <option key={userOption._id} value={userOption.username}>
-          {userOption.username} ({userOption.role})
-        </option>
-      ))
-    : <option disabled>No users available</option>}
-</select>
+              className="w-full p-2 border border-gray-300 rounded bg-white text-lg"
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+            >
+              <option value="">Select option</option>
+              {Array.isArray(transferOptions) && transferOptions.length > 0
+                ? transferOptions.map((userOption) => (
+                  <option key={userOption._id} value={userOption.username}>
+                    {userOption.username} ({userOption.role})
+                  </option>
+                ))
+                : <option disabled>No users available</option>}
+            </select>
           </div>
 
           {/* Action Buttons */}
