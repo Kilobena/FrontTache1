@@ -9,12 +9,7 @@ import BottomBar from "../pages/BottomBar";
 import GameFullscreen from "./GameFullscreen";
 import FiltersGames from "./Filters/FiltersGames";
 
-const Crash = ({
-  limit = null,
-  hideFooter = false,
-  hideExtras = false,
-  horizontalOnMobile = false,
-}) => {
+const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -91,16 +86,11 @@ const Crash = ({
   };
 
   const filteredGames = games
-    .filter((game) =>
-      game.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter(
-      (game) => providerFilter === "all" || game.provider === providerFilter
-    )
+    .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((game) => providerFilter === "all" || game.provider === providerFilter)
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
-      if (sortBy === "new")
-        return new Date(b.releaseDate) - new Date(a.releaseDate);
+      if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
       return 0; // No sorting for "featured"
     });
 
@@ -117,44 +107,34 @@ const Crash = ({
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-red-500">
-        {error.includes("Failed to fetch games")
-          ? "Unable to load games. Please try again later."
-          : error}
+        {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
       </div>
     );
   }
 
   if (!loading && games.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">
-        No games available at the moment.
-      </div>
-    );
+    return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
 
   return (
     <>
-      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4">
+      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
         {!hideExtras && (
           <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
             <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
               <button
                 onClick={() => navigate(-1)}
-                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all px-3 py-2 rounded-lg"
+                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
                   fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-5 h-5 sm:w-6 sm:h-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="transition duration-300 fill-contentTextLight dark:fill-white dark:group-hover:fill-backButtonIconHoverDark group-hover:fill-backButtonIconHoverLight"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 19l-7-7 7-7"
-                  />
+                  <path d="M16.6667 9.16668H6.52499L11.1833 4.50834L9.99999 3.33334L3.33333 10L9.99999 16.6667L11.175 15.4917L6.52499 10.8333H16.6667V9.16668Z"></path>
                 </svg>
               </button>
               <div className="block w-full text-left">
@@ -186,20 +166,13 @@ const Crash = ({
                 aspectRatio: "1",
               }}
             >
-              <img
-                src={game.image || "default-image-url.png"}
-                alt={game.name}
-                className="w-full h-full object-cover"
-              />
+              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
                   className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                 >
-                  <img
-                    alt="All Ways Candy"
-                    src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                  />
+                  <img alt="All Ways Candy" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
                 </button>
               </div>
             </div>
@@ -283,13 +256,7 @@ const Crash = ({
               <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
-            <iframe
-              src={gameUrl}
-              title="Game"
-              className="w-full h-[600px] rounded-lg"
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
+            <iframe src={gameUrl} title="Game" className="w-full h-[600px] rounded-lg" frameBorder="0" allowFullScreen></iframe>
           )}
         </GameFullscreen>
       )}
