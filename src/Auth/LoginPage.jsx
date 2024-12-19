@@ -58,7 +58,7 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div className="w-full max-w-lg mx-auto mt-4">
-      <h2 className="font-light text-2xl text-center my-5">LOGIN</h2>
+      <h2 className="font-light text-2xl text-center my-5 md:hidden">LOGIN</h2>
       <form onSubmit={handleSubmit} className="px-4">
         <div className="relative">
           <label className="block text-[#ababab] text-md font-medium mb-1">
