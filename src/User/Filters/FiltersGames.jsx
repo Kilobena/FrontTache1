@@ -40,17 +40,17 @@ const FiltersGames = ({
 }) => {
   return (
     <>
-      <div className="relative flex items-center justify-end gap-3 min-w-[400px] ">
+      <div className="relative flex items-center justify-end gap-3 md:mt-0 md:w-[400px] mt-3 w-full">
         {/* PROVIDERS FILTER */}
         <Listbox
           as="div"
-          className="relative z-10"
+          className="Lg:flex-auto flex-1"
           value={selectedProviderFilter}
           onChange={setSelectedProviderFilter}
         >
           <ListboxButton
             className={clsx(
-              "w-full lg:w-[200px] relative block rounded-lg bg-white py-1.5 pr-8 pl-3 text-left text-sm/6 text-primary-dark",
+              "w-full lg:w-[200px] relative block rounded-lg bg-white py-2 pr-8 pl-5 text-left text-sm/6 text-primary-dark",
               "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
             )}
           >
@@ -86,12 +86,13 @@ const FiltersGames = ({
         {/* SORT BY FILTER */}
         <Listbox
           as="div"
+          className="Lg:flex-auto flex-1"
           value={selectedSortByFilter}
           onChange={setSelectedSortByFilter}
         >
           <ListboxButton
             className={clsx(
-              "w-full lg:w-[200px] relative block rounded-lg bg-white py-1.5 pr-8 pl-3 text-left text-sm/6 text-primary-dark",
+              "w-full lg:w-[200px] relative block rounded-lg bg-white py-2 pr-8 pl-5 pl-3 text-left text-sm/6 text-primary-dark",
               "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
             )}
           >
