@@ -85,6 +85,7 @@ function AppRoutes() {
           onLoginClick={handleLoginClick}
           onRegisterClick={handleLoginClick}
           onLogout={logout}
+          
         />
       )}
 

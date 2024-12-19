@@ -26,15 +26,15 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
     }
   };
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 991);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
-    if (isMobile) {
-      toggleSidebar(false);
-    }
+    // if (isMobile) {
+    //   toggleSidebar(false);
+    // }
 
     window.addEventListener("resize", handleResize);
 
@@ -149,7 +149,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
           </div>
         </div>
       </header>
-      {isMobile && user?.role !== "User" && (
+      {isMobile && user && user?.role !== "User" && (
         <div className="text-center mt-6 sm:mt-2">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
