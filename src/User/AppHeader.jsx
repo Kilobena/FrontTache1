@@ -69,7 +69,6 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
     { path: "/livecasino", label: "LIVE CASINO", id: "livecasino" },
     { path: "/virtuals", label: "VIRTUALS", id: "virtuals" },
   ];
-  console.log(user, "user");
   return (
     <>
       <header className="bg-[#2E2E2E]text-white shadow-lg">
@@ -106,11 +105,11 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
                 {!isMobile ? (
                   <div className="flex gap-3">
                     <BalanceDropDown user={user} />
-                    {!isUserRole && (
+                    {user && !isUserRole ? (
                       <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
                         {user && user?.role ? user?.role : "Guest"}
                       </button>
-                    )}
+                    ) : null}
                     <UserActionsDropdown user={user} logout={logout} onClickActions={handleUserActions} />
                   </div>
                 ) : (
@@ -169,7 +168,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
           </div>
         </div>
       </header>
-      {isMobile && !isUserRole && (
+      {isMobile && user && !isUserRole && (
         <div className=" mt-6 p-5 sm:mt-2">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
@@ -177,7 +176,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
               <p className="text-sm mt-2 flex-row space-x-1 rtl:space-x-reverse opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</p>
             </div>
 
-            <button onClick={toggleSidebar} className=" text-white  text-4xl focus:outline-none mr-3">
+            <button onClick={() => toggleSidebar(!isSidebarOpen)} className="text-white  text-4xl focus:outline-none mr-3">
               {isSidebarOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>

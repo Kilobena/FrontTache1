@@ -4,10 +4,10 @@ import Sidebar from "./Sidebar";
 import HeaderAdmin from "./HeaderAdmin";
 import BottomBar from "./BottomBar";
 import AppHeader from "../User/AppHeader";
+import { useAuth } from "../providers/AuthContext";
 
 const DashboardLayout = ({ user }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   useEffect(() => {
     if (window.innerWidth <= 991) {
       setIsSidebarOpen(false);

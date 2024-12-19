@@ -15,7 +15,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
-  console.log(user,"useruser")
   const location = useLocation();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
