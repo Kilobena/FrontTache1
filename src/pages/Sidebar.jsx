@@ -14,16 +14,14 @@ import {
 } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Sidebar = ({ isOpen, toggleSidebar, user }) => {
+const Sidebar = ({ isSidebarOpen, toggleSidebar, user }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleMenuClick = (path) => {
     navigate(path);
     // Close the sidebar on mobile view after clicking a menu item
-    if (window.innerWidth < 640) {
-      toggleSidebar();
-    }
+    toggleSidebar(false);
   };
 
   const isActive = (path) => location.pathname === path;
@@ -48,7 +46,7 @@ const Sidebar = ({ isOpen, toggleSidebar, user }) => {
       {/* Sidebar Menu */}
       <div
         className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-64 lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
-          isOpen ? "lg:translate-x-0 top-full" : "lg:translate-x-full h-0"
+          isSidebarOpen ? "lg:translate-x-0 top-full" : "lg:translate-x-full h-0"
         } `}
       >
         <div className="pr-3">

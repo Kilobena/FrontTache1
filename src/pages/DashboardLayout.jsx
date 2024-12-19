@@ -17,12 +17,12 @@ const DashboardLayout = ({ user }) => {
       {/* Pass the isSidebarOpen state and toggleSidebar function to Header */}
       {/* <HeaderAdmin toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} /> */}
 
-      <AppHeader toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <AppHeader toggleSidebar={setIsSidebarOpen} isSidebarOpen={isSidebarOpen} />
 
       {/* Sidebar and main content */}
       <div className="lg:p-5 flex flex-col lg:flex-row w-full flex-1">
         {/* Sidebar can be toggled */}
-        <Sidebar user={user} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Sidebar user={user} isSidebarOpen={isSidebarOpen} toggleSidebar={setIsSidebarOpen} />
 
         {/* Main content */}
         <div className="flex-1 p-6 bg-[#fff]">

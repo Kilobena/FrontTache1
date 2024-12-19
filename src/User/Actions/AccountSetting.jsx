@@ -1,7 +1,7 @@
 import React from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 
-const AccountSettings = ({ logout, onClickActions }) => {
+const AccountSettings = ({ logout, onClickActions, setActionModal }) => {
   const UserActions = [
     {
       title: "My Acount",

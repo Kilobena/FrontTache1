@@ -12,7 +12,7 @@ import MyAccount from "./MyAccount";
 import UserActionsDropdown from "./UserActionsDropdown";
 import UserActionsModal from "./UserActionsModal";
 
-const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => {
+const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
@@ -32,10 +32,9 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
     };
-    // if (isMobile) {
-    //   toggleSidebar(false);
-    // }
-
+    if (isMobile) {
+      toggleSidebar(false);
+    }
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
@@ -88,7 +87,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
                     <BalanceDropDown user={user} />
                     {user?.role !== "User" && (
                       <button className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light">
-                        {user?.role}
+                        {user && user?.role ? user?.role : "Guest"}
                       </button>
                     )}
                     <UserActionsDropdown user={user} logout={logout} onClickActions={handleUserActions} />
@@ -97,11 +96,11 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
                   <>
                     <div className="flex items-center gap-3" onClick={() => setIsUserActionsModalOpen(true)}>
                       <span className="text-nowrap justify-center gap-x-1.5 rounded-md text-white px-2 py-1 text-[12px] font-light border border-gray-300 hover:border-primary-yellow">
-                        {user.balance.toFixed(2)} د.ت
+                        {user && user?.balance ? user?.balance.toFixed(2) : "0.00"} د.ت
                       </span>
                       {user?.role !== "User" && (
                         <button className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light">
-                          {user?.role}
+                          {user && user?.role ? user?.role : "Guest"}
                         </button>
                       )}
                       <span>
@@ -157,8 +156,8 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isOpen, toggleSidebar }) => 
               <p className="text-sm text-gray-400 mt-2">{new Date().toLocaleString("en-US", { timeZone: "Africa/Tunis" })}</p>
             </div>
 
-            <button onClick={toggleSidebar} className=" text-white  text-2xl focus:outline-none mr-3">
-              {isOpen ? <FaTimes /> : <FaBars />}
+            <button onClick={() => toggleSidebar(!isSidebarOpen)} className=" text-white  text-2xl focus:outline-none mr-3">
+              {isSidebarOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
         </div>
