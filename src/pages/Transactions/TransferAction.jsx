@@ -254,10 +254,10 @@ const TransferForm = () => {
             </label>
             <div className="flex space-x-4 mb-2">
               <input
-                type="text"
+                type="button"
                 value={amount}
                 readOnly
-                className="w-full p-2 border border-slate-800 rounded text-black"
+                className="text-left w-full p-2 border border-slate-800 rounded text-black"
               />
               <button
                 onClick={() => setAmount(0)}
