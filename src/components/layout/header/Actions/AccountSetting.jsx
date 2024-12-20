@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FaSignOutAlt } from "react-icons/fa";
 import { USER_ACTIONS } from "../../../../routes/routes_data";
 import Modal from "../../../ui/Modal";
 import MyAccount from "../../../../pages/User/AccountSetting/MyAccount";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const AccountSettings = ({ logout, user }) => {
   const [isMyAccountModalOpen, setIsMyAccountModalOpen] = useState(false);
@@ -44,10 +44,10 @@ const AccountSettings = ({ logout, user }) => {
       </div>
       <div className="px-2">
         <button
-          className="flex items-center justify-center space-x-1 bg-yellow-500 text-white px-3 my-2 py-2 rounded-md hover:bg-yellow-600 transition cursor-pointer w-full"
+          className="flex items-center justify-center gap-1 space-x-1 bg-yellow-500 text-primary-dark px-3 my-2 py-[6px] rounded-md hover:bg-yellow-600 transition cursor-pointer w-full"
           onClick={logout}
         >
-          <FaSignOutAlt className="mr-2 text-lg" />
+          <RiLogoutBoxRLine size={20} />
           <span className="text-md">Logout</span>
         </button>
       </div>
