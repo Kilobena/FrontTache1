@@ -7,6 +7,7 @@ import sportsImage from "../../assets/sports-image1.webp";
 import liveSportsImage from "../../assets/live-sports-image.webp";
 import casinoImage from "../../assets/casino-image.webp";
 import liveCasinoImage from "../../assets/live-casino-image.webp";
+import { GoArrowRight } from "react-icons/go";
 
 const LandingPage = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -76,9 +77,9 @@ const LandingPage = () => {
             {sections.map((section, index) => (
               <motion.div
                 key={index}
-                className="relative rounded-lg overflow-hidden shadow-lg min-h-[240px] flex flex-col"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
+                className="relative rounded-lmd overflow-hidden shadow-lg min-h-[240px] flex flex-col"
+                // whileHover={{ scale: 1.05 }}
+                // transition={{ duration: 0.3 }}
               >
                 <img
                   src={section.image}
@@ -90,8 +91,8 @@ const LandingPage = () => {
                   <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">
                     {section.title.toUpperCase()}
                   </h3>
-                  <button className="mx-auto mt-4 bg-yellow-500 px-4 py-2 rounded-lg text-gray-900 font-semibold hover:bg-yellow-400 w-32">
-                    Play Now →
+                  <button className="uppercase flex text-nowrap items-center gap-2 mx-auto mt-4 bg-primary-yellow px-4 py-2 rounded-lg text-white hover:bg-yellow-400">
+                    Play Now <GoArrowRight size={15} color="black" />
                   </button>
                 </div>
               </motion.div>

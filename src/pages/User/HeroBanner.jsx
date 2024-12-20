@@ -20,18 +20,18 @@ const HeroBanner = () => {
   const NextArrow = ({ onClick }) => (
     <button
       onClick={onClick}
-      className="hidden sm:flex absolute top-1/2 right-5 transform -translate-y-1/2 text-white bg-[#242424] bg-opacity-70 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg"
+      className="hidden sm:flex absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-[#242424] bg-opacity-70 w-12 h-12 flex items-center justify-center z-10 hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg"
     >
-      <FaChevronRight size={18} />
+      <FaChevronRight size={24} />
     </button>
   );
 
   const PrevArrow = ({ onClick }) => (
     <button
       onClick={onClick}
-      className="hidden sm:flex absolute top-1/2 left-5 transform -translate-y-1/2 text-white bg-[#242424] bg-opacity-70 rounded-full w-10 h-10 flex items-center justify-center z-10 hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg"
+      className="hidden sm:flex absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-[#242424] bg-opacity-70 w-12 h-12 flex items-center justify-center z-10 hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 shadow-lg"
     >
-      <FaChevronLeft size={18} />
+      <FaChevronLeft size={24} />
     </button>
   );
 
@@ -103,7 +103,7 @@ const HeroBanner = () => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className="relative h-[260px] sm:h-[350px] md:h-[420px]"
+            className="relative h-[260px] sm:h-[350px] md:h-[450px]"
           >
             <div
               className="relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
