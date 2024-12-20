@@ -16,8 +16,10 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const MyAccount = () => {
+  const location = useLocation();
   const isActive = (path) => location.pathname === path;
   const [showPassword, setShowPassword] = useState(false);
 

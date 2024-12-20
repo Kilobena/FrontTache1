@@ -97,7 +97,7 @@ const HeroBanner = () => {
       </style>
       <Slider className="welcome-banner" {...settings}>
         {slides.map((slide, index) => (
-          <div key={index} className="relative h-[150px] sm:h-[350px] md:h-[550px]">
+          <div key={index} className="relative h-[125px] sm:h-[350px] md:h-[550px]">
             <div
               className="relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
               style={{ backgroundImage: `url(${slide.image})` }}
