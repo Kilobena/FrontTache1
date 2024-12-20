@@ -1,57 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
+import { USER_ACTIONS } from "../../../../routes/routes_data";
+import Modal from "../../../ui/Modal";
+import MyAccount from "../../../../pages/User/AccountSetting/MyAccount";
 
-const AccountSettings = ({ logout, onClickActions, user }) => {
-  const UserActions = [
-    {
-      title: "My Account",
-      image:
-        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_My%20account.svg&w=640&q=75",
-    },
-    {
-      title: "Casino Bets",
-      image:
-        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_Casino%20bets.svg&w=1920&q=75",
-    },
-    {
-      title: "Sports Bets",
-      image:
-        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_Sports%20bet.svg&w=1920&q=75",
-    },
-    {
-      title: "Transaction History",
-      image:
-        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Faccount_Payment%20History.svg&w=1920&q=75",
-    },
-    {
-      title: "Verify Account",
-      image:
-        "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Faccount_Verify%20Account.svg&w=160&q=75",
-    },
-  ];
+const AccountSettings = ({ logout, user }) => {
+  const [isMyAccountModalOpen, setIsMyAccountModalOpen] = useState(false);
+
+  const handleUserActions = (path) => {
+    if (path === USER_ACTIONS[0].path) {
+      setIsMyAccountModalOpen(true);
+    }
+  };
 
   let isUserRole = user?.role === "User";
   return (
     <>
       <div className="lg:h-auto h-[calc(100vh-340px)] overflow-y-auto">
-        {UserActions.filter(
-          (fi) => !isUserRole && fi.title === "My Account"
-        ).map((item, index) => (
+        {USER_ACTIONS.filter((fi) => {
+          if (isUserRole) {
+            return true;
+          }
+          return fi.title === "My Account";
+        }).map((item, index) => (
           <a
-            key={index} // Make sure to add a key for each element when rendering a list
+            key={index}
             href="#"
             className="border-b border-b-gray-900 block px-4 py-2 text-sm text-white"
-            onClick={() => onClickActions(item.title)} // Add click handler here
+            onClick={() => handleUserActions(item.path)}
           >
             <div className="flex items-center gap-2 justify-between">
               <ul>
                 <li className="flex items-center gap-2 hover:text-primary-yellow">
                   <span className="w-7">
-                    <img
-                      className="w-6 h-6"
-                      src={item.image}
-                      alt={item.title}
-                    />
+                    <img className="w-6 h-6" src={item.image} alt={item.title} />
                   </span>
                   {item.title}
                 </li>
@@ -69,6 +51,16 @@ const AccountSettings = ({ logout, onClickActions, user }) => {
           <span className="text-md">Logout</span>
         </button>
       </div>
+      {/* My Account Modal */}
+      {isMyAccountModalOpen && (
+        <Modal
+          className="h-[calc(100vh-40px)] w-full max-w-[60rem] overflow-y-auto "
+          title={<h2 className="font-bold text-2xl"></h2>}
+          onClose={() => setIsMyAccountModalOpen(false)}
+        >
+          <MyAccount />
+        </Modal>
+      )}
     </>
   );
 };

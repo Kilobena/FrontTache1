@@ -16,7 +16,7 @@ import LandingPage from "./pages/User/LandingPage.jsx";
 import Slots from "./pages/User/Games/Slots.jsx";
 import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
 import Crash from "./pages/User/Games/Crash.jsx";
-import GamePage from "./pages/User/Games/GamePage.jsx";
+import GamePage from "./pages/User/Games/Lobby.jsx";
 import LiveCasino from "./pages/User/Games/LiveCasino.jsx";
 import Providers from "./pages/User/Games/Providers.jsx";
 import Amatic from "./pages/User/Games/Amatic.jsx";
@@ -32,18 +32,19 @@ import Modal from "./components/ui/Modal.jsx";
 function AppRoutes() {
   const { user, login, logout } = useAuth();
   const isAuthenticated = !!user;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const isUserRole = user?.role === "User";
   const location = useLocation();
 
-  const handleLoginClick = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleLoginClick = () => setIsLoginModalOpen(true);
+  const handleCloseModal = () => setIsLoginModalOpen(false);
   const handleSearchModal = () => setIsSearchModalOpen(true);
+
   const handleLoginSuccess = (userData) => {
     login(userData);
-    setIsModalOpen(false);
+    setIsLoginModalOpen(false);
   };
 
   const excludedHeaderRoutes = [
@@ -77,7 +78,7 @@ function AppRoutes() {
       {/* Main Navigation (Always Visible) */}
       {!isExcludedRoute && <AppHeader user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
 
-      {isModalOpen && (
+      {isLoginModalOpen && (
         <Modal className="max-w-md" title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>} onClose={handleCloseModal}>
           <Login onLoginSuccess={handleLoginSuccess} />
         </Modal>
@@ -99,6 +100,7 @@ function AppRoutes() {
       {/* Routes */}
       <Routes>
         {/* Public Landing Page */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<LandingPage />} />
 
         {/* Game Page and Subroutes */}

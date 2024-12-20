@@ -6,12 +6,11 @@ import "../../../assets/styles/css/game-header.css";
 const GamesHeader = ({ openSearchModal }) => {
   return (
     <>
-      <header className="casino-header bg-[#383838] text-white md:mb-3 md:py-2 md:px-4 shadow-md">
+      <header className="casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
         <style jsx>{`
           .casino-header nav a.active img,
           .casino-header nav a:hover img {
-            filter: brightness(0) saturate(100%) invert(83%) sepia(25%)
-              saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);
+            filter: brightness(0) saturate(100%) invert(83%) sepia(25%) saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);
           }
           .casino-header nav a.active svg,
           .casino-header nav a:hover svg {
@@ -27,31 +26,15 @@ const GamesHeader = ({ openSearchModal }) => {
                 to={item.path}
                 className={({ isActive }) =>
                   `flex flex-col min-w-[25%] md:min-w-max items-center justify-center gap-1 md:gap-2 px-2 py-2 md:px-2 md:py-2 md:rounded-lg text-xs md:text-sm font-semibold transition-all ${
-                    isActive
-                      ? "bg-[#1c1c1c] text-primary-yellow active"
-                      : "text-gray-300 hover:text-yellow-400 hover:bg-[#1c1c1c]"
+                    isActive ? "bg-[#1c1c1c] text-primary-yellow active" : "text-gray-300 hover:text-yellow-400 hover:bg-[#1c1c1c]"
                   }`
                 }
               >
-                <span
-                  role="img"
-                  aria-label={item.label}
-                  className="icon transition-transform"
-                >
+                <span role="img" aria-label={item.label} className="icon transition-transform">
                   {item?.icon?.includes("http") ? (
-                    <img
-                      src={item?.icon}
-                      alt={item.label}
-                      className="w-6 h-6"
-                    />
+                    <img src={item?.icon} alt={item.label} className="w-6 h-6" />
                   ) : item.label === "Lobby" ? (
-                    <svg
-                      className="fill-white w-6 h-6"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    <svg className="fill-white w-6 h-6" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path d="M19.7291 14.1608C19.7291 14.3265 19.5948 14.4608 19.4291 14.4608H18.7776C18.612 14.4608 18.4776 14.3265 18.4776 14.1608V5.8895C18.4776 5.72381 18.612 5.5895 18.7776 5.5895H19.4291C19.5948 5.5895 19.7291 5.72381 19.7291 5.8895V14.1608Z"></path>
                       <path d="M22.5988 22.2835C22.5988 22.4492 22.4645 22.5835 22.2988 22.5835H21.4354C21.2697 22.5835 21.1354 22.4492 21.1354 22.2835V10.9073C21.1354 10.7416 21.2697 10.6073 21.4354 10.6073H22.2988C22.4645 10.6073 22.5988 10.7416 22.5988 10.9073V22.2835Z"></path>
                       <path d="M19.7291 22.2835C19.7291 22.4492 19.5948 22.5835 19.4291 22.5835H16.1263C15.9606 22.5835 15.8264 22.4493 15.8263 22.2837L15.8246 19.1231C15.8245 18.9574 15.9589 18.823 16.1246 18.823H16.3683C16.7566 18.823 17.0714 18.5082 17.0714 18.1199C17.0714 17.4101 16.9261 16.8756 16.6624 16.3214C16.5638 16.1143 16.7083 15.867 16.9377 15.867H17.7501C17.7534 15.8671 17.7568 15.8673 17.7601 15.8676C17.7649 15.8679 17.7697 15.8682 17.7745 15.8682C17.7794 15.8682 17.7841 15.8679 17.7889 15.8676C17.7923 15.8673 17.7956 15.8671 17.799 15.867H19.4291C19.5948 15.867 19.7291 16.0013 19.7291 16.167V22.2835Z"></path>
@@ -84,19 +67,8 @@ const GamesHeader = ({ openSearchModal }) => {
                 className="cursor-pointer w-full text-left bg-white text-gray-800 pl-8 pr-3 py-2 rounded-[8px] shadow focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="#000"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#000" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </span>
             </div>

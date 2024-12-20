@@ -4,3 +4,9 @@ img.icon-yellow {
 svg.icon-yellow {
   fill: yellow !important;
 }
+
+@media screen and (max-width: 640px) {
+  .welcome-banner .slick-dots {
+    bottom: -1rem !important;
+  }
+}

@@ -47,22 +47,20 @@ const HeroBanner = () => {
     prevArrow: <PrevArrow />,
     beforeChange: (current, next) => setCurrentSlide(next),
     customPaging: (i) => (
-      <div
-        className={`w-9 h-2 rounded-full transition-colors duration-300 ${
-          i === currentSlide ? "bg-yellow-500" : "bg-white"
-        }`}
-      />
+      <div className={`min-w-9 h-2 rounded-full transition-colors duration-300 ${i === currentSlide ? "bg-yellow-500" : "bg-white"}`} />
     ),
     appendDots: (dots) => (
       <div
+        // eslint-disable-next-line react/no-unknown-property
+        class="slick-dots"
         style={{
           position: "absolute",
           zIndex: 10,
           width: "100%",
-          bottom: "10px",
+          bottom: "30px",
           display: "flex",
           justifyContent: "center",
-          gap: "16px",
+          gap: "7px",
         }}
       >
         {dots}
@@ -71,24 +69,9 @@ const HeroBanner = () => {
   };
 
   const slides = [
-    {
-      image: Slide1,
-      // title: "Explore Our Casino Games",
-      // description:
-      //   "Play exciting slots, table games, and exclusive casino experiences.",
-    },
-    {
-      image: Slide2,
-      // title: "Live Casino Action",
-      // description:
-      //   "Join live dealers for the most thrilling casino experiences.",
-    },
-    {
-      image: Slide3,
-      // title: "Live Betting Action",
-      // description:
-      //   "Place your bets in real-time with the best odds in the industry.",
-    },
+    { image: Slide1 },
+    { image: Slide2 },
+    { image: Slide3 },
     { image: Slide4 },
     { image: Slide5 },
     { image: Slide6 },
@@ -99,12 +82,22 @@ const HeroBanner = () => {
 
   return (
     <div className="relative bg-[#242424]">
-      <Slider {...settings}>
+      <style jsx>
+        {`
+          .slick-dots {
+            display: flex;
+            gap: 7px;
+          }
+          .slick-dots li {
+            width: 2.5rem;
+            height: 0.5rem;
+            margin: 0 !important;
+          }
+        `}
+      </style>
+      <Slider className="welcome-banner" {...settings}>
         {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="relative h-[260px] sm:h-[350px] md:h-[450px]"
-          >
+          <div key={index} className="relative h-[150px] sm:h-[350px] md:h-[550px]">
             <div
               className="relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
               style={{ backgroundImage: `url(${slide.image})` }}
