@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import GameHeader from "./GameHeader";
+import GamesHeader from "./GamesHeader";
 
 const AdminDashboard = ({ user }) => {
   return (
@@ -9,8 +9,8 @@ const AdminDashboard = ({ user }) => {
       <Sidebar user={user} />
 
       <div className="flex flex-col w-full">
-        {/* Dynamic GameHeader */}
-        <GameHeader user={user} className="w-full" />
+        {/* Dynamic GamesHeader */}
+        <GamesHeader user={user} className="w-full" />
 
         <div className="p-8 bg-gray-100 flex-1">
           {/* Welcome Section */}

@@ -14,7 +14,7 @@ import SportBetBook from "./pages/Admin/SportBetBook.jsx";
 import CasinoBets from "./pages/Admin/CasinoBets.jsx";
 import LandingPage from "./pages/User/LandingPage.jsx";
 import Slots from "./pages/User/Games/Slots.jsx";
-import GameHeader from "./pages/User/Games/GameHeader.jsx";
+import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
 import Crash from "./pages/User/Games/Crash.jsx";
 import GamePage from "./pages/User/Games/GamePage.jsx";
 import LiveCasino from "./pages/User/Games/LiveCasino.jsx";
@@ -109,7 +109,7 @@ function AppRoutes() {
       )}
 
       {/* Conditionally Render Secondary Navigation (Header) */}
-      {showHeader && <GameHeader openSearchModal={handleSearchModal} />}
+      {showHeader && <GamesHeader openSearchModal={handleSearchModal} />}
 
       {/* Routes */}
       <Routes>
@@ -127,7 +127,7 @@ function AppRoutes() {
         <Route path="/pragmatic" element={<Pragmatic />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/new" element={<New />} />
-        <Route path="/menu" element={<GameHeader />} />
+        <Route path="/menu" element={<GamesHeader />} />
 
         {/* Redirect Based on User Role */}
         <Route

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminDashboard from "./AdminDashboard";
-import { useAuth } from "../providers/AuthContext"; // Import AuthContext
+import { useAuth } from "../../providers/AuthContext"; // Import AuthContext
 
 const RoleBasedPage = ({ children }) => {
   const { user } = useAuth(); // Get user data from AuthContext
@@ -10,7 +10,7 @@ const RoleBasedPage = ({ children }) => {
   useEffect(() => {
     if (!user) {
       // Redirect to the landing page if no user is logged in
-      navigate("/");
+      navigate("/home");
     } else if (user.role !== "User") {
       // Redirect all non-user roles to AdminDashboard
       navigate("/admin-dashboard");

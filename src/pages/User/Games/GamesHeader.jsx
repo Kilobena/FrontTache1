@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { GAME_NAV } from "../../../routes/routes_data";
 import "../../../assets/styles/css/game-header.css";
 
-const GameHeader = ({ openSearchModal }) => {
+const GamesHeader = ({ openSearchModal }) => {
   return (
     <>
       <header className="casino-header bg-[#383838] text-white md:mb-3 md:py-2 md:px-4 shadow-md">
@@ -107,4 +107,4 @@ const GameHeader = ({ openSearchModal }) => {
   );
 };
 
-export default GameHeader;
+export default GamesHeader;

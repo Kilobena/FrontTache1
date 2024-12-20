@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../../providers/AuthContext";
 import HeroBanner from "./HeroBanner";
-import GameHeader from "./Games/GameHeader";
+import GamesHeader from "./Games/GamesHeader";
 import sportsImage from "../../assets/sports-image1.webp";
 import liveSportsImage from "../../assets/live-sports-image.webp";
 import casinoImage from "../../assets/casino-image.webp";
@@ -62,7 +62,7 @@ const LandingPage = () => {
       {/* Conditionally Render Header */}
       {isHeaderVisible && (
         <div className="fixed top-0 left-0 w-full z-50">
-          <GameHeader />
+          <GamesHeader />
         </div>
       )}
 
