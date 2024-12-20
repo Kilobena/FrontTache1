@@ -1,5 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# files
+node_modules
+zip
+dist
+dist-ssr
+*.local
+
 # dependencies
 /node_modules
 /.pnp
