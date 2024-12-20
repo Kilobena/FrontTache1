@@ -15,7 +15,7 @@ const Modal = ({ onClose, children, title, className }) => {
           }
         `}
       </style>
-      <div className="fixed inset-0 flex backdrop-blur-md items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
+      <div className="!mx-0 fixed inset-0 flex backdrop-blur-md items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
         {/* Modal Container */}
         <div
           className={`overflow-y-auto relative text-white md:rounded-2xl rounded-none bg-[#2e2e2e] transform transition-all duration-300 scale-100 w-full ${className}`}

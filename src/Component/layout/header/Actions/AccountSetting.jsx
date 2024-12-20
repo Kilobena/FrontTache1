@@ -4,7 +4,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 const AccountSettings = ({ logout, onClickActions, user }) => {
   const UserActions = [
     {
-      title: "My Acount",
+      title: "My Account",
       image:
         "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_My%20account.svg&w=640&q=75",
     },
@@ -33,7 +33,7 @@ const AccountSettings = ({ logout, onClickActions, user }) => {
   let isUserRole = user?.role === "User";
   return (
     <>
-      <div className="lg:h-auto h-[calc(100vh-350px)]">
+      <div className="lg:h-auto h-[calc(100vh-340px)] overflow-y-auto">
         {UserActions.filter(
           (fi) => !isUserRole && fi.title === "My Account"
         ).map((item, index) => (

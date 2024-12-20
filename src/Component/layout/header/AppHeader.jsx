@@ -6,8 +6,9 @@ import BalanceDropDown from "./BalanceDropDown";
 import UserActionsDropdown from "./UserActionsDropdown";
 import UserActionsModal from "./UserActionsModal";
 import MyAccount from "../../../pages/User/AccountSetting/MyAccount";
-import { FaBars, FaTimes } from "react-icons/fa";
 import Modal from "../../ui/Modal";
+import { HiMiniBars3 } from "react-icons/hi2";
+import { IoCloseOutline } from "react-icons/io5";
 
 const AppHeader = ({
   onLoginClick,
@@ -203,18 +204,23 @@ const AppHeader = ({
         </div>
       </header>
       {isMobile && user && !isUserRole && (
-        <div className=" mt-6 p-5 sm:mt-2">
+        <div className="p-5">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
-              <p className="text-xl font-semibold">AGENT MENU</p>
-              <p className="text-sm mt-2 flex-row space-x-1 rtl:space-x-reverse opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</p>
+              <p className="text-lg font-semibold">AGENT MENU</p>
+              <p className="text-sm flex-row space-x-1 rtl:space-x-reverse opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</p>
             </div>
 
             <button
               onClick={() => toggleSidebar(!isSidebarOpen)}
-              className="text-white  text-4xl focus:outline-none mr-3"
+              className="text-white focus:outline-none mr-3"
             >
-              {isSidebarOpen ? <FaTimes /> : <FaBars />}
+              {isSidebarOpen ? (
+                // <IoCloseOutline size={40} />
+                <HiMiniBars3 size={40} />
+              ) : (
+                <HiMiniBars3 size={40} />
+              )}
             </button>
           </div>
         </div>

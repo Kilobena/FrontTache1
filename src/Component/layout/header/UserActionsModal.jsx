@@ -33,7 +33,7 @@ const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
               <span className="leading-none">
                 <p className="mb-1">{user?.username || "Guest"}</p>
                 <small className="text-primary-yellow flex gap-2">
-                  {user.remote_id} <FaCopy />
+                  {user._id.substring(0, 10)} <FaCopy />
                 </small>
               </span>
             </span>
