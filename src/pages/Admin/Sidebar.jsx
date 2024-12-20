@@ -108,7 +108,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
+              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/gaming-report") ? "bg-yellow-500" : ""
               }`}
               onClick={() => handleMenuClick("/gaming-report")}
@@ -119,7 +119,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             {/* Betting Section */}
             <li
-              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
+              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/sportsbook-bets") ? "bg-yellow-500" : ""
               }`}
               onClick={() => handleMenuClick("/sportsbook-bets")}
@@ -129,7 +129,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
+              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/casino-bets") ? "bg-yellow-500" : ""
               }`}
               onClick={() => handleMenuClick("/game")}
@@ -142,7 +142,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             {/* User Management Section */}
             <li
-              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
+              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/user-management") ? "bg-yellow-500" : ""
               }`}
               onClick={() => handleMenuClick("/user-management")}
@@ -152,7 +152,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             </li>
 
             <li
-              className={`flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
+              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/registre") ? "bg-yellow-500" : ""
               }`}
               onClick={() => handleMenuClick("/registre")}
@@ -165,7 +165,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             {/* Logout Section */}
             <li
-              className="flex items-center cursor-pointer p-2  rounded-lg flex items-center w-full   rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500"
+              className="cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500"
               onClick={logout}
             >
               <FaSignOutAlt className="mr-3 ml-3" />
