@@ -4,7 +4,7 @@ import AccountSettings from "./Actions/AccountSetting";
 import Modal from "../../ui/Modal";
 import { FaCopy } from "react-icons/fa";
 
-const UserActionsModal = ({ user, logout }) => {
+const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
   return (
     <>
       <style jsx>{`
@@ -14,6 +14,7 @@ const UserActionsModal = ({ user, logout }) => {
         }
       `}</style>
       <Modal
+        onClose={() => setIsUserActionsModalOpen(false)}
         className="w-full h-screen modal-user-action"
         title={
           <h2 className="bg-primary-dark w-full my-4 font-medium text-lg absolute left-0 -top-4 p-3">
