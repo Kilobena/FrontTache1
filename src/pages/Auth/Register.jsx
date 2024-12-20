@@ -15,8 +15,9 @@ const RegisterForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(""); // success or error
   const auth = new Auth();
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
 
+  // Determine available roles based on logged-in user's role
   const getAvailableRoles = () => {
     if (user?.role === "Owner") {
       return ["Partner", "SuperAgent", "Agent", "User"];
@@ -24,8 +25,12 @@ const RegisterForm = () => {
       return ["SuperAgent"];
     } else if (user?.role === "SuperAgent") {
       return ["Agent"];
-    } else {
+    }
+    else if (user?.role === "Agent") {
       return ["User"];
+    } 
+     else {
+      return [];
     }
   };
 

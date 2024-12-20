@@ -16,16 +16,16 @@ const TransferForm = () => {
   const [message, setMessage] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isUserListFetched, setIsUserListFetched] = useState(false);
-  const [noUsersFound, setNoUsersFound] = useState(false);
 
   const authServ = new Auth();
   const transferServ = new TransferService();
   const suggestionBoxRef = useRef(null);
 
-  // Fetch users based on user role
-  const fetchAllUsers = async () => {
+  // Fetch users based on role hierarchy
+  const fetchUsers = async () => {
     try {
       let response;
+  
       if (user.role === "Owner") {
         response = await authServ.api.get(`/auth/getAllUsers`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -33,58 +33,98 @@ const TransferForm = () => {
       } else {
         response = await authServ.getUsersByCreaterId(user._id);
       }
-
-      if (response.success && Array.isArray(response.users)) {
-        setAllUsers(response.users);
-        setNoUsersFound(response.users.length === 0);
+  
+      console.log("Fetched users full response:", response);
+  
+      // Validate response structure
+      const data = response.data || response;
+      if (data && data.success && Array.isArray(data.users)) {
+        const users = data.users;
+        setAllUsers(users);
+  
+        const filteredUsers = users.filter((u) => {
+          const canInteract = canInteractWith(user.role, u.role);
+          const isCreatedBy =
+            user.role === "Owner" || String(u.createrid) === String(user._id);
+          const isNotSelf = u.username !== user.username;
+  
+          console.log("User Filtering Debug:", {
+            username: u.username,
+            role: u.role,
+            createrid: u.createrid,
+            canInteract,
+            isCreatedBy,
+            isNotSelf,
+          });
+  
+          return canInteract && isCreatedBy && isNotSelf;
+        });
+  
+        console.log("Filtered Users:", filteredUsers);
+  
+        if (filteredUsers.length === 0) {
+          setMessage("No users found.");
+        } else {
+          setFilteredUsers(filteredUsers);
+        }
       } else {
-        setNoUsersFound(true);
+        console.error("Unexpected response structure:", response);
+        setMessage("No users found.");
       }
     } catch (error) {
       console.error("Error fetching users:", error);
-      setNoUsersFound(true);
+  
+      // Handle token expiration or invalid token (401)
+      if (error.response?.status === 401) {
+        setMessage("Authorization failed. Please log in again.");
+        // Optional: Redirect to login page
+        // navigate("/login");
+      } else {
+        setMessage("Error fetching users. Please try again later.");
+      }
     } finally {
       setIsUserListFetched(true);
     }
   };
+  
+  
+  
+  
+  
 
+  // Role-based interaction logic
   const canInteractWith = (currentRole, targetRole) => {
     const permissions = {
       Owner: ["Partner", "SuperAgent", "Agent", "User"],
       Partner: ["SuperAgent"],
       SuperAgent: ["Agent"],
-      Agent: [], // Agents cannot create deposits/withdrawals
-      User: [], // Users cannot create deposits/withdrawals
+      Agent: ["User"],
+      User: [], // Users cannot interact
     };
 
-    // If current role doesn't exist in permissions or target role isn't allowed, deny interaction
     return permissions[currentRole]?.includes(targetRole) || false;
   };
 
-  const filteredUsersForInteraction = allUsers.filter((listedUser) => {
-    const canInteract = canInteractWith(user.role, listedUser.role);
-    const isNotSelf = listedUser.username !== user.username;
-    return canInteract && isNotSelf;
-  });
-
+  // Search functionality
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-
+  
     if (value.length >= 3) {
       setShowSuggestions(true);
-
-      const filtered = filteredUsersForInteraction.filter((user) =>
+  
+      // Use the original `allUsers` list for filtering
+      const filtered = allUsers.filter((user) =>
         user.username.toLowerCase().includes(value.toLowerCase())
       );
-
+  
       setFilteredUsers(filtered);
     } else {
-      // If less than 3 characters, clear suggestions
       setFilteredUsers([]);
       setShowSuggestions(false);
     }
   };
+  
 
   const handleSuggestionClick = (username, userId) => {
     setSearchTerm(username);
@@ -94,14 +134,12 @@ const TransferForm = () => {
 
   const handleInputFocus = () => {
     if (!isUserListFetched) {
-      setMessage("Still loading users...");
-      setModalType("error");
-      setIsModalOpen(true);
+      setMessage("Loading users...");
     }
   };
 
   useEffect(() => {
-    fetchAllUsers();
+    fetchUsers();
 
     const handleClickOutside = (event) => {
       if (
@@ -155,6 +193,7 @@ const TransferForm = () => {
         setMessage(result.message || "Transfer failed.");
       }
     } catch (error) {
+      console.error("Error during transfer:", error);
       setMessage("An error occurred during transfer.");
     }
   };
