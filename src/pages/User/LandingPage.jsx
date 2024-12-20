@@ -72,8 +72,8 @@ const LandingPage = () => {
 
       {/* Featured Partners Section */}
       {!isHeaderVisible && (
-        <section className="py-12 bg-[#242424]">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-12">
+        <section className="py-6 bg-[#242424]">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-7">
             {sections.map((section, index) => (
               <motion.div
                 key={index}
@@ -103,7 +103,7 @@ const LandingPage = () => {
 
       {/* FAQ Section */}
       {!isHeaderVisible && (
-        <section className="py-12 bg-[#242424] text-white">
+        <section className="py-6 bg-[#242424] text-white">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">
               Still have questions?
