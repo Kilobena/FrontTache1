@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         "primary-dark": "#1C1C1C", // Dark background
         "secondary-dark": "#636363", // Dark background
-        "primary-yellow": "#F2C41A", // Main yellow
+        "primary-yellow": "#f2c41a", // Main yellow
         "secondary-yellow": "#f2a500", // Hover yellow
         "light-gray": "#2E2E2E", // Light gray for cards
       },

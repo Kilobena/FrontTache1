@@ -1,11 +1,11 @@
-import Amatic from "../pages/User/Games/Amatic";
-import Crash from "../pages/User/Games/Crash";
-import Featured from "../pages/User/Games/Featured";
-import LiveCasino from "../pages/User/Games/LiveCasino";
-import New from "../pages/User/Games/New";
-import Pragmatic from "../pages/User/Games/Pragmatic";
-import Providers from "../pages/User/Games/Providers";
-import Slots from "../pages/User/Games/Slots";
+import Amatic from "./Games/Amatic";
+import Crash from "./Games/Crash";
+import Featured from "./Games/Featured";
+import LiveCasino from "./Games/LiveCasino";
+import New from "./Games/New";
+import Pragmatic from "../pages/User/Pragmatic";
+import Providers from "../pages/User/Providers";
+import Slots from "../pages/User/Slots";
 
 export const GAME_NAV = [
   {

@@ -5,8 +5,8 @@ import AppRoutes from "./Routes";
 import { AuthProvider } from "./providers/AuthContext.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./css/global.css";
-import "../index.css";
+import "./assets/styles/css/global.css";
+import "./assets/styles/css/tailwind.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
