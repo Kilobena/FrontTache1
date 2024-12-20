@@ -52,7 +52,7 @@ const HeroBanner = () => {
     appendDots: (dots) => (
       <div
         // eslint-disable-next-line react/no-unknown-property
-        class="slick-dots"
+        className="slick-dots"
         style={{
           position: "absolute",
           zIndex: 10,
