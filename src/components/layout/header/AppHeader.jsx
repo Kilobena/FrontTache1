@@ -60,11 +60,11 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
   ];
   return (
     <>
-      <header className="bg-[#2E2E2E]text-white shadow-lg">
+      <header className="bg-[#1d1d1d] text-white shadow-lg">
         <div className="flex items-center justify-between py-2 px-3">
           {/* Left Section */}
           <Link to={isUserRole ? "/home" : "/transferhistory"} className="flex items-center space-x-4" onClick={() => setActiveItem("home")}>
-            <span className="flex mr-5 max-w-56">
+            <span className="flex mr-5 lg:max-w-56 max-w-36">
               <img src="https://assets.bet24.gg/sites/bet24/Bet24-New logo.png" alt="Bet24" title="Bet24" />
             </span>
           </Link>
