@@ -1,3 +1,4 @@
+import React from "react";
 import Amatic from "../pages/User/Games/Amatic";
 import Crash from "../pages/User/Games/Crash";
 import Featured from "../pages/User/Games/Featured";
