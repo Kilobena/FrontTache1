@@ -8,7 +8,7 @@ import LiveCasino from "./LiveCasino";
 import Amatic from "./Amatic";
 import Pragmatic from "./Pragmatic";
 
-const GamesPage = () => {
+const Lobby = () => {
   const navigate = useNavigate();
 
   return (
@@ -305,4 +305,4 @@ const GamesPage = () => {
   );
 };
 
-export default GamesPage;
+export default Lobby;

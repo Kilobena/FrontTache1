@@ -34,7 +34,7 @@ const FiltersGames = ({ selectedProviderFilter, setSelectedProviderFilter, selec
   return (
     <>
       {!location.pathname.startsWith("/casino") ? (
-        <div className="relative flex items-center justify-end gap-3 md:mt-0 md:w-[400px] mt-3 w-full">
+        <div className="relative flex items-center justify-end gap-3 md:w-[400px] w-full">
           {/* PROVIDERS FILTER */}
           {!location.pathname.startsWith("/providers") || !location.pathname.startsWith("/pragmatic") ? (
             <Listbox as="div" className="lg:flex-none flex-1" value={selectedProviderFilter} onChange={setSelectedProviderFilter}>

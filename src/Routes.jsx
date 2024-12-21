@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./providers/AuthContext.jsx";
 import RegisterForm from "./pages/Auth/Register";
@@ -16,7 +16,7 @@ import LandingPage from "./pages/User/LandingPage.jsx";
 import Slots from "./pages/User/Games/Slots.jsx";
 import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
 import Crash from "./pages/User/Games/Crash.jsx";
-import GamePage from "./pages/User/Games/Lobby.jsx";
+import Lobby from "./pages/User/Games/Lobby.jsx";
 import LiveCasino from "./pages/User/Games/LiveCasino.jsx";
 import Providers from "./pages/User/Games/Providers.jsx";
 import Amatic from "./pages/User/Games/Amatic.jsx";
@@ -31,13 +31,13 @@ import Modal from "./components/ui/Modal.jsx";
 import OtherGames from "./pages/User/Games/OtherGames.jsx";
 
 function AppRoutes() {
-  const { user, login, logout } = useAuth();
-  const isAuthenticated = !!user;
+  const location = useLocation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
+  const { user, login, logout } = useAuth();
+  const isAuthenticated = !!user;
   const isUserRole = user?.role === "User";
-  const location = useLocation();
 
   const handleLoginClick = () => setIsLoginModalOpen(true);
   const handleCloseModal = () => setIsLoginModalOpen(false);
@@ -63,7 +63,7 @@ function AppRoutes() {
   const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
 
   // Determine if the Header should be displayed
-  const showHeader =
+  const excludeAppHeader =
     location.pathname.startsWith("/casino") ||
     location.pathname.startsWith("/slots") ||
     location.pathname.startsWith("/crash") ||
@@ -78,7 +78,15 @@ function AppRoutes() {
   return (
     <div className="bg-[#242424] text-white min-h-screen">
       {/* Main Navigation (Always Visible) */}
-      {!isExcludedRoute && <AppHeader user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
+      {!isExcludedRoute && (
+        <AppHeader
+          user={user}
+          excludeAppHeader={excludeAppHeader}
+          onLoginClick={handleLoginClick}
+          onRegisterClick={handleLoginClick}
+          onLogout={logout}
+        />
+      )}
 
       {isLoginModalOpen && (
         <Modal className="max-w-md" title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>} onClose={handleCloseModal}>
@@ -97,7 +105,7 @@ function AppRoutes() {
       )}
 
       {/* Conditionally Render Secondary Navigation (Header) */}
-      {showHeader && <GamesHeader openSearchModal={handleSearchModal} />}
+      <GamesHeader openSearchModal={handleSearchModal} />
 
       {/* Routes */}
       <Routes>
@@ -107,7 +115,7 @@ function AppRoutes() {
 
         {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/casino" element={<GamePage />} />
+        <Route path="/casino" element={<Lobby />} />
         <Route path="/slots" element={<Slots />} />
         <Route path="/crash" element={<Crash />} />
         <Route path="/providers" element={<Providers />} />
@@ -136,7 +144,7 @@ function AppRoutes() {
         />
 
         {/* Protected Routes for Admin/Other Roles */}
-        <Route element={<DashboardLayout user={user} logout={logout} />}>
+        <Route element={<DashboardLayout excludeAppHeader={excludeAppHeader} user={user} logout={logout} />}>
           <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transferaction") : "/home"} replace />} />
           <Route path="/transferaction" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
           <Route path="/transferhistory" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />

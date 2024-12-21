@@ -10,7 +10,7 @@ const BottomBar = ({ openSearchModal }) => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isCasinoMenu, setIsCasinoMenu] = useState(false);
+  const [isCasinoMenu, setIsCasinoMenu] = useState(true);
   const [isSportsMenu, setIsSportsMenu] = useState(false);
 
   const { user, login, logout } = useAuth();

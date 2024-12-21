@@ -1,3 +1,4 @@
+import Lobby from "../pages/User/Games/Lobby";
 import Amatic from "../pages/User/Games/Amatic";
 import Crash from "../pages/User/Games/Crash";
 import Featured from "../pages/User/Games/Featured";
@@ -6,12 +7,14 @@ import New from "../pages/User/Games/New";
 import Pragmatic from "../pages/User/Games/Pragmatic";
 import Providers from "../pages/User/Games/Providers";
 import Slots from "../pages/User/Games/Slots";
+import IconLobby from "../assets/icons/icon-lobby.svg";
 
 export const GAME_NAV = [
   {
     path: "/casino",
     label: "Lobby",
-    icon: "",
+    component: <Lobby />,
+    icon: IconLobby,
   },
   {
     path: "/featured",
