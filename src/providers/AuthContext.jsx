@@ -1,67 +1,65 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import Auth from "../service/Auth";
 
-// Create the AuthContext
 const AuthContext = createContext();
 
-// AuthProvider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    try {
-      const storedUser = localStorage.getItem("user");
+      const storedUser = sessionStorage.getItem("user");
       return storedUser ? JSON.parse(storedUser) : null;
-    } catch (error) {
-      console.error("Error parsing stored user:", error);
-      return null;
-    }
   });
 
-  const auth = new Auth();
+  const [authService] = useState(() => new Auth());
 
-  const login = (userData) => {
-    try {
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("user", JSON.stringify(userData));
-      setUser(userData);
-    } catch (error) {
-      console.error("Error storing user data during login:", error);
-    }
+  const login = async (credentials) => {
+      const response = await authService.loginUser(credentials);
+      if (response.success) setUser(response.user);
   };
 
-  const updateUser = (updatedUserData) => {
-    try {
-      setUser((prevUser) => {
-        const newUser = { ...prevUser, ...updatedUserData };
-        localStorage.setItem("token", newUser.token);
-        localStorage.setItem("user", JSON.stringify(newUser));
-        return newUser;
-      });
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-  };
-
-  const logout = () => {
-    try {
-      localStorage.removeItem("user");
+  const logout = async () => {
+      await authService.logoutUser();
       setUser(null);
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
   };
 
-  // Periodically update user balance
+  const getProfile = async () => {
+      return await authService.getProfile();
+  };
 
-  return <AuthContext.Provider value={{ user, login, logout, updateUser }}>{children}</AuthContext.Provider>;
+  const getUserByUsername = async (username) => {
+      return await authService.getUserByUsername(username);
+  };
+
+  const deleteUserByUsername = async (username) => {
+      return await authService.deleteUserByUsername(username);
+  };
+
+  const getUsersByCreaterId = async (createrId) => {
+      return await authService.getUsersByCreaterId(createrId);
+  };
+
+  return (
+      <AuthContext.Provider
+          value={{
+              user,
+              login,
+              logout,
+              getProfile,
+              getUserByUsername,
+              deleteUserByUsername,
+              getUsersByCreaterId,
+          }}
+      >
+          {children}
+      </AuthContext.Provider>
+  );
 };
 
-// Custom Hook for Auth
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+    const context = useContext(AuthContext);
 
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
 
-  return context;
+    return context;
 };

@@ -10,6 +10,9 @@ const HeaderAdmin = ({ isSidebarOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+
+
+  console.log('user',user);
   const handleMenuClick = (path) => {
     navigate(path);
     // Close the sidebar on mobile view after clicking a menu item
@@ -31,10 +34,14 @@ const HeaderAdmin = ({ isSidebarOpen, toggleSidebar }) => {
   const tunisTime = new Intl.DateTimeFormat("en-GB", options).format(new Date());
   const formattedTime = tunisTime.replace(",", " -");
 
-  const handleLogout = () => {
-    logout();
-    navigate("/home");
-  };
+  const handleLogout = async () => {
+    try {
+        await logout(); // Call the logout method from AuthContext
+        navigate("/home"); // Redirect to login page
+    } catch (error) {
+        console.error("Error during logout:", error);
+    }
+};
   const userBalanceData = [
     {
       title: "Cash",

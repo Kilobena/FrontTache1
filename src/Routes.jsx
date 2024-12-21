@@ -34,9 +34,9 @@ function AppRoutes() {
   const isAuthenticated = !!user;
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const location = useLocation();
 
   const isUserRole = user?.role === "User";
-  const location = useLocation();
 
   const handleLoginClick = () => setIsLoginModalOpen(true);
   const handleCloseModal = () => setIsLoginModalOpen(false);
@@ -59,9 +59,10 @@ function AppRoutes() {
     "/casino-bets",
   ];
 
-  const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
+  const isExcludedRoute = excludedHeaderRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
-  // Determine if the Header should be displayed
   const showHeader =
     location.pathname.startsWith("/game") ||
     location.pathname.startsWith("/slots") ||
@@ -75,18 +76,30 @@ function AppRoutes() {
 
   return (
     <div className="bg-[#242424] text-white min-h-screen">
-      {/* Main Navigation (Always Visible) */}
-      {!isExcludedRoute && <AppHeader user={user} onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} onLogout={logout} />}
+      {/* Header */}
+      {!isExcludedRoute && (
+        <AppHeader
+          user={user}
+          onLoginClick={handleLoginClick}
+          onLogout={logout}
+        />
+      )}
 
+      {/* Login Modal */}
       {isLoginModalOpen && (
-        <Modal className="max-w-md" title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>} onClose={handleCloseModal}>
+        <Modal
+          className="max-w-md"
+          title={<h2 className="font-light text-2xl mt-4">LOGIN</h2>}
+          onClose={handleCloseModal}
+        >
           <Login onLoginSuccess={handleLoginSuccess} />
         </Modal>
       )}
 
+      {/* Search Modal */}
       {isSearchModalOpen && (
         <Modal
-          className="w-full lg:max-w-[60rem]  lg:h-[calc(100vh-200px)] h-screen"
+          className="w-full lg:max-w-[60rem] lg:h-[calc(100vh-200px)] h-screen"
           title={<h2 className="mt-5 font-bold md:text-xl text-lg">Search Engine</h2>}
           onClose={() => setIsSearchModalOpen(false)}
         >
@@ -94,16 +107,14 @@ function AppRoutes() {
         </Modal>
       )}
 
-      {/* Conditionally Render Secondary Navigation (Header) */}
+      {/* Secondary Navigation */}
       {showHeader && <GamesHeader openSearchModal={handleSearchModal} />}
 
       {/* Routes */}
       <Routes>
-        {/* Public Landing Page */}
+        {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<LandingPage />} />
-
-        {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
         <Route path="/game" element={<GamePage />} />
         <Route path="/slots" element={<Slots />} />
@@ -114,9 +125,8 @@ function AppRoutes() {
         <Route path="/pragmatic" element={<Pragmatic />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/new" element={<New />} />
-        <Route path="/menu" element={<GamesHeader />} />
 
-        {/* Redirect Based on User Role */}
+        {/* User Redirection */}
         <Route
           path="/user"
           element={
@@ -132,27 +142,108 @@ function AppRoutes() {
           }
         />
 
-        {/* Protected Routes for Admin/Other Roles */}
+        {/* Protected Routes */}
         <Route element={<DashboardLayout user={user} logout={logout} />}>
-          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transferaction") : "/home"} replace />} />
-          <Route path="/transferaction" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
-          <Route path="/transferhistory" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
-          <Route path="/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
-          <Route path="/regitreP" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
-          <Route path="/registre" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />
-          <Route path="/tranfer_report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
-          <Route path="/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
-          <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
-          <Route path="/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
+          <Route
+            path="/transferaction"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <TransferForm />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/transferhistory"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <TransferHistory />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/user-management"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <ManageUser />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/regitreP"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <RegisterPartner />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/registre"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <RegisterForm />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/tranfer_report"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <TransferReport />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/gaming-report"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <GamingReport />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/sportsbook-bets"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <SportBetBook />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
+          <Route
+            path="/casino-bets"
+            element={
+              isAuthenticated && !isUserRole ? (
+                <CasinoBets />
+              ) : (
+                <Navigate to="/home" replace />
+              )
+            }
+          />
         </Route>
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
 
+      {/* Footer */}
       <Footer />
       <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
-        <BottomBar openSearchModal={handleSearchModal} />
+        <BottomBar />
       </div>
     </div>
   );
