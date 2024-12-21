@@ -9,7 +9,7 @@ import Slots from "../pages/User/Slots";
 
 export const GAME_NAV = [
   {
-    path: "/game",
+    path: "/casino",
     label: "Lobby",
     icon: "",
   },

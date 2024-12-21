@@ -54,7 +54,7 @@ const AppHeader = ({ onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar
     { path: "/home", label: "HOME", id: "home" },
     { path: "/sports-betting", label: "SPORTS BETTING", id: "sports" },
     { path: "/live-betting", label: "LIVE BETTING", id: "live" },
-    { path: "/game", label: "CASINO", id: "casino" },
+    { path: "/casino", label: "CASINO", id: "casino" },
     { path: "/livecasino", label: "LIVE CASINO", id: "livecasino" },
     { path: "/virtuals", label: "VIRTUALS", id: "virtuals" },
   ];

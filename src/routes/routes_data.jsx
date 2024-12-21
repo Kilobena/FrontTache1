@@ -9,7 +9,7 @@ import Slots from "../pages/User/Games/Slots";
 
 export const GAME_NAV = [
   {
-    path: "/game",
+    path: "/casino",
     label: "Lobby",
     icon: "",
   },
@@ -62,7 +62,7 @@ export const GAME_NAV = [
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_pragmatic.svg&w=160&q=75",
   },
   {
-    path: "/othergames",
+    path: "/other-games",
     label: "Other Games",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
   },

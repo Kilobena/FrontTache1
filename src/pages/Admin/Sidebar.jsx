@@ -59,9 +59,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
       {/* Sidebar Menu */}
       <div
         className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-64 lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
-          isSidebarOpen
-            ? "lg:translate-x-0 top-full"
-            : "lg:translate-x-full h-0"
+          isSidebarOpen ? "lg:translate-x-0 top-full" : "lg:translate-x-full h-0"
         } `}
       >
         <div className="pr-3">
@@ -132,7 +130,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/casino-bets") ? "bg-yellow-500" : ""
               }`}
-              onClick={() => handleMenuClick("/game")}
+              onClick={() => handleMenuClick("/casino")}
             >
               <FaWallet className="mr-3 ml-3" />
               Casino Bets
@@ -177,9 +175,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
           {/* User Info */}
           <div className="p-4 text-xs flex flex-col space-y-1 opacity-70 mb-5">
             <p className="text-sm">Last Login:</p>
-            <p className="mt-5 text-sm">
-              {new Date(user?.userdate).toLocaleString()}
-            </p>
+            <p className="mt-5 text-sm">{new Date(user?.userdate).toLocaleString()}</p>
           </div>
         </div>
       </div>

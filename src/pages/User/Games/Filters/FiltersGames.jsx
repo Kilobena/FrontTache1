@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
@@ -33,41 +28,24 @@ const SORT_OPTIONS = [
   { value: "latest", label: "Latest" },
 ];
 
-const FiltersGames = ({
-  selectedProviderFilter,
-  setSelectedProviderFilter,
-  selectedSortByFilter,
-  setSelectedSortByFilter,
-}) => {
+const FiltersGames = ({ selectedProviderFilter, setSelectedProviderFilter, selectedSortByFilter, setSelectedSortByFilter }) => {
   const location = useLocation();
 
   return (
     <>
-      {!location.pathname.startsWith("/game") ? (
+      {!location.pathname.startsWith("/casino") ? (
         <div className="relative flex items-center justify-end gap-3 md:mt-0 md:w-[400px] mt-3 w-full">
           {/* PROVIDERS FILTER */}
-          {!location.pathname.startsWith("/providers") ||
-          !location.pathname.startsWith("/pragmatic") ? (
-            <Listbox
-              as="div"
-              className="lg:flex-none flex-1"
-              value={selectedProviderFilter}
-              onChange={setSelectedProviderFilter}
-            >
+          {!location.pathname.startsWith("/providers") || !location.pathname.startsWith("/pragmatic") ? (
+            <Listbox as="div" className="lg:flex-none flex-1" value={selectedProviderFilter} onChange={setSelectedProviderFilter}>
               <ListboxButton
                 className={clsx(
                   "w-full lg:w-[200px] relative block rounded-lg bg-white py-2 pr-8 pl-5 text-left text-sm/6 text-primary-dark",
                   "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                 )}
               >
-                Provider:{" "}
-                {!selectedProviderFilter
-                  ? selectedProviderFilter.label
-                  : PROVIDER_OPTIONS[0].label}
-                <ChevronDownIcon
-                  className="group pointer-events-none absolute top-2 right-2.5 size-5 fill-primary-dark"
-                  aria-hidden="true"
-                />
+                Provider: {!selectedProviderFilter ? selectedProviderFilter.label : PROVIDER_OPTIONS[0].label}
+                <ChevronDownIcon className="group pointer-events-none absolute top-2 right-2.5 size-5 fill-primary-dark" aria-hidden="true" />
               </ListboxButton>
               <ListboxOptions
                 anchor="bottom-end"
@@ -92,26 +70,15 @@ const FiltersGames = ({
 
           {/* SORT BY FILTER */}
 
-          <Listbox
-            as="div"
-            className="lg:flex-none flex-1"
-            value={selectedSortByFilter}
-            onChange={setSelectedSortByFilter}
-          >
+          <Listbox as="div" className="lg:flex-none flex-1" value={selectedSortByFilter} onChange={setSelectedSortByFilter}>
             <ListboxButton
               className={clsx(
                 "w-full lg:w-[200px] relative block rounded-lg bg-white py-2 pr-8 pl-5 pl-3 text-left text-sm/6 text-primary-dark",
                 "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
               )}
             >
-              Sort By:{" "}
-              {!selectedSortByFilter
-                ? selectedSortByFilter.label
-                : SORT_OPTIONS[0].label}
-              <ChevronDownIcon
-                className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-primary-dark"
-                aria-hidden="true"
-              />
+              Sort By: {!selectedSortByFilter ? selectedSortByFilter.label : SORT_OPTIONS[0].label}
+              <ChevronDownIcon className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-primary-dark" aria-hidden="true" />
             </ListboxButton>
             <ListboxOptions
               anchor="bottom-end"

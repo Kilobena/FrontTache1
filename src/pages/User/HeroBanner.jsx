@@ -93,15 +93,38 @@ const HeroBanner = () => {
             height: 0.5rem;
             margin: 0 !important;
           }
+          .welcome-banner .img-slide {
+            position: absolute;
+            inset: 0px;
+            box-sizing: border-box;
+            padding: 0px;
+            border: none;
+            margin: auto;
+            display: block;
+            width: 0px;
+            height: 0px;
+            min-width: 100%;
+            max-width: 100%;
+            min-height: 100%;
+            max-height: 100%;
+            object-fit: cover;
+          }
         `}
       </style>
       <Slider className="welcome-banner" {...settings}>
         {slides.map((slide, index) => (
-          <div key={index} className="relative h-[125px] sm:h-[350px] md:h-[550px]">
+          <div key={index} className="relative">
+            {/* h-[125px] sm:h-[350px] md:h-[550px] */}
             <div
-              className="relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
-              style={{ backgroundImage: `url(${slide.image})` }}
+              className="relative brightness-40 pointer-events-none
+              relative h-full bg-cover bg-center transition-transform duration-700 ease-in-out"
+              // style={{ backgroundImage: `url(${slide.image})` }}
             >
+              <div style={{ paddingTop: "calc(29.1605%)" }}>
+                <span>
+                  <img className="img-slide" src={slide.image} />
+                </span>
+              </div>
               {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
               <div className="absolute inset-0 flex flex-col justify-center items-start pl-4 sm:pl-6 md:pl-12 text-white">
                 <motion.h1

@@ -28,6 +28,7 @@ import Footer from "./components/layout/Footer.jsx";
 import BottomBar from "./components/layout/BottomBar.jsx";
 import AppHeader from "./components/layout/header/AppHeader.jsx";
 import Modal from "./components/ui/Modal.jsx";
+import OtherGames from "./pages/User/Games/OtherGames.jsx";
 
 function AppRoutes() {
   const { user, login, logout } = useAuth();
@@ -63,7 +64,7 @@ function AppRoutes() {
 
   // Determine if the Header should be displayed
   const showHeader =
-    location.pathname.startsWith("/game") ||
+    location.pathname.startsWith("/casino") ||
     location.pathname.startsWith("/slots") ||
     location.pathname.startsWith("/crash") ||
     location.pathname.startsWith("/providers") ||
@@ -71,6 +72,7 @@ function AppRoutes() {
     location.pathname.startsWith("/amatic") ||
     location.pathname.startsWith("/pragmatic") ||
     location.pathname.startsWith("/featured") ||
+    location.pathname.startsWith("/other-games") ||
     location.pathname.startsWith("/new");
 
   return (
@@ -105,7 +107,7 @@ function AppRoutes() {
 
         {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/game" element={<GamePage />} />
+        <Route path="/casino" element={<GamePage />} />
         <Route path="/slots" element={<Slots />} />
         <Route path="/crash" element={<Crash />} />
         <Route path="/providers" element={<Providers />} />
@@ -114,6 +116,7 @@ function AppRoutes() {
         <Route path="/pragmatic" element={<Pragmatic />} />
         <Route path="/featured" element={<Featured />} />
         <Route path="/new" element={<New />} />
+        <Route path="/other-games" element={<OtherGames />} />
         <Route path="/menu" element={<GamesHeader />} />
 
         {/* Redirect Based on User Role */}
