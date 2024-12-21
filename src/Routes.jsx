@@ -29,6 +29,7 @@ import BottomBar from "./components/layout/BottomBar.jsx";
 import AppHeader from "./components/layout/header/AppHeader.jsx";
 import Modal from "./components/ui/Modal.jsx";
 import OtherGames from "./pages/User/Games/OtherGames.jsx";
+import { GAMES_CATEGORY_NAV } from "./routes/routes_data.jsx";
 
 function AppRoutes() {
   const location = useLocation();
@@ -64,6 +65,7 @@ function AppRoutes() {
 
   // Determine if the Header should be displayed
   const excludeAppHeader =
+    // GAMES_CATEGORY_NAV.map(({ path }) => location.pathname.startsWith(path));
     location.pathname.startsWith("/casino") ||
     location.pathname.startsWith("/slots") ||
     location.pathname.startsWith("/crash") ||
@@ -105,7 +107,7 @@ function AppRoutes() {
       )}
 
       {/* Conditionally Render Secondary Navigation (Header) */}
-      <GamesHeader openSearchModal={handleSearchModal} />
+      {excludeAppHeader && <GamesHeader openSearchModal={handleSearchModal} />}
 
       {/* Routes */}
       <Routes>
@@ -115,17 +117,9 @@ function AppRoutes() {
 
         {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/casino" element={<Lobby />} />
-        <Route path="/slots" element={<Slots />} />
-        <Route path="/crash" element={<Crash />} />
-        <Route path="/providers" element={<Providers />} />
-        <Route path="/livecasino" element={<LiveCasino />} />
-        <Route path="/amatic" element={<Amatic />} />
-        <Route path="/pragmatic" element={<Pragmatic />} />
-        <Route path="/featured" element={<Featured />} />
-        <Route path="/new" element={<New />} />
-        <Route path="/other-games" element={<OtherGames />} />
-        <Route path="/menu" element={<GamesHeader />} />
+        {GAMES_CATEGORY_NAV.map((item) => (
+          <Route key={item.label} path={item.path} element={item.component} />
+        ))}
 
         {/* Redirect Based on User Role */}
         <Route

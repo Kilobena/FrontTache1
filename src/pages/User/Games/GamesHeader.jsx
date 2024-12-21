@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { GAME_NAV } from "../../../routes/routes_data";
+import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
 import "../../../assets/styles/css/game-header.css";
 
 const GamesHeader = ({ openSearchModal }) => {
@@ -20,7 +20,7 @@ const GamesHeader = ({ openSearchModal }) => {
         <div className="flex items-center">
           {/* Navigation Items */}
           <nav className="hidden lg:flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
-            {GAME_NAV.map((item, index) => (
+            {GAMES_CATEGORY_NAV.map((item, index) => (
               <NavLink
                 key={index}
                 to={item.path}

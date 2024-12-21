@@ -8,7 +8,7 @@ import LiveCasino from "./LiveCasino";
 import Amatic from "./Amatic";
 import Pragmatic from "./Pragmatic";
 
-import { GAME_NAV } from "../../../routes/routes_data";
+import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
 
 const GamesPage = () => {
   const navigate = useNavigate();
@@ -16,21 +16,14 @@ const GamesPage = () => {
   return (
     <section className=" text-white min-h-screen overflow-hidden relative scrollbar-hide">
       <div className="container mx-auto px-0 pb-20 scrollbar-hide">
-        {GAME_NAV.filter((fi) => fi.label !== "Lobby").map((item, index) => {
+        {GAMES_CATEGORY_NAV.filter((fi) => fi.label !== "Lobby").map((item, index) => {
           return (
-            <div
-              key={index}
-              className="hidden md:block container mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-[80rem]"
-            >
+            <div key={index} className="hidden md:block container mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-[80rem]">
               <div className="bg-[#2E2E2E] lg:rounded-lg shadow-md p-6">
                 {/* Title Section */}
                 <div className="flex justify-between items-center  border-gray-700 ">
                   <h2 className="text-xl md:text-2xl p-2 font-bold flex items-center space-x-3 text-white">
-                    <img
-                      src={item?.icon}
-                      alt={item.label}
-                      className="w-6 h-6"
-                    />
+                    <img src={item?.icon} alt={item.label} className="w-6 h-6" />
                     <span>{item.label}</span>
                   </h2>
                   <button

@@ -9,64 +9,64 @@ import Providers from "../pages/User/Games/Providers";
 import Slots from "../pages/User/Games/Slots";
 import IconLobby from "../assets/icons/icon-lobby.svg";
 
-export const GAME_NAV = [
+export const GAMES_CATEGORY_NAV = [
   {
-    path: "/casino",
     label: "Lobby",
+    path: "/casino",
     component: <Lobby />,
     icon: IconLobby,
   },
   {
-    path: "/featured",
     label: "Featured",
+    path: "/featured",
     component: <Featured />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_featured.svg&w=160&q=75",
   },
   {
-    path: "/new",
     label: "New",
+    path: "/new",
     component: <New />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_new%20(1).svg&w=160&q=75",
   },
   {
-    path: "/slots",
     label: "Slots",
+    path: "/slots",
     component: <Slots />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_slots.svg&w=160&q=75",
   },
   {
-    path: "/crash",
     label: "Crash",
+    path: "/crash",
     component: <Crash />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Crash.svg&w=160&q=75",
   },
   {
-    path: "/providers",
     label: "Providers",
+    path: "/providers",
     component: <Providers />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_providers.svg&w=160&q=75",
   },
   {
-    path: "/livecasino",
     label: "Live Casino",
+    path: "/livecasino",
     component: <LiveCasino />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75",
   },
   {
-    path: "/amatic",
     label: "Amatic",
+    path: "/amatic",
     component: <Amatic />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_amatic.svg&w=160&q=75",
   },
   {
-    path: "/pragmatic",
     label: "Pragmatic",
+    path: "/pragmatic",
     component: <Pragmatic />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_pragmatic.svg&w=160&q=75",
   },
   {
-    path: "/other-games",
     label: "Other Games",
+    path: "/other-games",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
   },
 ];

@@ -3,7 +3,7 @@ import { FaBars, FaDice, FaStar, FaRocket, FaTable, FaVideo } from "react-icons/
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/AuthContext";
 import Login from "../../pages/Auth/LoginPage"; // Import the Login component
-import { GAME_NAV, SPORTS_NAV } from "../../routes/routes_data";
+import { GAMES_CATEGORY_NAV, SPORTS_NAV } from "../../routes/routes_data";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const BottomBar = ({ openSearchModal }) => {
@@ -165,7 +165,7 @@ const BottomBar = ({ openSearchModal }) => {
             </span>
             {isCasinoMenu ? (
               <nav>
-                {GAME_NAV.filter((fi) => fi.label !== "Lobby").map((item, index) => (
+                {GAMES_CATEGORY_NAV.filter((fi) => fi.label !== "Lobby").map((item, index) => (
                   <NavLink
                     key={index}
                     to={item.path}

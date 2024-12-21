@@ -7,7 +7,7 @@ import Pragmatic from "../pages/User/Pragmatic";
 import Providers from "../pages/User/Providers";
 import Slots from "../pages/User/Slots";
 
-export const GAME_NAV = [
+export const GAMES_CATEGORY_NAV = [
   {
     path: "/casino",
     label: "Lobby",
