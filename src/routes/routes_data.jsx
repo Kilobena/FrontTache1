@@ -1,12 +1,13 @@
 import Lobby from "../pages/User/Games/Lobby";
-import Amatic from "../pages/User/Games/Amatic";
-import Crash from "../pages/User/Games/Crash";
 import Featured from "../pages/User/Games/Featured";
-import LiveCasino from "../pages/User/Games/LiveCasino";
 import New from "../pages/User/Games/New";
-import Pragmatic from "../pages/User/Games/Pragmatic";
-import Providers from "../pages/User/Games/Providers";
 import Slots from "../pages/User/Games/Slots";
+import Crash from "../pages/User/Games/Crash";
+import Providers from "../pages/User/Games/Providers";
+import LiveCasino from "../pages/User/Games/LiveCasino";
+import Amatic from "../pages/User/Games/Amatic";
+import Pragmatic from "../pages/User/Games/Pragmatic";
+import OtherGames from "../pages/User/Games/OtherGames";
 import IconLobby from "../assets/icons/icon-lobby.svg";
 
 export const GAMES_CATEGORY_NAV = [
@@ -67,6 +68,7 @@ export const GAMES_CATEGORY_NAV = [
   {
     label: "Other Games",
     path: "/other-games",
+    component: <OtherGames />,
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
   },
 ];
