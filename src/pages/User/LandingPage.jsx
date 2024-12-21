@@ -69,7 +69,7 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       {!isHeaderVisible && <HeroBanner />}
-      <style jsx>
+      <style jsx="true">
         {`
           .card-promo {
             padding-top: 69%;

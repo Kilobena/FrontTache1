@@ -240,7 +240,7 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
                 WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
               }}
             >
-              <style jsx>{`
+              <style jsx="true">{`
                 .hide-scrollbar {
                   -ms-overflow-style: none;
                   scrollbar-width: none;

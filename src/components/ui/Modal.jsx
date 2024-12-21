@@ -3,7 +3,7 @@ import React from "react";
 const Modal = ({ onClose, children, title, className }) => {
   return (
     <>
-      <style jsx>
+      <style jsx="true">
         {`
           .icon-modal-close {
             // background-color: #1c1c1c !important;

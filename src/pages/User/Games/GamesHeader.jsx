@@ -7,7 +7,7 @@ const GamesHeader = ({ openSearchModal }) => {
   return (
     <>
       <header className="hidden lg:block casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
-        <style jsx>{`
+        <style jsx="true">{`
           .casino-header nav a.active img,
           .casino-header nav a:hover img {
             filter: brightness(0) saturate(100%) invert(83%) sepia(25%) saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);

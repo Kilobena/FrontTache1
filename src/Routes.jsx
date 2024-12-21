@@ -12,23 +12,14 @@ import TransferReport from "./pages/Admin/TransferReport.jsx";
 import GamingReport from "./pages/Admin/GamingReport.jsx";
 import SportBetBook from "./pages/Admin/SportBetBook.jsx";
 import CasinoBets from "./pages/Admin/CasinoBets.jsx";
+import Betting from "./pages/User/Betting";
 import LandingPage from "./pages/User/LandingPage.jsx";
-import Slots from "./pages/User/Games/Slots.jsx";
 import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
-import Crash from "./pages/User/Games/Crash.jsx";
-import Lobby from "./pages/User/Games/Lobby.jsx";
-import LiveCasino from "./pages/User/Games/LiveCasino.jsx";
-import Providers from "./pages/User/Games/Providers.jsx";
-import Amatic from "./pages/User/Games/Amatic.jsx";
-import Pragmatic from "./pages/User/Games/Pragmatic.jsx";
-import Featured from "./pages/User/Games/Featured.jsx";
-import New from "./pages/User/Games/New.jsx";
 import { SearchGames } from "./pages/User/Games/SearchGames.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import BottomBar from "./components/layout/BottomBar.jsx";
 import AppHeader from "./components/layout/header/AppHeader.jsx";
 import Modal from "./components/ui/Modal.jsx";
-import OtherGames from "./pages/User/Games/OtherGames.jsx";
 import { GAMES_CATEGORY_NAV } from "./routes/routes_data.jsx";
 
 function AppRoutes() {
@@ -117,6 +108,8 @@ function AppRoutes() {
 
         {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/sports-betting" element={<Betting />} />
+        <Route path="/live-betting" element={<Betting />} />
         {GAMES_CATEGORY_NAV.map((item) => (
           <Route key={item.label} path={item.path} element={item.component} />
         ))}
