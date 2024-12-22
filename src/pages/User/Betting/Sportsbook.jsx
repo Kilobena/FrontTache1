@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { SPORTSBOOK_CLIENT_KEY } from "../../../helpers/constants";
 
 const Sportsbook = () => {
   const location = useLocation();
@@ -127,7 +126,7 @@ const Sportsbook = () => {
         isMobile ? "mobile" : isTablet ? "tablet" : "desktop",
         "guest",
         "en-US",
-        SPORTSBOOK_CLIENT_KEY,
+        process.env.SPORTSBOOK_CLIENT_KEY,
         location.pathname.startsWith("/sports-betting") ? "sport" : "live"
       );
     })();

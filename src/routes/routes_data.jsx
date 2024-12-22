@@ -1,13 +1,3 @@
-import Lobby from "../pages/User/Games/GameByCategories/Lobby";
-import Featured from "../pages/User/Games/GameByCategories/Featured";
-import New from "../pages/User/Games/GameByCategories/New";
-import Slots from "../pages/User/Games/GameByCategories/Slots";
-import Crash from "../pages/User/Games/GameByCategories/Crash";
-import Providers from "../pages/User/Games/GameByCategories/Providers";
-import LiveCasino from "../pages/User/Games/GameByCategories/LiveCasino";
-import Amatic from "../pages/User/Games/GameByCategories/Amatic";
-import Pragmatic from "../pages/User/Games/GameByCategories/Pragmatic";
-import OtherGames from "../pages/User/Games/GameByCategories/OtherGames";
 import GamesCategoryPage from "../pages/User/Games/GamesCategoryPage";
 import IconLobby from "../assets/icons/icon-lobby.svg";
 

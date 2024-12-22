@@ -6,7 +6,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const BalanceDropDown = ({ user }) => {
   return (
     <>
-      <style jsx="true">{`
+      <style jsx>{`
         ul li:hover img {
           filter: brightness(0) saturate(100%) invert(83%) sepia(25%) saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);
         }

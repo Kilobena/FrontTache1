@@ -1,6 +1,6 @@
 import React from "react";
 import HeroBanner from "./HeroBanner";
-import Sportsbook from "./Sportsbook";
+import Sportsbook from "./Sportsbook.jsx";
 
 const Betting = () => {
   return (

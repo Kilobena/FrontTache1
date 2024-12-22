@@ -49,7 +49,7 @@ const BottomBar = ({ openSearchModal }) => {
   ];
   return (
     <>
-      <style jsx="true">{`
+      <style jsx>{`
         nav a.active img,
         nav a:hover img {
           filter: brightness(0) saturate(100%) invert(83%) sepia(25%) saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);

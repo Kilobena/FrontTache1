@@ -185,7 +185,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
                 WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
               }}
             >
-              <style jsx="true">{`
+              <style jsx>{`
                 .hide-scrollbar {
                   -ms-overflow-style: none;
                   scrollbar-width: none;

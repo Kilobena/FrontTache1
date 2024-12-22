@@ -4,15 +4,15 @@ import { motion } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Slide1 from "../../assets/images/slides/homepage-slide-1.webp";
-import Slide2 from "../../assets/images/slides/homepage-slide-2.webp";
-import Slide3 from "../../assets/images/slides/homepage-slide-3.webp";
-import Slide4 from "../../assets/images/slides/homepage-slide-4.webp";
-import Slide5 from "../../assets/images/slides/homepage-slide-5.webp";
-import Slide6 from "../../assets/images/slides/homepage-slide-6.webp";
-import Slide7 from "../../assets/images/slides/homepage-slide-7.webp";
-import Slide8 from "../../assets/images/slides/homepage-slide-8.webp";
-import Slide9 from "../../assets/images/slides/homepage-slide-9.webp";
+import Slide1 from "../../assets/images/slides/slide-1.webp";
+import Slide2 from "../../assets/images/slides/slide-2.webp";
+import Slide3 from "../../assets/images/slides/slide-3.webp";
+import Slide4 from "../../assets/images/slides/slide-4.webp";
+import Slide5 from "../../assets/images/slides/slide-5.webp";
+import Slide6 from "../../assets/images/slides/slide-6.webp";
+import Slide7 from "../../assets/images/slides/slide-7.webp";
+import Slide8 from "../../assets/images/slides/slide-8.webp";
+import Slide9 from "../../assets/images/slides/slide-9.webp";
 
 const HeroBanner = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -82,7 +82,7 @@ const HeroBanner = () => {
 
   return (
     <div className="relative bg-[#242424]">
-      <style jsx="true">
+      <style jsx>
         {`
           .slick-dots {
             display: flex;
