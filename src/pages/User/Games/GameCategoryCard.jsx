@@ -177,7 +177,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
             {horizontalOnMobile && (
               <div className="md:hidden">
                 <div
-                  className="grid auto-cols-[105px] grid-rows-2 gap-2 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
+                  className="grid auto-cols-[124px] grid-rows-2 gap-2 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
                   style={{
                     display: "grid",
                     gridAutoFlow: "column",
@@ -195,7 +195,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
                       display: none;
                     }
                   `}</style>
-                  {displayedGames.map((game, index) => (
+                  {displayedGames.map((game) => (
                     <div
                       key={game.gameId}
                       className="relative bg-[#242424] rounded overflow-hidden shadow-lg will-change-transform"
