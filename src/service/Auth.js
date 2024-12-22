@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie"; // Importing js-cookie to manage cookies
-
+import { jwtDecode } from 'jwt-decode';
 class Auth {
     constructor(baseURL) {
         this.api = axios.create({
@@ -39,7 +39,16 @@ class Auth {
             }
         );
     }
-
+    isTokenExpired(token) {
+        try {
+            const decoded = jwtDecode(token);
+            const currentTime = Date.now() / 1000; // Get the current time in seconds
+            return decoded.exp < currentTime;
+        } catch (error) {
+            console.error("Error decoding token:", error);
+            return true; // Assume expired if there's an error decoding
+        }
+    }
     // Method to refresh the token using the refresh token
     async refreshToken(refreshToken) {
         try {
