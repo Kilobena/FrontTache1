@@ -21,11 +21,9 @@ const ManageUser = () => {
     try {
       let response;
       if (user.role === "Owner") {
-        response = await authServ.api.get(`/auth/getAllUsers`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        response = await authServ.getAllUsers();
       } else {
-        response = await authServ.getUsersByCreaterId(user._id);
+        response = await authServ.getUsersByCreatorId(user._id);
       }
 
       console.log("API response:", response);

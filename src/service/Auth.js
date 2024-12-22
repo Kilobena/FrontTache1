@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie"; // To handle cookies
+import Cookies from "js-cookie"; // Importing js-cookie to manage cookies
 
 class Auth {
     constructor(baseURL) {
@@ -7,45 +7,48 @@ class Auth {
             baseURL: baseURL || "https://catch-me.bet/",  // Ensure this is your correct backend URL
         });
 
-        // Adding a request interceptor to add the token to request headers
-        this.api.interceptors.request.use(
-            (config) => {
-                const token = Cookies.get("access_token"); // Get the access token from cookies
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`; // Attach the token
-                }
-                return config;
-            },
-            (error) => Promise.reject(error)
-        );
-
-        // Adding a response interceptor to handle token refresh logic
+        // Add an interceptor to handle token refresh
         this.api.interceptors.response.use(
-            response => response,  // Continue with successful responses
-            async (error) => {
-                if (error.response && error.response.status === 401) {
-                    // Unauthorized error, token might be expired
-                    const refreshToken = Cookies.get("refresh_token");
+            response => response, // If the response is successful, return it
+            async error => {
+                const originalRequest = error.config;
+                if (error.response && error.response.status === 401 && !originalRequest._retry) {
+                    originalRequest._retry = true;
+
+                    // Try to refresh the token if expired
+                    const refreshToken = Cookies.get('refresh_token');
                     if (refreshToken) {
                         try {
-                            const response = await this.api.post("/auth/refresh", { refresh_token: refreshToken });
-                            // Store new access token and refresh token
-                            Cookies.set("access_token", response.data.access_token, { expires: 1 }); // Access token expires in 1 day
-                            Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 }); // Refresh token expires in 7 days
+                            const refreshResponse = await this.refreshToken(refreshToken);
+                            const { token } = refreshResponse;
 
-                            // Retry the original request with the new token
-                            error.config.headers["Authorization"] = `Bearer ${response.data.access_token}`;
-                            return this.api(error.config);
+                            // Save the new token to cookies
+                            Cookies.set('token', token);
+                            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+
+                            // Retry the original request
+                            return this.api(originalRequest);
                         } catch (refreshError) {
-                            console.error("Error refreshing the token:", refreshError);
-                            // Handle token refresh failure (e.g., log out the user)
-                            this.logout();
+                            // If refresh fails, log out the user
+                            console.error("Token refresh failed:", refreshError);
+                            return Promise.reject(refreshError);
                         }
                     }
                 }
                 return Promise.reject(error);
             }
         );
+    }
+
+    // Method to refresh the token using the refresh token
+    async refreshToken(refreshToken) {
+        try {
+            const response = await this.api.post("/auth/refresh-token", { refreshToken });
+            return response.data;
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+            throw error;
+        }
     }
 
     // Method to register a new user
@@ -71,7 +74,7 @@ class Auth {
                     return {
                         success: false,
                         status: 409,
-                        message: "Utilisateur déjà enregistré",  // Custom error for user already exists
+                        message: "Utilisateur déjà enregistré",
                     };
                 }
                 return {
@@ -97,14 +100,14 @@ class Auth {
                 password: credentials.password ?? ""
             });
 
-            // Store the access token and refresh token in cookies
-            Cookies.set("access_token", response.data.access_token, { expires: 1 }); // Access token expires in 1 day
-            Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 }); // Refresh token expires in 7 days
+            // Store the tokens (both access and refresh tokens) in cookies
+            Cookies.set('token', response.data.token);
+            Cookies.set('refresh_token', response.data.refresh_token);
 
             return {
                 success: true,
                 status: response.status,
-                token: response.data.access_token,
+                token: response.data.token,
                 user: response.data.user,
                 message: response.data.message
             };
@@ -116,7 +119,7 @@ class Auth {
                     return {
                         success: false,
                         status: 401,
-                        message: "Mot de passe incorrect",  // Custom error for wrong credentials
+                        message: "Mot de passe incorrect",
                     };
                 }
                 return {
@@ -137,9 +140,10 @@ class Auth {
     // Method to get users by role
     async getUsersByRole(role) {
         try {
-            const response = await this.api.post(
-                "/auth/usersByRole",
-                { role: role ?? "" }
+            const token = Cookies.get('token');
+            const response = await this.api.post("/auth/usersByRole",
+                { role: role ?? "" },
+                { headers: { Authorization: `Bearer ${token}` } }
             );
 
             return {
@@ -166,11 +170,13 @@ class Auth {
         }
     }
 
-    // Method to delete user by username (Include JWT in headers)
+    // Method to delete user by username
     async deleteUserByUsername(username) {
         try {
+            const token = Cookies.get('token');
             const response = await this.api.delete("/auth/delete_user", {
-                data: { username: username ?? "" }
+                data: { username: username ?? "" },
+                headers: { Authorization: `Bearer ${token}` }
             });
 
             return {
@@ -197,12 +203,46 @@ class Auth {
         }
     }
 
-    // Method to get balance for a user
+    // Method to get all users
+    async getAllUsers() {
+        try {
+            const token = Cookies.get('token');
+            const response = await this.api.get("/auth/getallusers", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            return {
+                success: true,
+                status: response.status,
+                users: response.data.users,
+            };
+        } catch (error) {
+            console.error("Erreur lors de la récupération de tous les utilisateurs :", error);
+
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data.message || "Une erreur est survenue lors de la récupération des utilisateurs",
+                };
+            } else {
+                return {
+                    success: false,
+                    status: 500,
+                    message: "Network error or server is unreachable.",
+                };
+            }
+        }
+    }
+
+    // Method to get the balance of a user
     async getBalance(username) {
         try {
-            const response = await this.api.post("/auth/getBalance", {
-                username: username ?? ""
-            });
+            const token = Cookies.get('token');
+            const response = await this.api.post("/auth/getBalance",
+                { username: username ?? "" },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
             return {
                 success: true,
@@ -228,14 +268,36 @@ class Auth {
         }
     }
 
-    // Method to handle logging out
-    logout() {
-        // Remove tokens from cookies
-        Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
+    // Method to get users by creator ID
+    async getUsersByCreatorId(creatorId) {
+        try {
+            const token = Cookies.get('token');
+            const response = await this.api.get(`/auth/users/role/${creatorId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
 
-        // Redirect the user to the login page or another appropriate action
-        window.location.href = "/login";  // Replace with actual logout redirect
+            return {
+                success: true,
+                status: response.status,
+                users: response.data.users,
+            };
+        } catch (error) {
+            console.error("Error fetching users by creator ID:", error);
+
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data.message || "Error retrieving users.",
+                };
+            } else {
+                return {
+                    success: false,
+                    status: 500,
+                    message: "Network error or server is unreachable.",
+                };
+            }
+        }
     }
 }
 

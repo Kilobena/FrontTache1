@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../../providers/AuthContext";
 import Auth from "../../service/Auth";
 import TransferService from "../../service/Transfer";
+import Cookies from "js-cookie"; // Importing js-cookie to manage cookies
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth();
@@ -25,13 +26,11 @@ const TransferForm = () => {
   const fetchUsers = async () => {
     try {
       let response;
-  
+
       if (user.role === "Owner") {
-        response = await authServ.api.get(`/auth/getAllUsers`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        response = await authServ.getAllUsers();
       } else {
-        response = await authServ.getUsersByCreaterId(user._id);
+        response = await authServ.getUsersByCreatorId(user._id);
       }
   
       console.log("Fetched users full response:", response);
