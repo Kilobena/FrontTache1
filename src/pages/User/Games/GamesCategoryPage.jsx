@@ -10,8 +10,8 @@ const GamesCategoryPage = () => {
   const currentCategory = GAMES_CATEGORY_NAV.find((item) => location.pathname.startsWith(item.path));
 
   return (
-    <section className="text-white min-h-screen overflow-hidden relative">
-      <div className="lg:container mx-auto md:pb-20">
+    <section className="text-white overflow-hidden relative">
+      <div className="max-w-[80rem] mx-auto">
         {isLobbyPage ? (
           GAMES_CATEGORY_NAV.filter((category) => category.label !== "Lobby").map((category) => (
             <GamesCategoryCard key={category.path} data={category} limit={16} showAllCategories horizontalOnMobile />

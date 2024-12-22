@@ -33,7 +33,7 @@ const GamesCategoryHeader = ({ openSearchModal }) => {
                 <span role="img" aria-label={item.label} className="icon transition-transform">
                   {item?.icon ? <img src={item?.icon} alt={item.label} className="w-6 h-6" /> : null}
                 </span>
-                <span className="text-center">{item.label}</span>
+                <span className="text-center text-[15px]">{item.label}</span>
               </NavLink>
             ))}
           </nav>
