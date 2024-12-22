@@ -101,7 +101,10 @@ class Auth {
             const response = await this.api.post("/auth/login", {
                 username: credentials.username ?? "",
                 password: credentials.password ?? ""
-            });
+            },{
+                withCredentials: true,
+                }
+            );
 
             // Store the tokens (both access and refresh tokens) in cookies
             Cookies.set('token', response.data.token);
