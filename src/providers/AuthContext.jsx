@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
     try {
       Cookies.set("token", userData.token); // Set the token in cookies
       Cookies.set("user", JSON.stringify(userData)); // Set the user data in cookies
-      Cookies.set("refreshToken", userData.refreshToken);
       setUser(userData);
     } catch (error) {
       console.error("Error storing user data during login:", error);
@@ -41,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         const newUser = { ...prevUser, ...updatedUserData };
         Cookies.set("token", newUser.token); // Update token in cookies
         Cookies.set("user", JSON.stringify(newUser)); // Update user data in cookies
-        Cookies.set("refreshToken", newUser.refreshToken);
         return newUser;
       });
     } catch (error) {
