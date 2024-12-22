@@ -26,8 +26,7 @@ class Auth {
                 if (error.response && error.response.status === 401) {
                     // Token expired, try to refresh
 
-                    console.log(Cookies.get("token"));
-                    console.log(Cookies.get("refreshToken"));
+
                     const newToken = await this.refreshToken();
                     if (newToken) {
                         // Retry the original request with the new token
@@ -86,7 +85,6 @@ class Auth {
     async refreshToken() {
         try {
             const refreshToken = Cookies.get('refreshToken'); // Extract the refresh token from cookies
-            console.log(refreshToken,"houni");
             const response = await this.api.post("/auth/refresh-token", {
                 refreshToken: refreshToken, // Send the token as part of the request body
             }, {
