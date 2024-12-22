@@ -8,57 +8,37 @@ class Auth {
         });
 
         // Add an interceptor to handle token refresh
+        this.api.interceptors.request.use(
+            (config) => {
+                const token = Cookies.get("token");
+                if (token) {
+                    config.headers["Authorization"] = `Bearer ${token}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+
+        // Add a response interceptor to handle token refresh
         this.api.interceptors.response.use(
-            response => response, // If the response is successful, return it
-            async error => {
-                const originalRequest = error.config;
-                if (error.response && error.response.status === 401 && !originalRequest._retry) {
-                    originalRequest._retry = true;
-
-                    // Try to refresh the token if expired
-                    const refreshToken = Cookies.get('refresh_token');
-                    if (refreshToken) {
-                        try {
-                            const refreshResponse = await this.refreshToken(refreshToken);
-                            const { token } = refreshResponse;
-
-                            // Save the new token to cookies
-                            Cookies.set('token', token);
-                            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-
-                            // Retry the original request
-                            return this.api(originalRequest);
-                        } catch (refreshError) {
-                            // If refresh fails, log out the user
-                            console.error("Token refresh failed:", refreshError);
-                            return Promise.reject(refreshError);
-                        }
+            (response) => response,
+            async (error) => {
+                if (error.response && error.response.status === 401) {
+                    // Token expired, try to refresh
+                    const newToken = await this.refreshToken();
+                    if (newToken) {
+                        // Retry the original request with the new token
+                        error.config.headers["Authorization"] = `Bearer ${newToken}`;
+                        return axios(error.config);
                     }
                 }
                 return Promise.reject(error);
             }
         );
     }
-    isTokenExpired(token) {
-        try {
-            const decoded = jwtDecode(token);
-            const currentTime = Date.now() / 1000; // Get the current time in seconds
-            return decoded.exp < currentTime;
-        } catch (error) {
-            console.error("Error decoding token:", error);
-            return true; // Assume expired if there's an error decoding
-        }
-    }
+
     // Method to refresh the token using the refresh token
-    async refreshToken(refreshToken) {
-        try {
-            const response = await this.api.post("/auth/refresh-token", { refreshToken });
-            return response.data;
-        } catch (error) {
-            console.error("Error refreshing token:", error);
-            throw error;
-        }
-    }
+
 
     // Method to register a new user
     async registerUser(profile) {
@@ -100,6 +80,20 @@ class Auth {
             }
         }
     }
+    async refreshToken() {
+        try {
+            const response = await this.api.post("/auth/refresh-token", {}, {
+                withCredentials: true, // This ensures cookies are sent with the request
+            });
+
+            const newAccessToken = response.data.accessToken;
+            Cookies.set("token", newAccessToken); // Save the new token
+            return newAccessToken;
+        } catch (error) {
+            console.error("Failed to refresh token:", error);
+            return null;
+        }
+    }
 
     // Method to login a user
     async loginUser(credentials) {
@@ -111,7 +105,6 @@ class Auth {
 
             // Store the tokens (both access and refresh tokens) in cookies
             Cookies.set('token', response.data.token);
-            Cookies.set('refresh_token', response.data.refresh_token);
 
             return {
                 success: true,
