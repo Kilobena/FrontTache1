@@ -6,7 +6,7 @@ const Sportsbook = () => {
   const location = useLocation();
 
   const [isTablet, setIsTablet] = useState(window?.innerWidth <= 1024);
-  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 580);
+  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 640);
 
   useEffect(() => {
     const handleResize = () => {

@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../providers/AuthContext";
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import { useAuth } from "../../../../providers/AuthContext";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
@@ -27,14 +27,14 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "pragmatic play",
+          category: "Novomatic",
         });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(783); // Simulated total games count
+        setTotalGames(77); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -44,7 +44,6 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
 
     loadGames();
   }, [offset]);
-  //
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -54,13 +53,7 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
         return;
       }
 
-      const username = user.username || "guest";
-      const role = user.role || "guest";
-
-      if (role !== "User") {
-        toast.error("Only users  can launch a game.");
-        return;
-      }
+      const username = user.username;
 
       const url = await fetchGameUrl(gameId, username);
 
@@ -72,7 +65,7 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error("An error occurred while launching the game.");
+      toast.error(err.message || "An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
@@ -118,36 +111,6 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
-        {/* {!hideExtras && (
-          <div className="flex justify-center mb-6">
-            <div className="relative w-full sm:w-4/4 lg:w-2/2">
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white text-gray-800 px-12 py-3 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              />
-              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </span>
-            </div>
-          </div>
-        )} */}
-
         {!hideExtras && (
           <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
             <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
@@ -160,7 +123,7 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Providers</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Slots</h2>
               </div>
             </div>
 
@@ -286,4 +249,4 @@ const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horiz
   );
 };
 
-export default Providers;
+export default Slots;

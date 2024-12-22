@@ -1,9 +1,11 @@
+import { SPORTSBOOK_CLIENT_KEY } from "../../../helpers/constants";
+
 export const cmsSportbook = ({
-  user,
+  user = "guest",
   lang = "en-en",
   platform = "desktop",
   pathname = "sport",
-  clientKey,
+  clientKey = SPORTSBOOK_CLIENT_KEY,
 } = {
   userToken: user,
   culture: lang,

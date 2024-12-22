@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { useAuth } from "../../../../providers/AuthContext";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
-
-const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
@@ -29,14 +27,14 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "Real Dealer Studios",
+          category: "pragmatic play",
         });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(77); // Simulated total games count
+        setTotalGames(783); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -46,6 +44,7 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
 
     loadGames();
   }, [offset]);
+  //
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -131,7 +130,7 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Amatic</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Pragmatic</h2>
               </div>
             </div>
 
@@ -253,26 +252,8 @@ const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizont
           )}
         </GameFullscreen>
       )}
-
-      {/* {!hideFooter && <Footer />}
-      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
-        <BottomBar />
-      </div> */}
-
-      {/* <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      /> */}
     </>
   );
 };
 
-export default Amatic;
+export default Pragmatic;

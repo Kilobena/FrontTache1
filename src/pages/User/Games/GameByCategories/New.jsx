@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { useAuth } from "../../../../providers/AuthContext";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,7 +19,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState("");
+  const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "evolution",
+          category: "playtech",
         });
         if (offset === 0) {
           setGames(fetchedGames);
@@ -91,7 +91,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
       if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
-      return 0;
+      return 0; // No sorting for "featured"
     });
 
   const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
@@ -115,7 +115,6 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
   if (!loading && games.length === 0) {
     return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
-
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
@@ -131,7 +130,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Featured</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">New</h2>
               </div>
             </div>
 
@@ -159,7 +158,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
                 aspectRatio: "1",
               }}
             >
-              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
+              <img src={game.imageUrl || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
@@ -203,7 +202,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
                   }}
                 >
                   <img
-                    src={game.image || "default-image-url.png"}
+                    src={game.imageUrl || "default-image-url.png"}
                     alt={game.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -257,4 +256,4 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
   );
 };
 
-export default Featured;
+export default New;

@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
 import "../../../assets/styles/css/game-header.css";
 
-const GamesHeader = ({ openSearchModal }) => {
+const GamesCategoryHeader = ({ openSearchModal }) => {
   return (
     <>
-      <header className="hidden lg:block casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
+      <header className="casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
         <style jsx="true">{`
           .casino-header nav a.active img,
           .casino-header nav a:hover img {
@@ -19,7 +19,7 @@ const GamesHeader = ({ openSearchModal }) => {
         `}</style>
         <div className="flex items-center">
           {/* Navigation Items */}
-          <nav className="hidden lg:flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
+          <nav className="flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
             {GAMES_CATEGORY_NAV.map((item, index) => (
               <NavLink
                 key={index}
@@ -58,4 +58,4 @@ const GamesHeader = ({ openSearchModal }) => {
   );
 };
 
-export default GamesHeader;
+export default GamesCategoryHeader;

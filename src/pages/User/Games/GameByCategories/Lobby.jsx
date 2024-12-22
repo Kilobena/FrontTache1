@@ -8,7 +8,7 @@ import LiveCasino from "./LiveCasino";
 import Amatic from "./Amatic";
 import Pragmatic from "./Pragmatic";
 
-import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
+import { GAMES_CATEGORY_NAV } from "../../../../routes/routes_data";
 
 const LobbyRevamp = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const LobbyRevamp = () => {
                   </h2>
                   <button
                     onClick={() => navigate(item.path)}
-                    className="bg-[#1C1C1C] m-2 duration-300 min-w-[112px] cursor-pointer space-x-2 rtl:space-x-reverse font-semibold p-1.5 px-3 sm:p-2.5 sm:px-4 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow hover:bg-[#494949] transition"
+                    className="bg-[#1C1C1C] m-2 duration-300 min-w-[112px] cursor-pointer space-x-2 rtl:space-x-reverse font-semibold p-1.5 sm:p-2.5 sm:px-4 text-white px-4 py-2 rounded-lg text-sm shadow hover:bg-[#494949] transition"
                   >
                     View All
                   </button>

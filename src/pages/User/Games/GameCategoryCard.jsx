@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAuth } from "../../../providers/AuthContext";
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
 import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import GamesCategoryFilters from "./GamesCategoryFilters";
+import GameFullscreen from "./GameFullscreen";
 
-const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+  const { user } = useAuth();
+
+  const navigate = useNavigate();
+
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,34 +21,24 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState(null);
-
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const [gameUrl, setGameUrl] = useState("");
 
   useEffect(() => {
     const loadGames = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const fetchedGames = await fetchGames(offset, 30, {
-          category: "pragmatic play",
-        });
-        if (offset === 0) {
-          setGames(fetchedGames);
-        } else {
-          setGames((prev) => [...prev, ...fetchedGames]);
-        }
-        setTotalGames(783); // Simulated total games count
-      } catch (err) {
-        setError(err.message || "Failed to load games.");
+        const response = await fetchGames(offset, limit || 32, { category: data.category });
+        setGames(response.data);
+        setTotalGames(response.pagination?.total);
+      } catch (error) {
+        console.error("Failed to load games:", error);
       } finally {
         setLoading(false);
       }
     };
 
     loadGames();
-  }, [offset]);
-  //
+  }, [data, limit]);
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -90,7 +84,7 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
       if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
-      return 0; // No sorting for "featured"
+      return 0;
     });
 
   const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
@@ -105,41 +99,51 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-red-500">
+      <div className="flex items-center justify-center py-5 bg-[#2E2E2E] text-red-500">
         {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
       </div>
     );
   }
 
-  if (!loading && games.length === 0) {
+  if (!loading && games.length === 0 && !showAllCategories) {
     return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
 
   return (
     <>
-      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
+      <div className="bg-[#2E2E2E] md:rounded-lg lg:p-4 p-3 md:mb-5 mb-0">
         {!hideExtras && (
-          <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
-            <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
-              <button
-                onClick={() => navigate("/casino")}
-                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
-              >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="white" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16.6667 9.16668H6.52499L11.1833 4.50834L9.99999 3.33334L3.33333 10L9.99999 16.6667L11.175 15.4917L6.52499 10.8333H16.6667V9.16668Z"></path>
-                </svg>
-              </button>
-              <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Pragmatic</h2>
-              </div>
+          <div className="flex flex-wrap items-center justify-between lg:mb-4 mb-3 md:gap-y-4 gap-y-2">
+            <div className="flex items-center sm:w-auto space-x-3 md:space-x-4">
+              {showAllCategories ? (
+                <img src={data.icon} alt={data.label} className="lg:w-8 w-6" />
+              ) : (
+                <button
+                  onClick={() => navigate("/casino")}
+                  className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
+                >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.6667 9.16668H6.52499L11.1833 4.50834L9.99999 3.33334L3.33333 10L9.99999 16.6667L11.175 15.4917L6.52499 10.8333H16.6667V9.16668Z"></path>
+                  </svg>
+                </button>
+              )}{" "}
+              <h2 className="lg:text-2xl leading-none text-lg font-semibold text-white">{data.label}</h2>
             </div>
-
-            <FiltersGames
-              setSelectedProviderFilter={setProviderFilter}
-              selectedProviderFilter={providerFilter}
-              selectedSortByFilter={sortBy}
-              setSelectedSortByFilter={setSortBy}
-            />
+            {showAllCategories ? (
+              <button
+                onClick={() => navigate(data.path)}
+                className="bg-[#1C1C1C] duration-300 min-w-[112px] cursor-pointer rtl:space-x-reverse font-semibold p-1.5 px-3 sm:p-2.5 sm:px-4 text-white py-2 rounded-lg text-sm shadow hover:bg-[#494949] transition"
+              >
+                View All
+              </button>
+            ) : (
+              <GamesCategoryFilters
+                setSelectedProviderFilter={setProviderFilter}
+                selectedProviderFilter={providerFilter}
+                selectedSortByFilter={sortBy}
+                setSelectedSortByFilter={setSortBy}
+              />
+            )}
           </div>
         )}
 
@@ -153,12 +157,12 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
           {displayedGames.map((game) => (
             <div
               key={game.gameId}
-              className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
+              className="relative bg-[#242424] rounded overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
               style={{
                 aspectRatio: "1",
               }}
             >
-              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
+              <img src={game.image} alt={game.name} className="w-full h-auto" />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
@@ -174,7 +178,7 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
         {horizontalOnMobile && (
           <div className="md:hidden">
             <div
-              className="grid auto-cols-[105px] grid-rows-2 gap-4 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
+              className="grid auto-cols-[105px] grid-rows-2 gap-2 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
               style={{
                 display: "grid",
                 gridAutoFlow: "column",
@@ -195,7 +199,7 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
               {displayedGames.map((game, index) => (
                 <div
                   key={game.gameId}
-                  className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg will-change-transform"
+                  className="relative bg-[#242424] rounded overflow-hidden shadow-lg will-change-transform"
                   style={{
                     aspectRatio: "1",
                     scrollSnapAlign: "start",
@@ -240,7 +244,6 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
           </div>
         )}
       </div>
-
       {isGameFullscreenOpen && (
         <GameFullscreen onClose={() => setIsGameFullscreenOpen(false)}>
           {!gameUrl ? (
@@ -256,4 +259,4 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
   );
 };
 
-export default Pragmatic;
+export default GamesCategoryCard;

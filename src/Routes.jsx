@@ -14,7 +14,7 @@ import SportBetBook from "./pages/Admin/SportBetBook.jsx";
 import CasinoBets from "./pages/Admin/CasinoBets.jsx";
 import Betting from "./pages/User/Betting";
 import LandingPage from "./pages/User/LandingPage.jsx";
-import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
+import GamesCategoryHeader from "./pages/User/Games/GamesCategoryHeader.jsx";
 import { SearchGames } from "./pages/User/Games/SearchGames.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import BottomBar from "./components/layout/BottomBar.jsx";
@@ -26,6 +26,20 @@ function AppRoutes() {
   const location = useLocation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  const [isTablet, setIsTablet] = useState(window?.innerWidth <= 1024);
+  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTablet(window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const { user, login, logout } = useAuth();
   const isAuthenticated = !!user;
@@ -56,7 +70,21 @@ function AppRoutes() {
 
   // Determine if the Header should be displayed
   const excludeAppHeader =
-    // GAMES_CATEGORY_NAV.map(({ path }) => location.pathname.startsWith(path));
+    // GAMES_CATEGORY_NAV.map(
+    //   ({ path }) => location.pathname.startsWith(path === "casino") && location.pathname.startsWith(path)
+    // );
+    location.pathname.startsWith("/casino") ||
+    location.pathname.startsWith("/slots") ||
+    location.pathname.startsWith("/crash") ||
+    location.pathname.startsWith("/providers") ||
+    location.pathname.startsWith("/livecasino") ||
+    location.pathname.startsWith("/amatic") ||
+    location.pathname.startsWith("/pragmatic") ||
+    location.pathname.startsWith("/featured") ||
+    location.pathname.startsWith("/other-games") ||
+    location.pathname.startsWith("/new");
+
+  const excludeGameCategoryHeader =
     location.pathname.startsWith("/casino") ||
     location.pathname.startsWith("/slots") ||
     location.pathname.startsWith("/crash") ||
@@ -97,8 +125,10 @@ function AppRoutes() {
         </Modal>
       )}
 
-      {/* Conditionally Render Secondary Navigation (Header) */}
-      {excludeAppHeader && <GamesHeader openSearchModal={handleSearchModal} />}
+      {/* Conditionally Games Categories Navigation (Header) */}
+      {(!isMobile && excludeGameCategoryHeader) || (isMobile && location.pathname.startsWith("/casino")) ? (
+        <GamesCategoryHeader openSearchModal={handleSearchModal} />
+      ) : null}
 
       {/* Routes */}
       <Routes>

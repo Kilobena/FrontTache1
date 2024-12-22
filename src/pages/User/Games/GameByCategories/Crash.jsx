@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { useAuth } from "../../../../providers/AuthContext";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [gameUrl, setGameUrl] = useState(null);
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "playtech",
+          category: "Gamzix",
         });
         if (offset === 0) {
           setGames(fetchedGames);
@@ -84,7 +84,6 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
     setOffset((prev) => prev + 30);
   };
 
-  // Filter and sort games
   const filteredGames = games
     .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((game) => providerFilter === "all" || game.provider === providerFilter)
@@ -115,6 +114,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
   if (!loading && games.length === 0) {
     return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
+
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
@@ -130,7 +130,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">New</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Crash</h2>
               </div>
             </div>
 
@@ -158,7 +158,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
                 aspectRatio: "1",
               }}
             >
-              <img src={game.imageUrl || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
+              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
@@ -202,7 +202,7 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
                   }}
                 >
                   <img
-                    src={game.imageUrl || "default-image-url.png"}
+                    src={game.image || "default-image-url.png"}
                     alt={game.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -252,8 +252,26 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
           )}
         </GameFullscreen>
       )}
+
+      {/* {!hideFooter && <Footer />}
+      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar />
+      </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      /> */}
     </>
   );
 };
 
-export default New;
+export default Crash;
