@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie"; // Importing js-cookie to manage cookies
+import Cookies from "js-cookie"; // Importing js-cookie to manage cookiesl
 import { jwtDecode } from 'jwt-decode';
 class Auth {
     constructor(baseURL) {
