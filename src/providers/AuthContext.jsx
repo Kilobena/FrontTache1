@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import Auth from "../service/Auth";
+import Cookies from "js-cookie";
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -8,7 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
-      const storedUser = localStorage.getItem("user");
+      const storedUser = Cookies.get("user"); // Retrieve the user data from cookie
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) {
       console.error("Error parsing stored user:", error);
@@ -16,13 +17,19 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const [token, setToken] = useState(() => {
+    return Cookies.get("token") || null;
+  });
+
   const auth = new Auth();
 
   const login = (userData) => {
     try {
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("user", JSON.stringify(userData));
+      // Store token in HTTP-only cookie (secure and not accessible from JavaScript)
+      Cookies.set("token", userData.token, { secure: true, sameSite: "Strict", expires: 1 });
+      Cookies.set("user", JSON.stringify(userData), { secure: true, sameSite: "Strict" });
       setUser(userData);
+      setToken(userData.token);
     } catch (error) {
       console.error("Error storing user data during login:", error);
     }
@@ -32,8 +39,8 @@ export const AuthProvider = ({ children }) => {
     try {
       setUser((prevUser) => {
         const newUser = { ...prevUser, ...updatedUserData };
-        localStorage.setItem("token", newUser.token);
-        localStorage.setItem("user", JSON.stringify(newUser));
+        Cookies.set("token", newUser.token, { secure: true, sameSite: "Strict" });
+        Cookies.set("user", JSON.stringify(newUser), { secure: true, sameSite: "Strict" });
         return newUser;
       });
     } catch (error) {
@@ -43,16 +50,50 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     try {
-      localStorage.removeItem("user");
+      Cookies.remove("user");
+      Cookies.remove("token");
       setUser(null);
+      setToken(null);
     } catch (error) {
       console.error("Error during logout:", error);
     }
   };
 
-  // Periodically update user balance
+  // Function to refresh the token
+  const refreshToken = async () => {
+    try {
+      const response = await auth.refreshAccessToken();  // Implement this method in your Auth service
+      const newToken = response.token;
 
-  return <AuthContext.Provider value={{ user, login, logout, updateUser }}>{children}</AuthContext.Provider>;
+      Cookies.set("token", newToken, { secure: true, sameSite: "Strict", expires: 1 });
+      setToken(newToken);
+      return newToken;
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+      logout(); // Log out user if refresh fails
+    }
+  };
+
+  useEffect(() => {
+    if (!token) return;
+
+    // Token expiration logic can go here
+    const interval = setInterval(() => {
+      // Assuming token expiration time is 1 hour
+      const expiryTime = new Date(Cookies.get("token_expiry"));
+      if (expiryTime < new Date()) {
+        refreshToken();
+      }
+    }, 3600000); // Check every hour
+
+    return () => clearInterval(interval);
+  }, [token]);
+
+  return (
+      <AuthContext.Provider value={{ user, login, logout, updateUser, refreshToken }}>
+        {children}
+      </AuthContext.Provider>
+  );
 };
 
 // Custom Hook for Auth
