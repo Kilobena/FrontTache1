@@ -84,9 +84,7 @@ class Auth {
     }
     async refreshToken() {
         try {
-            const refreshToken = Cookies.get('refreshToken'); // Extract the refresh token from cookies
             const response = await this.api.post("/auth/refresh-token", {
-                refreshToken: refreshToken, // Send the token as part of the request body
             }, {
                 withCredentials: true, // Optional: Use this if you still want to send cookies
             });
