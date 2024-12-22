@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Modal from "../Modal";
-import { useAuth } from "../../../providers/AuthContext";
+import Modal from "../../Modal";
+import { useAuth } from "../../../../providers/AuthContext";
 import Footer from "../Footer";
 
 const Evolution = ({ limit = null, hideFooter = false }) => {
@@ -86,19 +86,13 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-red-500">
-        {error.includes("Failed to fetch games")
-          ? "Unable to load games. Please try again later."
-          : error}
+        {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
       </div>
     );
   }
 
   if (!loading && games.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">
-        No Live Casino games available at the moment.
-      </div>
-    );
+    return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No Live Casino games available at the moment.</div>;
   }
 
   return (
@@ -107,14 +101,9 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-4xl font-extrabold text-white uppercase tracking-wide">
-              Live Casino
-            </h2>
+            <h2 className="text-4xl font-extrabold text-white uppercase tracking-wide">Live Casino</h2>
             {limit && (
-              <button
-                className="text-white font-semibold hover:underline"
-                onClick={() => navigate("/livecasino")}
-              >
+              <button className="text-white font-semibold hover:underline" onClick={() => navigate("/livecasino")}>
                 View More
               </button>
             )}
@@ -128,11 +117,7 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
                 className="relative bg-[#383838] rounded-xl overflow-hidden shadow-lg transform hover:scale-105 hover:shadow-2xl transition-all duration-300"
                 onClick={() => handleGameLaunch(game.gameId)}
               >
-                <img
-                  src={game.imageUrl || "default-image-url.png"}
-                  alt={game.name}
-                  className="w-full h-48 object-cover"
-                />
+                <img src={game.imageUrl || "default-image-url.png"} alt={game.name} className="w-full h-48 object-cover" />
                 <div className="p-4 text-center">
                   <p className="text-white font-bold truncate">{game.name}</p>
                 </div>
@@ -178,13 +163,7 @@ const Evolution = ({ limit = null, hideFooter = false }) => {
                 <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : (
-              <iframe
-                src={gameUrl}
-                title="Game"
-                className="w-full h-[500px] rounded-lg"
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
+              <iframe src={gameUrl} title="Game" className="w-full h-[500px] rounded-lg" frameBorder="0" allowFullScreen></iframe>
             )}
           </Modal>
         )}

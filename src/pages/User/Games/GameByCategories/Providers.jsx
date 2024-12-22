@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Modal from "../Modal";
-import { useAuth } from "../../../providers/AuthContext";
-import Footer from "../Footer";
-import BottomBar from "../../pages/BottomBar";
+import { useAuth } from "../../../../providers/AuthContext";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Providers = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +16,7 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
@@ -28,14 +27,14 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          type: "livecasino",
+          category: "pragmatic play",
         });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(77); // Simulated total games count
+        setTotalGames(783); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -45,6 +44,7 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
 
     loadGames();
   }, [offset]);
+  //
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -112,12 +112,12 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
   }
 
   if (!loading && games.length === 0) {
-    return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No Live Casino games available at the moment.</div>;
+    return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
 
   return (
     <>
-      <div className="max-w-screen-xl container mx-auto m-3 p-4">
+      <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
         {/* {!hideExtras && (
           <div className="flex justify-center mb-6">
             <div className="relative w-full sm:w-4/4 lg:w-2/2">
@@ -153,52 +153,23 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
             <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
               <button
                 onClick={() => navigate("/casino")}
-                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all px-3 py-2 rounded-lg"
+                className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="white" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.6667 9.16668H6.52499L11.1833 4.50834L9.99999 3.33334L3.33333 10L9.99999 16.6667L11.175 15.4917L6.52499 10.8333H16.6667V9.16668Z"></path>
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Casino</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Providers</h2>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-4">
-              <div className="relative w-full sm:w-auto">
-                <select
-                  value={providerFilter}
-                  onChange={(e) => setProviderFilter(e.target.value)}
-                  className="bg-white text-black w-full px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none"
-                >
-                  <option value="all">Providers: All</option>
-                  <option value="provider1">Provider 1</option>
-                  <option value="provider2">Provider 2</option>
-                </select>
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </span>
-              </div>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-white text-black w-full sm:w-auto px-4 py-2 rounded border border-gray-400 shadow-sm focus:ring-2 focus:ring-yellow-500 appearance-none"
-              >
-                <option value="popular">Sort By: Popular</option>
-                <option value="new">Sort By: New</option>
-                <option value="featured">Sort By: Featured</option>
-              </select>
-            </div>
+            <FiltersGames
+              setSelectedProviderFilter={setProviderFilter}
+              selectedProviderFilter={providerFilter}
+              selectedSortByFilter={sortBy}
+              setSelectedSortByFilter={setSortBy}
+            />
           </div>
         )}
 
@@ -311,26 +282,8 @@ const Casino = ({ limit = null, hideFooter = false, hideExtras = false, horizont
           )}
         </GameFullscreen>
       )}
-
-      {/* {!hideFooter && <Footer />}
-      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
-        <BottomBar />
-      </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      /> */}
     </>
   );
 };
 
-export default Casino;
+export default Providers;

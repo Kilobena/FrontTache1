@@ -1,74 +1,74 @@
-import Lobby from "../pages/User/Games/Lobby";
-import Featured from "../pages/User/Games/Featured";
-import New from "../pages/User/Games/New";
-import Slots from "../pages/User/Games/Slots";
-import Crash from "../pages/User/Games/Crash";
-import Providers from "../pages/User/Games/Providers";
-import LiveCasino from "../pages/User/Games/LiveCasino";
-import Amatic from "../pages/User/Games/Amatic";
-import Pragmatic from "../pages/User/Games/Pragmatic";
-import OtherGames from "../pages/User/Games/OtherGames";
+import GamesCategoryPage from "../pages/User/Games/GamesCategoryPage";
 import IconLobby from "../assets/icons/icon-lobby.svg";
 
 export const GAMES_CATEGORY_NAV = [
   {
     label: "Lobby",
     path: "/casino",
-    component: <Lobby />,
+    component: <GamesCategoryPage />,
     icon: IconLobby,
   },
   {
     label: "Featured",
     path: "/featured",
-    component: <Featured />,
+    component: <GamesCategoryPage />,
+    category: "evolution",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_featured.svg&w=160&q=75",
   },
   {
     label: "New",
     path: "/new",
-    component: <New />,
+    component: <GamesCategoryPage />,
+    category: "playtech",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_new%20(1).svg&w=160&q=75",
   },
   {
     label: "Slots",
     path: "/slots",
-    component: <Slots />,
+    component: <GamesCategoryPage />,
+    category: "Novomatic",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_slots.svg&w=160&q=75",
   },
   {
     label: "Crash",
     path: "/crash",
-    component: <Crash />,
+    component: <GamesCategoryPage />,
+    category: "Gamzix",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Crash.svg&w=160&q=75",
   },
   {
     label: "Providers",
     path: "/providers",
-    component: <Providers />,
+    component: <GamesCategoryPage />,
+    category: "pragmatic play",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_providers.svg&w=160&q=75",
   },
   {
     label: "Live Casino",
     path: "/livecasino",
-    component: <LiveCasino />,
+    component: <GamesCategoryPage />,
+    category: "livecasino",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75",
   },
   {
     label: "Amatic",
     path: "/amatic",
-    component: <Amatic />,
+    component: <GamesCategoryPage />,
+    category: "Real Dealer Studios",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_amatic.svg&w=160&q=75",
   },
   {
     label: "Pragmatic",
     path: "/pragmatic",
-    component: <Pragmatic />,
+    component: <GamesCategoryPage />,
+    category: "pragmatic play",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_pragmatic.svg&w=160&q=75",
   },
   {
     label: "Other Games",
     path: "/other-games",
-    component: <OtherGames />,
+    component: <GamesCategoryPage />,
+    category: "othergames",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
   },
 ];

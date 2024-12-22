@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { useAuth } from "../../../../providers/AuthContext";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [gameUrl, setGameUrl] = useState(null);
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
+  const [gameUrl, setGameUrl] = useState("");
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "Gamzix",
+          category: "evolution",
         });
         if (offset === 0) {
           setGames(fetchedGames);
@@ -84,13 +84,14 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
     setOffset((prev) => prev + 30);
   };
 
+  // Filter and sort games
   const filteredGames = games
     .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((game) => providerFilter === "all" || game.provider === providerFilter)
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
       if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
-      return 0; // No sorting for "featured"
+      return 0;
     });
 
   const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
@@ -130,7 +131,7 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Crash</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Featured</h2>
               </div>
             </div>
 
@@ -252,26 +253,8 @@ const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
           )}
         </GameFullscreen>
       )}
-
-      {/* {!hideFooter && <Footer />}
-      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
-        <BottomBar />
-      </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      /> */}
     </>
   );
 };
 
-export default Crash;
+export default Featured;

@@ -28,7 +28,7 @@ const SORT_OPTIONS = [
   { value: "latest", label: "Latest" },
 ];
 
-const FiltersGames = ({ selectedProviderFilter, setSelectedProviderFilter, selectedSortByFilter, setSelectedSortByFilter }) => {
+const GamesCategoryFilters = ({ selectedProviderFilter, setSelectedProviderFilter, selectedSortByFilter, setSelectedSortByFilter }) => {
   const location = useLocation();
 
   return (
@@ -105,4 +105,4 @@ const FiltersGames = ({ selectedProviderFilter, setSelectedProviderFilter, selec
   );
 };
 
-export default FiltersGames;
+export default GamesCategoryFilters;

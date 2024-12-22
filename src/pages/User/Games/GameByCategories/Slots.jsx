@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { toast } from "react-toastify";
+import { useAuth } from "../../../../providers/AuthContext";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
-
-const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState("");
+  const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "evolution",
+          category: "Novomatic",
         });
         if (offset === 0) {
           setGames(fetchedGames);
@@ -55,13 +53,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
         return;
       }
 
-      const username = user.username || "guest";
-      const role = user.role || "guest";
-
-      if (role !== "User") {
-        toast.error("Only users  can launch a game.");
-        return;
-      }
+      const username = user.username;
 
       const url = await fetchGameUrl(gameId, username);
 
@@ -73,7 +65,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error("An error occurred while launching the game.");
+      toast.error(err.message || "An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
@@ -91,7 +83,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
     .sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
       if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
-      return 0;
+      return 0; // No sorting for "featured"
     });
 
   const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
@@ -131,7 +123,7 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Featured</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Slots</h2>
               </div>
             </div>
 
@@ -257,4 +249,4 @@ const Featured = ({ limit = null, hideFooter = false, hideExtras = false, horizo
   );
 };
 
-export default Featured;
+export default Slots;

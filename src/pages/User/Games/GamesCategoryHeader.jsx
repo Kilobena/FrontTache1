@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
 import "../../../assets/styles/css/game-header.css";
 
-const GamesHeader = ({ openSearchModal }) => {
+const GamesCategoryHeader = ({ openSearchModal }) => {
   return (
     <>
-      <header className="hidden lg:block casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
-        <style jsx>{`
+      <header className="casino-header bg-[#383838] text-white md:mb-4 md:py-2 md:px-4 shadow-md">
+        <style jsx="true">{`
           .casino-header nav a.active img,
           .casino-header nav a:hover img {
             filter: brightness(0) saturate(100%) invert(83%) sepia(25%) saturate(2166%) hue-rotate(349deg) brightness(104%) contrast(90%);
@@ -19,7 +19,7 @@ const GamesHeader = ({ openSearchModal }) => {
         `}</style>
         <div className="flex items-center">
           {/* Navigation Items */}
-          <nav className="hidden lg:flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
+          <nav className="flex items-center md:gap-5 md:px-4 whitespace-nowrap scrollbar-hide overflow-x-auto mr-auto">
             {GAMES_CATEGORY_NAV.map((item, index) => (
               <NavLink
                 key={index}
@@ -33,7 +33,7 @@ const GamesHeader = ({ openSearchModal }) => {
                 <span role="img" aria-label={item.label} className="icon transition-transform">
                   {item?.icon ? <img src={item?.icon} alt={item.label} className="w-6 h-6" /> : null}
                 </span>
-                <span className="text-center">{item.label}</span>
+                <span className="text-center text-[15px]">{item.label}</span>
               </NavLink>
             ))}
           </nav>
@@ -58,4 +58,4 @@ const GamesHeader = ({ openSearchModal }) => {
   );
 };
 
-export default GamesHeader;
+export default GamesCategoryHeader;

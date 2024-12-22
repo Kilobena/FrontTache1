@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useAuth } from "../../../providers/AuthContext";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../../../providers/AuthContext";
 
-const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
+
+const Amatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +29,7 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "Novomatic",
+          category: "Real Dealer Studios",
         });
         if (offset === 0) {
           setGames(fetchedGames);
@@ -53,7 +55,13 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
         return;
       }
 
-      const username = user.username;
+      const username = user.username || "guest";
+      const role = user.role || "guest";
+
+      if (role !== "User") {
+        toast.error("Only users  can launch a game.");
+        return;
+      }
 
       const url = await fetchGameUrl(gameId, username);
 
@@ -65,7 +73,7 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
       }
     } catch (err) {
       console.error("Error launching the game:", err);
-      toast.error(err.message || "An error occurred while launching the game.");
+      toast.error("An error occurred while launching the game.");
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
@@ -107,7 +115,6 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
   if (!loading && games.length === 0) {
     return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
-
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
@@ -123,7 +130,7 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Slots</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Amatic</h2>
               </div>
             </div>
 
@@ -245,8 +252,26 @@ const Slots = ({ limit = null, hideFooter = false, hideExtras = false, horizonta
           )}
         </GameFullscreen>
       )}
+
+      {/* {!hideFooter && <Footer />}
+      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar />
+      </div> */}
+
+      {/* <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      /> */}
     </>
   );
 };
 
-export default Slots;
+export default Amatic;

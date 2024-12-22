@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../providers/AuthContext";
-import Auth from "../../service/Auth";
-import TransferService from "../../service/Transfer";
-import Cookies from "js-cookie"; // Importing js-cookie to manage cookies
+import { useAuth } from "../../../providers/AuthContext";
+import Auth from "../../../service/Auth";
+import TransferService from "../../../service/Transfer";
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth();
@@ -32,21 +31,20 @@ const TransferForm = () => {
       } else {
         response = await authServ.getUsersByCreatorId(user._id);
       }
-  
+
       console.log("Fetched users full response:", response);
-  
+
       // Validate response structure
       const data = response.data || response;
       if (data && data.success && Array.isArray(data.users)) {
         const users = data.users;
         setAllUsers(users);
-  
+
         const filteredUsers = users.filter((u) => {
           const canInteract = canInteractWith(user.role, u.role);
-          const isCreatedBy =
-            user.role === "Owner" || String(u.createrid) === String(user._id);
+          const isCreatedBy = user.role === "Owner" || String(u.createrid) === String(user._id);
           const isNotSelf = u.username !== user.username;
-  
+
           console.log("User Filtering Debug:", {
             username: u.username,
             role: u.role,
@@ -55,12 +53,12 @@ const TransferForm = () => {
             isCreatedBy,
             isNotSelf,
           });
-  
+
           return canInteract && isCreatedBy && isNotSelf;
         });
-  
+
         console.log("Filtered Users:", filteredUsers);
-  
+
         if (filteredUsers.length === 0) {
           setMessage("No users found.");
         } else {
@@ -72,7 +70,7 @@ const TransferForm = () => {
       }
     } catch (error) {
       console.error("Error fetching users:", error);
-  
+
       // Handle token expiration or invalid token (401)
       if (error.response?.status === 401) {
         setMessage("Authorization failed. Please log in again.");
@@ -85,11 +83,6 @@ const TransferForm = () => {
       setIsUserListFetched(true);
     }
   };
-  
-  
-  
-  
-  
 
   // Role-based interaction logic
   const canInteractWith = (currentRole, targetRole) => {
@@ -108,22 +101,19 @@ const TransferForm = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-  
+
     if (value.length >= 3) {
       setShowSuggestions(true);
-  
+
       // Use the original `allUsers` list for filtering
-      const filtered = allUsers.filter((user) =>
-        user.username.toLowerCase().includes(value.toLowerCase())
-      );
-  
+      const filtered = allUsers.filter((user) => user.username.toLowerCase().includes(value.toLowerCase()));
+
       setFilteredUsers(filtered);
     } else {
       setFilteredUsers([]);
       setShowSuggestions(false);
     }
   };
-  
 
   const handleSuggestionClick = (username, userId) => {
     setSearchTerm(username);
@@ -141,10 +131,7 @@ const TransferForm = () => {
     fetchUsers();
 
     const handleClickOutside = (event) => {
-      if (
-        suggestionBoxRef.current &&
-        !suggestionBoxRef.current.contains(event.target)
-      ) {
+      if (suggestionBoxRef.current && !suggestionBoxRef.current.contains(event.target)) {
         setShowSuggestions(false);
       }
     };
@@ -216,9 +203,7 @@ const TransferForm = () => {
         <div className="max-w-lg rounded-lg">
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
-            <span className="font-medium text-[#242424] ml-2">
-              Search for user
-            </span>
+            <span className="font-medium text-[#242424] ml-2">Search for user</span>
             <input
               type="text"
               className="border-slate-800 border p-1.5 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"
@@ -234,9 +219,7 @@ const TransferForm = () => {
                   <li
                     key={user._id}
                     className="p-2 cursor-pointer hover:bg-gray-200 text-black"
-                    onClick={() =>
-                      handleSuggestionClick(user.username, user._id)
-                    }
+                    onClick={() => handleSuggestionClick(user.username, user._id)}
                   >
                     {user.username} ({user.role}) ({user.balance} dt)
                   </li>
@@ -247,9 +230,7 @@ const TransferForm = () => {
 
           {/* Transfer Type Section */}
           <div className="mb-4">
-            <label className="block font-medium ml-2 text-[#242424] mb-2">
-              Transfer Type
-            </label>
+            <label className="block font-medium ml-2 text-[#242424] mb-2">Transfer Type</label>
             <div className="grid grid-cols-2 overflow-hidden">
               {[
                 { label: "Deposit", value: "deposit" },
@@ -262,11 +243,7 @@ const TransferForm = () => {
                     transferType === option.value
                       ? "bg-yellow-500 text-sm font-semibold text-black shadow-md"
                       : "bg-[#e2e2e2] text-sm text-black font-semibold"
-                  } ${
-                    index === 0
-                      ? "rounded-tl-lg rounded-bl-lg"
-                      : "rounded-tr-lg rounded-br-lg"
-                  }`}
+                  } ${index === 0 ? "rounded-tl-lg rounded-bl-lg" : "rounded-tr-lg rounded-br-lg"}`}
                 >
                   <input
                     type="radio"
@@ -287,31 +264,17 @@ const TransferForm = () => {
 
           {/* Transfer Amount Section */}
           <div className="mb-4">
-            <label className="block font-medium ml-2 text-[#242424]">
-              Transfer Amount
-            </label>
+            <label className="block font-medium ml-2 text-[#242424]">Transfer Amount</label>
             <div className="flex space-x-4 mb-2">
-              <input
-                type="button"
-                value={amount}
-                readOnly
-                className="text-left w-full p-2 border border-slate-800 rounded text-black"
-              />
-              <button
-                onClick={() => setAmount(0)}
-                className="border border-black py-2 px-4 rounded focus:outline-none text-black"
-              >
+              <input type="button" value={amount} readOnly className="text-left w-full p-2 border border-slate-800 rounded text-black" />
+              <button onClick={() => setAmount(0)} className="border border-black py-2 px-4 rounded focus:outline-none text-black">
                 Clear
               </button>
             </div>
 
             <div className="flex space-x-4">
               {[10, 20, 50, 100, 500].map((value) => (
-                <button
-                  key={value}
-                  onClick={() => setAmount((prev) => prev + value)}
-                  className="flex-1 p-2 bg-gray-300 rounded text-black"
-                >
+                <button key={value} onClick={() => setAmount((prev) => prev + value)} className="flex-1 p-2 bg-gray-300 rounded text-black">
                   +{value}
                 </button>
               ))}
@@ -320,9 +283,7 @@ const TransferForm = () => {
 
           {/* Transfer Note Section */}
           <div className="mb-4">
-            <label className="block font-medium ml-2 text-[#242424]">
-              Transfer Note
-            </label>
+            <label className="block font-medium ml-2 text-[#242424]">Transfer Note</label>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -345,9 +306,7 @@ const TransferForm = () => {
             RESET
           </button>
 
-          {message && (
-            <div className="mt-4 p-2 text-center text-red-600">{message}</div>
-          )}
+          {message && <div className="mt-4 p-2 text-center text-red-600">{message}</div>}
         </div>
       </div>
     </div>

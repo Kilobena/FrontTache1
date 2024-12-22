@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../providers/AuthContext";
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../../../providers/AuthContext";
 
-const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
+
+const Crash = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [gameUrl, setGameUrl] = useState(null);
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
-  const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -27,14 +29,14 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "pragmatic play",
+          category: "Gamzix",
         });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(783); // Simulated total games count
+        setTotalGames(77); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -44,7 +46,6 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
 
     loadGames();
   }, [offset]);
-  //
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -83,7 +84,6 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
     setOffset((prev) => prev + 30);
   };
 
-  // Filter and sort games
   const filteredGames = games
     .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((game) => providerFilter === "all" || game.provider === providerFilter)
@@ -130,7 +130,7 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Pragmatic</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">Crash</h2>
               </div>
             </div>
 
@@ -252,8 +252,26 @@ const Pragmatic = ({ limit = null, hideFooter = false, hideExtras = false, horiz
           )}
         </GameFullscreen>
       )}
+
+      {/* {!hideFooter && <Footer />}
+      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar />
+      </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      /> */}
     </>
   );
 };
 
-export default Pragmatic;
+export default Crash;

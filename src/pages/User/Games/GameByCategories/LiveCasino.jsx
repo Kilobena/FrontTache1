@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
+import { useAuth } from "../../../../providers/AuthContext";
 
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
 
-const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+const LiveCasino = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
-  const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState(null);
 
   const { user } = useAuth();
@@ -29,14 +29,14 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
       try {
         setLoading(true);
         const fetchedGames = await fetchGames(offset, 30, {
-          category: "playtech",
+          type: "livecasino",
         });
         if (offset === 0) {
           setGames(fetchedGames);
         } else {
           setGames((prev) => [...prev, ...fetchedGames]);
         }
-        setTotalGames(77); // Simulated total games count
+        setTotalGames(158); // Simulated total games count
       } catch (err) {
         setError(err.message || "Failed to load games.");
       } finally {
@@ -115,12 +115,13 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
   if (!loading && games.length === 0) {
     return <div className="flex items-center justify-center min-h-screen bg-[#2E2E2E] text-white">No games available at the moment.</div>;
   }
+
   return (
     <>
       <div className="bg-[#2E2E2E] max-w-screen-xl container mx-auto p-4 lg:rounded-md">
         {!hideExtras && (
           <div className="flex flex-wrap items-center justify-between mb-6 gap-y-4 sm:gap-y-0">
-            <div className="flex items-center justify-center w-full sm:w-auto space-x-4">
+            <div className={`flex items-center justify-center w-full sm:w-auto space-x-4`}>
               <button
                 onClick={() => navigate("/casino")}
                 className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
@@ -130,10 +131,9 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">New</h2>
+                <h2 className="text-xl font-bold text-white">Live Casino</h2>
               </div>
             </div>
-
             <FiltersGames
               setSelectedProviderFilter={setProviderFilter}
               selectedProviderFilter={providerFilter}
@@ -153,16 +153,16 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
           {displayedGames.map((game) => (
             <div
               key={game.gameId}
-              className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all"
+              className="relative bg-[#242424] overflow-hidden shadow-lg hover:shadow-2xl transform transition-all"
               style={{
                 aspectRatio: "1",
               }}
             >
-              <img src={game.imageUrl || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
+              <img src={game.image || "default-image-url.png"} alt={game.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleGameLaunch(game.gameId)}
-                  className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
+                  className=" px-4 py-2 rounded-full text-gray-900 font-bold shadow-lg transition"
                 >
                   <img alt="All Ways Candy" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
                 </button>
@@ -195,14 +195,14 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
               {displayedGames.map((game, index) => (
                 <div
                   key={game.gameId}
-                  className="relative bg-[#242424] rounded-lg overflow-hidden shadow-lg will-change-transform"
+                  className="relative bg-[#242424] rounded overflow-hidden shadow-lg will-change-transform"
                   style={{
                     aspectRatio: "1",
                     scrollSnapAlign: "start",
                   }}
                 >
                   <img
-                    src={game.imageUrl || "default-image-url.png"}
+                    src={game.image || "default-image-url.png"}
                     alt={game.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -252,8 +252,26 @@ const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalO
           )}
         </GameFullscreen>
       )}
+
+      {/* {!hideFooter && <Footer />}
+      <div className="block md:hidden fixed bottom-0 w-full z-10 bg-[#242424]">
+        <BottomBar />
+      </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      /> */}
     </>
   );
 };
 
-export default New;
+export default LiveCasino;

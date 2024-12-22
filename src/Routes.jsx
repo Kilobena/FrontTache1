@@ -1,40 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./providers/AuthContext.jsx";
+import { useAuth } from "./providers/AuthContext";
 import RegisterForm from "./pages/Auth/Register";
-import Login from "./pages/Auth/LoginPage.jsx";
-import RegisterPartner from "./pages/Auth/RegistrePartner.jsx";
+import Login from "./pages/Auth/LoginPage";
+import RegisterPartner from "./pages/Auth/RegistrePartner";
 import ManageUser from "./pages/Auth/ManageUser";
-import TransferHistory from "./pages/Transactions/TransferHistory";
-import TransferForm from "./pages/Transactions/TransferAction";
-import DashboardLayout from "./pages/Admin/DashboardLayout.jsx";
-import TransferReport from "./pages/Admin/TransferReport.jsx";
-import GamingReport from "./pages/Admin/GamingReport.jsx";
-import SportBetBook from "./pages/Admin/SportBetBook.jsx";
-import CasinoBets from "./pages/Admin/CasinoBets.jsx";
-import LandingPage from "./pages/User/LandingPage.jsx";
-import Slots from "./pages/User/Games/Slots.jsx";
-import GamesHeader from "./pages/User/Games/GamesHeader.jsx";
-import Crash from "./pages/User/Games/Crash.jsx";
-import Lobby from "./pages/User/Games/Lobby.jsx";
-import LiveCasino from "./pages/User/Games/LiveCasino.jsx";
-import Providers from "./pages/User/Games/Providers.jsx";
-import Amatic from "./pages/User/Games/Amatic.jsx";
-import Pragmatic from "./pages/User/Games/Pragmatic.jsx";
-import Featured from "./pages/User/Games/Featured.jsx";
-import New from "./pages/User/Games/New.jsx";
-import { SearchGames } from "./pages/User/Games/SearchGames.jsx";
-import Footer from "./components/layout/Footer.jsx";
-import BottomBar from "./components/layout/BottomBar.jsx";
-import AppHeader from "./components/layout/header/AppHeader.jsx";
-import Modal from "./components/ui/Modal.jsx";
-import OtherGames from "./pages/User/Games/OtherGames.jsx";
-import { GAMES_CATEGORY_NAV } from "./routes/routes_data.jsx";
+import TransferHistory from "./pages/Admin/Transactions/TransferHistory";
+import TransferForm from "./pages/Admin/Transactions/TransferAction";
+import DashboardLayout from "./pages/Admin/DashboardLayout";
+import TransferReport from "./pages/Admin/TransferReport";
+import GamingReport from "./pages/Admin/GamingReport";
+import SportBetBook from "./pages/Admin/SportBetBook";
+import CasinoBets from "./pages/Admin/CasinoBets";
+import LandingPage from "./pages/User/LandingPage";
+import Betting from "./pages/User/Betting";
+import GamesCategoryHeader from "./pages/User/Games/GamesCategoryHeader";
+import { SearchGames } from "./pages/User/Games/SearchGames";
+import AppHeader from "./components/layout/header/AppHeader";
+import Footer from "./components/layout/Footer";
+import BottomBar from "./components/layout/BottomBar";
+import Modal from "./components/ui/Modal";
+import { GAMES_CATEGORY_NAV } from "./routes/routes_data";
 
 function AppRoutes() {
   const location = useLocation();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  const [isTablet, setIsTablet] = useState(window?.innerWidth <= 1024);
+  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTablet(window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const { user, login, logout } = useAuth();
   const isAuthenticated = !!user;
@@ -65,7 +70,21 @@ function AppRoutes() {
 
   // Determine if the Header should be displayed
   const excludeAppHeader =
-    // GAMES_CATEGORY_NAV.map(({ path }) => location.pathname.startsWith(path));
+    // GAMES_CATEGORY_NAV.map(
+    //   ({ path }) => location.pathname.startsWith(path === "casino") && location.pathname.startsWith(path)
+    // );
+    location.pathname.startsWith("/casino") ||
+    location.pathname.startsWith("/slots") ||
+    location.pathname.startsWith("/crash") ||
+    location.pathname.startsWith("/providers") ||
+    location.pathname.startsWith("/livecasino") ||
+    location.pathname.startsWith("/amatic") ||
+    location.pathname.startsWith("/pragmatic") ||
+    location.pathname.startsWith("/featured") ||
+    location.pathname.startsWith("/other-games") ||
+    location.pathname.startsWith("/new");
+
+  const excludeGameCategoryHeader =
     location.pathname.startsWith("/casino") ||
     location.pathname.startsWith("/slots") ||
     location.pathname.startsWith("/crash") ||
@@ -106,8 +125,10 @@ function AppRoutes() {
         </Modal>
       )}
 
-      {/* Conditionally Render Secondary Navigation (Header) */}
-      {excludeAppHeader && <GamesHeader openSearchModal={handleSearchModal} />}
+      {/* Conditionally Games Categories Navigation (Header) */}
+      {(!isMobile && excludeGameCategoryHeader) || (isMobile && location.pathname.startsWith("/casino")) ? (
+        <GamesCategoryHeader openSearchModal={handleSearchModal} />
+      ) : null}
 
       {/* Routes */}
       <Routes>
@@ -117,6 +138,8 @@ function AppRoutes() {
 
         {/* Game Page and Subroutes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/sports-betting" element={<Betting />} />
+        <Route path="/live-betting" element={<Betting />} />
         {GAMES_CATEGORY_NAV.map((item) => (
           <Route key={item.label} path={item.path} element={item.component} />
         ))}

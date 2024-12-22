@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TransferService from "../../service/Transfer";
-import { useAuth } from "../../providers/AuthContext";
+import TransferService from "../../../service/Transfer";
+import { useAuth } from "../../../providers/AuthContext";
 
 const TransferHistory = () => {
   const { user } = useAuth();
@@ -16,10 +16,7 @@ const TransferHistory = () => {
 
   const fetchUsers = async () => {
     try {
-      const result = await transferServ.getUserInfo(
-        user.username,
-        localStorage.getItem("token")
-      );
+      const result = await transferServ.getUserInfo(user.username, localStorage.getItem("token"));
       if (result.success) {
         // Ensure transferOptions is always an array
         setTransferOptions(Array.isArray(result.user) ? result.user : []);
@@ -36,10 +33,7 @@ const TransferHistory = () => {
   const fetchTransferHistory = async () => {
     try {
       const dateOption = selectedDate === "custom" ? chosenDate : selectedDate;
-      const result = await transferServ.getTransferHistory(
-        selectedUser || user.username,
-        dateOption
-      );
+      const result = await transferServ.getTransferHistory(selectedUser || user.username, dateOption);
       if (result.success) {
         setTransfers(result.transferHistory);
       } else {
@@ -75,17 +69,13 @@ const TransferHistory = () => {
         <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
           {/* Date Filter Section */}
           <div className="mb-8">
-            <label className="block font-medium mb-4 text-gray-800 text-lg">
-              Transaction Date
-            </label>
+            <label className="block font-medium mb-4 text-gray-800 text-lg">Transaction Date</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {dateOptions.map((option) => (
                 <label
                   key={option.value}
                   className={`flex items-center justify-center p-4 rounded-lg cursor-pointer transition transform hover:scale-105 ${
-                    selectedDate === option.value
-                      ? "bg-yellow-400 text-white shadow-md"
-                      : "bg-gray-100 text-gray-700"
+                    selectedDate === option.value ? "bg-yellow-400 text-white shadow-md" : "bg-gray-100 text-gray-700"
                   }`}
                 >
                   <input
@@ -110,9 +100,7 @@ const TransferHistory = () => {
           {/* Custom Date Picker Section */}
           {selectedDate === "custom" && (
             <div className="mb-8">
-              <label className="block font-medium mb-2 text-gray-800 text-lg">
-                Select a Date
-              </label>
+              <label className="block font-medium mb-2 text-gray-800 text-lg">Select a Date</label>
               <input
                 type="date"
                 value={chosenDate}
@@ -125,9 +113,7 @@ const TransferHistory = () => {
 
           {/* Transfer To / From Selection Section */}
           <div className="mb-8">
-            <label className="block font-medium mb-2 text-gray-800 text-lg">
-              Transfer To / From
-            </label>
+            <label className="block font-medium mb-2 text-gray-800 text-lg">Transfer To / From</label>
             <select
               className="w-full p-2 border border-gray-300 rounded bg-white text-lg"
               value={selectedUser}
@@ -187,24 +173,14 @@ const TransferHistory = () => {
                 <tbody>
                   {transfers.map((transfer, index) => (
                     <tr key={index} className="hover:bg-black-100">
+                      <td className="border px-4 py-2 text-center">{transfer.type}</td>
+                      <td className="border px-4 py-2 text-center">{transfer.amount}</td>
+                      <td className="border px-4 py-2 text-center">{new Date(transfer.date).toLocaleString()}</td>
                       <td className="border px-4 py-2 text-center">
-                        {transfer.type}
+                        {transfer.senderId ? `${transfer.senderId.username} (${transfer.senderId.role})` : "Unknown Sender"}
                       </td>
                       <td className="border px-4 py-2 text-center">
-                        {transfer.amount}
-                      </td>
-                      <td className="border px-4 py-2 text-center">
-                        {new Date(transfer.date).toLocaleString()}
-                      </td>
-                      <td className="border px-4 py-2 text-center">
-                        {transfer.senderId
-                          ? `${transfer.senderId.username} (${transfer.senderId.role})`
-                          : "Unknown Sender"}
-                      </td>
-                      <td className="border px-4 py-2 text-center">
-                        {transfer.receiverId
-                          ? `${transfer.receiverId.username} (${transfer.receiverId.role})`
-                          : "Unknown Receiver"}
+                        {transfer.receiverId ? `${transfer.receiverId.username} (${transfer.receiverId.role})` : "Unknown Receiver"}
                       </td>
                     </tr>
                   ))}
@@ -212,9 +188,7 @@ const TransferHistory = () => {
               </table>
             </div>
           ) : (
-            <div className="text-gray-500 text-center">
-              No transfer history found for the selected filters.
-            </div>
+            <div className="text-gray-500 text-center">No transfer history found for the selected filters.</div>
           )}
         </div>
       </div>

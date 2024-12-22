@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchGames, fetchGameUrl } from "../../../../service/gameService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../../providers/AuthContext";
-import GameFullscreen from "./GameFullscreen";
-import FiltersGames from "./Filters/FiltersGames";
+import { useAuth } from "../../../../providers/AuthContext";
 
-const OtherGames = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
+import GameFullscreen from "../GameFullscreen";
+import FiltersGames from "../GamesCategoryFilters";
+
+const New = ({ limit = null, hideFooter = false, hideExtras = false, horizontalOnMobile = false }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -129,7 +130,7 @@ const OtherGames = ({ limit = null, hideFooter = false, hideExtras = false, hori
                 </svg>
               </button>
               <div className="block w-full text-left">
-                <h2 className="lg:text-2xl text-lg font-semibold text-white">Other Games</h2>
+                <h2 className="lg:text-2xl text-lg font-semibold text-white">New</h2>
               </div>
             </div>
 
@@ -255,4 +256,4 @@ const OtherGames = ({ limit = null, hideFooter = false, hideExtras = false, hori
   );
 };
 
-export default OtherGames;
+export default New;
