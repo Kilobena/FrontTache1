@@ -180,7 +180,7 @@ const OtherGames = ({ limit = null, hideFooter = false, hideExtras = false, hori
                 WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
               }}
             >
-              <style jsx="true">{`
+              <style jsx>{`
                 .hide-scrollbar {
                   -ms-overflow-style: none;
                   scrollbar-width: none;

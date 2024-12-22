@@ -7,7 +7,7 @@ import { FaCopy } from "react-icons/fa";
 const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
   return (
     <>
-      <style jsx="true">{`
+      <style jsx>{`
         .modal-user-action a {
           border: 0;
           margin-bottom: 0.25rem;
