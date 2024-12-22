@@ -25,6 +25,9 @@ class Auth {
             async (error) => {
                 if (error.response && error.response.status === 401) {
                     // Token expired, try to refresh
+
+                    console.log(Cookies.get("token"));
+                    console.log(Cookies.get("refreshToken"));
                     const newToken = await this.refreshToken();
                     if (newToken) {
                         // Retry the original request with the new token
