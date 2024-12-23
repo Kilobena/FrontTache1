@@ -167,13 +167,11 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
                 style={{
                   aspectRatio: "1",
                 }}
+                onClick={() => handleGameLaunch(game.gameId)}
               >
                 <img src={game.image} alt={game.name} className="w-full h-auto" />
                 <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                  <button
-                    onClick={() => handleGameLaunch(game.gameId)}
-                    className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
-                  >
+                  <button className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition">
                     <img alt="play game" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
                   </button>
                 </div>
