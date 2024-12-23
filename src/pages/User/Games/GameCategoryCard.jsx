@@ -27,7 +27,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
     const loadGames = async (append = false) => {
       setLoading(true);
       try {
-        const response = await fetchGames(offset, limit || 32, data?.type ? { type: data.type } : { category: data.category });
+        const response = await fetchGames(offset, limit || append ? 16 : 32, data?.type ? { type: data.type } : { category: data.category });
         setGames((prevGames) => (append ? [...prevGames, ...response.data] : response.data)); // Append only when `append` is true
         setTotalGames(response.pagination?.total);
       } catch (error) {
@@ -43,6 +43,11 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
       loadGames(true); // Append for load more
     }
   }, [offset, limit, data]);
+
+  const handleLoadMore = (e) => {
+    e.preventDefault();
+    setOffset((prev) => prev + (limit || 16));
+  };
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -74,11 +79,6 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
     } finally {
       setGameLoading((prev) => ({ ...prev, [gameId]: false }));
     }
-  };
-
-  const handleLoadMore = (e) => {
-    e.preventDefault();
-    setOffset((prev) => prev + (limit || 32)); // Increment offset based on the limit
   };
 
   // Filter and sort games
@@ -236,7 +236,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
             <div className="text-center mt-8">
               <button
                 onClick={handleLoadMore}
-                className="bg-primary-yellow px-6 py-3 rounded-lg text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition-transform transform hover:scale-105"
+                className="bg-[#1C1C1C] duration-300  cursor-pointer md:text-lg rtl:space-x-reverse font-semibold p-1.5 px-12 text-white py-2 rounded-lg shadow hover:bg-[#494949] transition"
               >
                 Load More
               </button>
