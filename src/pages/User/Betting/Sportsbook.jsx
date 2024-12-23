@@ -20,26 +20,28 @@ const Sportsbook = () => {
 
   useEffect(() => {
     const platform = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
-    const defaultPage = location.pathname.startsWith("/sports-betting")
-      ? "sport"
-      : "live";
+    if (location) {
+      const defaultPage = location.pathname.startsWith("/sports-betting")
+        ? "sport"
+        : "live";
 
-    const SPORTBOOK_DTO = {
-      platform,
-      user: "guest",
-      lang: "en-US",
-      token: SPORTSBOOK_CLIENT_KEY || "",
-      defaultPage,
-    };
+      const SPORTBOOK_DTO = {
+        platform,
+        user: "guest",
+        lang: "en-US",
+        token: SPORTSBOOK_CLIENT_KEY || "",
+        defaultPage,
+      };
 
-    cmsSportbook.startSportbook(
-      SPORTBOOK_DTO.platform,
-      SPORTBOOK_DTO.user,
-      SPORTBOOK_DTO.lang,
-      SPORTBOOK_DTO.token,
-      SPORTBOOK_DTO.defaultPage
-    );
-  }, []);
+      cmsSportbook.startSportbook(
+        SPORTBOOK_DTO.platform,
+        SPORTBOOK_DTO.user,
+        SPORTBOOK_DTO.lang,
+        SPORTBOOK_DTO.token,
+        SPORTBOOK_DTO.defaultPage
+      );
+    }
+  }, [location]);
 
   return (
     <>
