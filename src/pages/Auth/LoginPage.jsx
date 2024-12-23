@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../../service/Auth";
 import { useAuth } from "../../providers/AuthContext";
 import { FaEye, FaEyeSlash, FaLock, FaUserCircle } from "react-icons/fa";
+import { Helmet } from "react-helmet"; // Import Helmet
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState("");
@@ -48,6 +49,9 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div className="w-full max-w-lg mx-auto mt-4">
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      </Helmet>
       <h2 className="font-light text-2xl text-center my-5 md:hidden">LOGIN</h2>
       <form onSubmit={handleSubmit} className="px-4">
         <div className="relative">
@@ -65,6 +69,7 @@ const Login = ({ onLoginSuccess }) => {
               onChange={(e) => setUsername(e.target.value)}
               required
               autoComplete="off"
+              style={{ fontSize: "16px" }}
             />
           </div>
         </div>
