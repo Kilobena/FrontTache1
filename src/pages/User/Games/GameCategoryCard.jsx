@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../providers/AuthContext";
 import { fetchGames, fetchGameUrl } from "../../../service/gameService";
@@ -10,7 +10,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
   const { user } = useAuth();
 
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +27,12 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
     const loadGames = async () => {
       setLoading(true);
       try {
-        const response = await fetchGames(offset, limit || 32, { category: data.category });
+        // if (location.pathname.startsWith("/livecasino")) {
+        //   response = await fetchGames(offset, limit || 32, { type: data.category });
+        // } else {
+        const setType = location.pathname.startsWith("/livecasino");
+        let response = await fetchGames(offset, limit || 32, setType ? { type: data.category } : { category: data.category });
+        // }
         setGames(response.data);
         setTotalGames(response.pagination?.total);
       } catch (error) {

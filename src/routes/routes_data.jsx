@@ -68,7 +68,7 @@ export const GAMES_CATEGORY_NAV = [
     label: "Other Games",
     path: "/other-games",
     component: <GamesCategoryPage />,
-    category: "othergames",
+    category: "playtech",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
   },
 ];
