@@ -6,12 +6,7 @@ import { fetchGames, fetchGameUrl } from "../../../service/gameService";
 import GamesCategoryFilters from "./GamesCategoryFilters";
 import GameFullscreen from "./GameFullscreen";
 
-const GamesCategoryCard = ({
-  data,
-  showAllCategories,
-  limit = null,
-  horizontalOnMobile = false,
-}) => {
+const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOnMobile = false }) => {
   const { user } = useAuth();
 
   const navigate = useNavigate();
@@ -32,14 +27,8 @@ const GamesCategoryCard = ({
     const loadGames = async (append = false) => {
       setLoading(true);
       try {
-        const response = await fetchGames(
-          offset,
-          limit || 32,
-          data?.type ? { type: data.type } : { category: data.category }
-        );
-        setGames((prevGames) =>
-          append ? [...prevGames, ...response.data] : response.data
-        ); // Append only when `append` is true
+        const response = await fetchGames(offset, limit || 32, data?.type ? { type: data.type } : { category: data.category });
+        setGames((prevGames) => (append ? [...prevGames, ...response.data] : response.data)); // Append only when `append` is true
         setTotalGames(response.pagination?.total);
       } catch (error) {
         console.error("Failed to load games:", error);
@@ -94,13 +83,10 @@ const GamesCategoryCard = ({
 
   // Filter and sort games
   const filteredGames = games
-    ?.filter(
-      (game) => providerFilter === "all" || game.provider === providerFilter
-    )
+    ?.filter((game) => providerFilter === "all" || game.provider === providerFilter)
     ?.sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
-      if (sortBy === "new")
-        return new Date(b.releaseDate) - new Date(a.releaseDate);
+      if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
       return 0;
     });
 
@@ -114,25 +100,19 @@ const GamesCategoryCard = ({
     );
   }
   if (showAllCategories && loading && offset === 0) {
-    <div className="flex items-center justify-center py-4 bg-[#2E2E2E] text-white mb-4">
-      {" "}
-    </div>;
+    <div className="flex items-center justify-center py-4 bg-[#2E2E2E] text-white mb-4"> </div>;
   }
 
   if (error) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-red-500">
-        {error.includes("Failed to fetch games")
-          ? "Unable to load games. Please try again later."
-          : error}
+        {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
       </div>
     );
   }
   if (!loading && games.length === 0) {
     return (
-      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-white mb-4">
-        No games available at the moment.
-      </div>
+      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-white mb-4">No games available at the moment.</div>
     );
   }
   return (
@@ -148,20 +128,12 @@ const GamesCategoryCard = ({
                   onClick={() => navigate("/casino")}
                   className="flex items-center justify-center text-gray-400 bg-[#242424] hover:bg-[#333] hover:text-white transition-all  rounded-lg min-w-8 min-h-8"
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="white"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.6667 9.16668H6.52499L11.1833 4.50834L9.99999 3.33334L3.33333 10L9.99999 16.6667L11.175 15.4917L6.52499 10.8333H16.6667V9.16668Z"></path>
                   </svg>
                 </button>
               )}{" "}
-              <h2 className="lg:text-2xl leading-none text-lg font-semibold text-white">
-                {data.label}
-              </h2>
+              <h2 className="lg:text-2xl leading-none text-lg font-semibold text-white">{data.label}</h2>
             </div>
             {showAllCategories ? (
               <button
@@ -196,20 +168,13 @@ const GamesCategoryCard = ({
                   aspectRatio: "1",
                 }}
               >
-                <img
-                  src={game.image}
-                  alt={game.name}
-                  className="w-full h-auto"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <img src={game.image} alt={game.name} className="w-full h-auto" />
+                <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => handleGameLaunch(game.gameId)}
                     className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition"
                   >
-                    <img
-                      alt="play game"
-                      src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                    />
+                    <img alt="play game" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
                   </button>
                 </div>
               </div>
@@ -253,7 +218,7 @@ const GamesCategoryCard = ({
                       loading="lazy"
                       decoding="async"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
+                    <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
                       <button
                         onClick={() => handleGameLaunch(game.gameId)}
                         className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform"
@@ -293,13 +258,7 @@ const GamesCategoryCard = ({
               <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
-            <iframe
-              src={gameUrl}
-              title="Game"
-              className="w-full h-[600px] rounded-lg"
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
+            <iframe src={gameUrl} title="Game" className="w-full h-[600px] rounded-lg" frameBorder="0" allowFullScreen></iframe>
           )}
         </GameFullscreen>
       )}
