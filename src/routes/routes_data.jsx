@@ -47,7 +47,7 @@ export const GAMES_CATEGORY_NAV = [
     label: "Live Casino",
     path: "/livecasino",
     component: <GamesCategoryPage />,
-    category: "livecasino",
+    type: "livecasino",
     icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75",
   },
   {

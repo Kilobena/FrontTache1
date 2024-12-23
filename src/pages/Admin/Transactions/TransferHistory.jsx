@@ -16,7 +16,7 @@ const TransferHistory = () => {
 
   const fetchUsers = async () => {
     try {
-      const result = await transferServ.getUserInfo(user.id);
+      const result = await transferServ.getUserInfo(user._id);
       if (result.success) {
         // Ensure transferOptions is always an array
         setTransferOptions(Array.isArray(result.user) ? result.user : []);

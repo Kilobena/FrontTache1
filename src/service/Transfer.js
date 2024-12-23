@@ -10,7 +10,7 @@ class TransferService {
 
   async makeTransfer(senderId, receiverId, amount, type, note, transactionId) {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
 
       const response = await this.api.post(
         "/tr/transfer",
@@ -86,7 +86,7 @@ class TransferService {
 
   async getTransferHistory(username, date) {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const response = await this.api.get(`/tr/transfer-history`, {
         headers: {
           Authorization: `Bearer ${token}`,
