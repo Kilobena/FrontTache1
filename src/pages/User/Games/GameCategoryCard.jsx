@@ -210,6 +210,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
                       aspectRatio: "1",
                       scrollSnapAlign: "start",
                     }}
+                    onClick={() => handleGameLaunch(game.gameId)}
                   >
                     <img
                       src={game.image || "default-image-url.png"}
@@ -219,10 +220,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
                       decoding="async"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
-                      <button
-                        onClick={() => handleGameLaunch(game.gameId)}
-                        className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform"
-                      >
+                      <button className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform">
                         <img
                           alt="Play"
                           src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
