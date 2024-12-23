@@ -33,11 +33,7 @@ const AccountSettings = ({ logout, user }) => {
               <ul>
                 <li className="flex items-center gap-2 hover:text-primary-yellow">
                   <span className="w-7">
-                    <img
-                      className="w-6 h-6"
-                      src={item.image}
-                      alt={item.title}
-                    />
+                    <img className="w-6 h-6" src={item.image} alt={item.title} />
                   </span>
                   {item.title}
                 </li>
@@ -46,13 +42,13 @@ const AccountSettings = ({ logout, user }) => {
           </a>
         ))}
       </div>
-      <div className="px-2">
+      <div className="p-2 lg:bg-none bg-primary-dark">
         <button
-          className="flex items-center justify-center gap-1 space-x-1 bg-yellow-500 text-primary-dark px-3 my-2 py-[6px] rounded-md hover:bg-yellow-600 transition cursor-pointer w-full"
+          className="flex items-center justify-center gap-1 space-x-1 bg-primary-yellow text-primary-dark px-3 md:py-[6px] py-3 rounded-lg hover:bg-primary-yellow transition cursor-pointer w-full"
           onClick={logout}
         >
           <RiLogoutBoxRLine size={20} />
-          <span className="text-md">Logout</span>
+          <span className="text-lg">Logout</span>
         </button>
       </div>
       {/* My Account Modal */}

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Modal = ({ onClose, isOpen, children, title, className }) => {
+const Modal = ({ onClose, isOpen, closeBtnClassName, children, title, className }) => {
   useEffect(() => {
     const body = document.querySelector("body");
 
@@ -18,17 +18,6 @@ const Modal = ({ onClose, isOpen, children, title, className }) => {
 
   return (
     <>
-      <style jsx="true">
-        {`
-          .icon-modal-close {
-            border-color: #1c1c1c !important;
-            color: white) !important;
-            border-radius: 8px !important;
-            border-width: 1px !important;
-            font-weight: 400 !important;
-          }
-        `}
-      </style>
       {/* <div
         className="inset-0 backdrop-blur-md bg-black bg-opacity-50 z-10 fixed"
         onClick={onClose}
@@ -43,9 +32,13 @@ const Modal = ({ onClose, isOpen, children, title, className }) => {
             {title}
             <button
               onClick={onClose}
-              className="icon-modal-close hover:bg-[#494949] bg-primary-dark border-0 leading-none right-4 top-4 outline-none focus:outline-none absolute z-20 w-9 h-9 flex justify-center items-center"
+              className={`${closeBtnClassName} leading-none rounded-lg right-4 top-4 outline-none focus:outline-none absolute z-20 w-9 h-9 flex justify-center items-center bg-primary-dark hover:bg-[#494949] border border-primary-dark `}
             >
-              <img src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75" alt="icon button" />
+              <img
+                className="lg:w-6 w-5"
+                src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75"
+                alt="icon button"
+              />
             </button>
           </div>
           {/* Modal Content */}
