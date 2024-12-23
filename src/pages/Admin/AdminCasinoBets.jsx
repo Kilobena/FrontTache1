@@ -76,7 +76,7 @@ const CasinoBets = () => {
             {" "}
             {/* Ensure full height */}
             <header className="rounded-lg bg-[#474747] text-white w-full p-3">
-                <h1 className="text-2xl font-bold">Transfers Report
+                <h1 className="text-2xl font-bold">Casino Bets
                 </h1>
             </header>
             <div className="flex-1 sm:pt-3">
