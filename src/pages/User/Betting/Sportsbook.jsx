@@ -19,26 +19,26 @@ const Sportsbook = () => {
   }, []);
 
   useEffect(() => {
-    // Check if the script loaded successfully
-    let SPORTBOOK_DTO = {
-      platform: isMobile ? "mobile" : isTablet ? "tablet" : "desktop",
+    const platform = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
+    const defaultPage = location.pathname.startsWith("/sports-betting")
+      ? "sport"
+      : "live";
+
+    const SPORTBOOK_DTO = {
+      platform,
       user: "guest",
       lang: "en-US",
-      token: process.env.SPORTSBOOK_CLIENT_KEY,
-      defaultPage: location.pathname.startsWith("/sports-betting")
-        ? "sport"
-        : "live",
+      token: SPORTSBOOK_CLIENT_KEY || "",
+      defaultPage,
     };
-    (function () {
-      // initCmsSportBook(SPORTBOOK_DTO);
-      cmsSportbook.startSportbook(
-        isMobile ? "mobile" : isTablet ? "tablet" : "desktop",
-        "guest",
-        "en-US",
-        SPORTSBOOK_CLIENT_KEY,
-        location.pathname.startsWith("/sports-betting") ? "sport" : "live"
-      );
-    })();
+
+    cmsSportbook.startSportbook(
+      SPORTBOOK_DTO.platform,
+      SPORTBOOK_DTO.user,
+      SPORTBOOK_DTO.lang,
+      SPORTBOOK_DTO.token,
+      SPORTBOOK_DTO.defaultPage
+    );
   }, []);
 
   return (
