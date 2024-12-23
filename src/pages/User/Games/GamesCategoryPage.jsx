@@ -13,7 +13,7 @@ const GamesCategoryPage = () => {
     <section className="text-white overflow-hidden relative">
       <div className="max-w-[80rem] mx-auto">
         {isLobbyPage ? (
-          GAMES_CATEGORY_NAV.filter((category) => category.path !== "/casino").map((category) => (
+          GAMES_CATEGORY_NAV.filter((category) => category.label !== "Lobby").map((category) => (
             <GamesCategoryCard key={category.path} data={category} limit={16} showAllCategories horizontalOnMobile />
           ))
         ) : currentCategory ? (

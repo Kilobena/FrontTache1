@@ -31,7 +31,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
         //   response = await fetchGames(offset, limit || 32, { type: data.category });
         // } else {
         const setType = location.pathname.startsWith("/livecasino");
-        let response = await fetchGames(offset, limit || 32, setType ? { type: data.category } : { category: data.category });
+        let response = await fetchGames(offset, limit || 32, data?.type ? { type: data.type } : { category: data.category });
         // }
         setGames(response.data);
         setTotalGames(response.pagination?.total);
