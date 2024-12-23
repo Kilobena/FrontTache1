@@ -29,15 +29,17 @@ const GamesCategoryCard = ({
   const [gameUrl, setGameUrl] = useState("");
 
   useEffect(() => {
-    const loadGames = async () => {
+    const loadGames = async (append = false) => {
       setLoading(true);
       try {
-        let response = await fetchGames(
+        const response = await fetchGames(
           offset,
           limit || 32,
           data?.type ? { type: data.type } : { category: data.category }
         );
-        setGames((prevGames) => [...prevGames, ...response.data]);
+        setGames((prevGames) =>
+          append ? [...prevGames, ...response.data] : response.data
+        ); // Append only when `append` is true
         setTotalGames(response.pagination?.total);
       } catch (error) {
         console.error("Failed to load games:", error);
@@ -46,8 +48,12 @@ const GamesCategoryCard = ({
       }
     };
 
-    loadGames();
-  }, [data, limit, offset]);
+    if (offset === 0) {
+      loadGames(); // Load initially
+    } else {
+      loadGames(true); // Append for load more
+    }
+  }, [offset, limit, data]);
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -83,14 +89,11 @@ const GamesCategoryCard = ({
 
   const handleLoadMore = (e) => {
     e.preventDefault();
-    setOffset((prev) => prev + (limit || 32));
+    setOffset((prev) => prev + (limit || 32)); // Increment offset based on the limit
   };
 
   // Filter and sort games
   const filteredGames = games
-    ?.filter((game) =>
-      game.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
     ?.filter(
       (game) => providerFilter === "all" || game.provider === providerFilter
     )
