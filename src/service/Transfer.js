@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 class TransferService {
   constructor(baseURL) {
@@ -56,8 +57,9 @@ class TransferService {
     }
   }
 
-  async getUserInfo(username, token) {
+  async getUserInfo(username) {
     try {
+      const token = Cookies.get('token');
       const response = await this.api.get(`/auth/pages/User/${username}`, {
         headers: {
           Authorization: `Bearer ${token}`,
