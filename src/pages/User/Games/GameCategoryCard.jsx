@@ -10,8 +10,6 @@ const GamesCategoryCard = ({
   data,
   showAllCategories,
   limit = null,
-  hideFooter = false,
-  hideExtras = false,
   horizontalOnMobile = false,
 }) => {
   const { user } = useAuth();
@@ -34,17 +32,12 @@ const GamesCategoryCard = ({
     const loadGames = async () => {
       setLoading(true);
       try {
-        // if (location.pathname.startsWith("/livecasino")) {
-        //   response = await fetchGames(offset, limit || 32, { type: data.category });
-        // } else {
-        const setType = location.pathname.startsWith("/livecasino");
         let response = await fetchGames(
           offset,
           limit || 32,
           data?.type ? { type: data.type } : { category: data.category }
         );
-        // }
-        setGames(response.data);
+        setGames((prevGames) => [...prevGames, ...response.data]);
         setTotalGames(response.pagination?.total);
       } catch (error) {
         console.error("Failed to load games:", error);
@@ -54,7 +47,7 @@ const GamesCategoryCard = ({
     };
 
     loadGames();
-  }, [data, limit]);
+  }, [data, limit, offset]);
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -90,7 +83,7 @@ const GamesCategoryCard = ({
 
   const handleLoadMore = (e) => {
     e.preventDefault();
-    setOffset((prev) => prev + 30);
+    setOffset((prev) => prev + (limit || 32));
   };
 
   // Filter and sort games
@@ -142,7 +135,7 @@ const GamesCategoryCard = ({
   return (
     <>
       <div className="bg-[#2E2E2E] md:rounded-lg lg:p-4 p-3 md:mb-4 mb-0">
-        {!loading && !hideExtras && (
+        {!loading && (
           <div className="flex flex-wrap items-center justify-between lg:mb-4 mb-3 md:gap-y-4 gap-y-2">
             <div className="flex items-center sm:w-auto space-x-3 md:space-x-4">
               {showAllCategories ? (
@@ -279,7 +272,7 @@ const GamesCategoryCard = ({
             <div className="text-center mt-8">
               <button
                 onClick={handleLoadMore}
-                className="bg-yellow-400 px-6 py-3 rounded-lg text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition-transform transform hover:scale-105"
+                className="bg-primary-yellow px-6 py-3 rounded-lg text-gray-900 font-bold hover:bg-yellow-500 shadow-lg transition-transform transform hover:scale-105"
               >
                 Load More
               </button>
