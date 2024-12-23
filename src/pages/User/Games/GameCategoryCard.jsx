@@ -79,9 +79,9 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, hideFooter =
 
   // Filter and sort games
   const filteredGames = games
-    .filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((game) => providerFilter === "all" || game.provider === providerFilter)
-    .sort((a, b) => {
+    ?.filter((game) => game.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    ?.filter((game) => providerFilter === "all" || game.provider === providerFilter)
+    ?.sort((a, b) => {
       if (sortBy === "popular") return b.popularity - a.popularity;
       if (sortBy === "new") return new Date(b.releaseDate) - new Date(a.releaseDate);
       return 0;
