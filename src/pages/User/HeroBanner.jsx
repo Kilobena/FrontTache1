@@ -47,7 +47,11 @@ const HeroBanner = () => {
     prevArrow: <PrevArrow />,
     beforeChange: (current, next) => setCurrentSlide(next),
     customPaging: (i) => (
-      <div className={`min-w-9 h-2 rounded-full transition-colors duration-300 ${i === currentSlide ? "bg-yellow-500" : "bg-white"}`} />
+      <div
+        className={`min-w-9 h-2 rounded-full transition-colors duration-300 ${
+          i === currentSlide ? "bg-yellow-500" : "bg-white"
+        }`}
+      />
     ),
     appendDots: (dots) => (
       <div
@@ -82,7 +86,7 @@ const HeroBanner = () => {
 
   return (
     <div className="relative bg-[#242424]">
-      <style jsx>
+      <style jsx="true">
         {`
           .slick-dots {
             display: flex;

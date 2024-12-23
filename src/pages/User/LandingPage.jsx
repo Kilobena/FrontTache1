@@ -69,7 +69,7 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       {!isHeaderVisible && <HeroBanner />}
-      <style jsx>
+      <style jsx="true">
         {`
           .card-promo {
             padding-top: 69%;
@@ -125,11 +125,17 @@ const LandingPage = () => {
                 // transition={{ duration: 0.3 }}
               >
                 <span className="img-wrap">
-                  <img src={section.image} alt={section.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <img
+                    src={section.image}
+                    alt={section.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div className="absolute bottom-0 w-full text-center p-4 text-white">
-                  <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">{section.title.toUpperCase()}</h3>
+                  <h3 className="text-lg md:text-2xl font-bold text-center mt-auto">
+                    {section.title.toUpperCase()}
+                  </h3>
                   <button className="uppercase flex text-nowrap items-center gap-2 mx-auto mt-4 bg-primary-yellow px-4 py-2 rounded-lg text-white hover:bg-yellow-400">
                     Play Now <GoArrowRight size={15} color="black" />
                   </button>
@@ -144,16 +150,30 @@ const LandingPage = () => {
       {!isHeaderVisible && (
         <section className="py-6 bg-[#242424] text-white">
           <div className="max-w-4xl mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">Still have questions?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">
+              Still have questions?
+            </h2>
             <button className="block mx-auto mb-8 bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-400">
               Read our guides
             </button>
             <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <div key={index} className="bg-[#1D1D1D] rounded-lg shadow-lg overflow-hidden">
-                  <div className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-600" onClick={() => toggleFAQ(index)}>
+                <div
+                  key={index}
+                  className="bg-[#1D1D1D] rounded-lg shadow-lg overflow-hidden"
+                >
+                  <div
+                    className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-600"
+                    onClick={() => toggleFAQ(index)}
+                  >
                     <h3 className="font-medium">{faq.question}</h3>
-                    <span className={`transform transition-transform duration-300 ${activeIndex === index ? "rotate-180" : ""}`}>▼</span>
+                    <span
+                      className={`transform transition-transform duration-300 ${
+                        activeIndex === index ? "rotate-180" : ""
+                      }`}
+                    >
+                      ▼
+                    </span>
                   </div>
                   {activeIndex === index && (
                     <div className="p-4 border-t border-gray-600">

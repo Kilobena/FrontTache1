@@ -3,7 +3,7 @@ import React from "react";
 const Modal = ({ onClose, children, title, className }) => {
   return (
     <>
-      <style jsx>
+      <style jsx="true">
         {`
           .icon-modal-close {
             // background-color: #1c1c1c !important;
@@ -27,7 +27,10 @@ const Modal = ({ onClose, children, title, className }) => {
               onClick={onClose}
               className="icon-modal-close hover:bg-[#494949] bg-primary-dark border-0 leading-none right-4 top-4 outline-none focus:outline-none absolute z-20 w-9 h-9 flex justify-center items-center"
             >
-              <img src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75" alt="icon button" />
+              <img
+                src="https://www.bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FcloseModal.17393ee7.svg&w=160&q=75"
+                alt="icon button"
+              />
             </button>
           </div>
           {/* Modal Content */}
