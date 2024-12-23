@@ -20,28 +20,45 @@ export const SearchGames = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const loadGames = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const fetchedGames = await fetchGames(offset, 30, {
+  //         category: "playtech",
+  //       });
+  //       if (offset === 0) {
+  //         setGames(fetchedGames);
+  //       } else {
+  //         setGames((prev) => [...prev, ...fetchedGames]);
+  //       }
+  //       setTotalGames(77); // Simulated total games count
+  //     } catch (err) {
+  //       setError(err.message || "Failed to load games.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   loadGames();
+  // }, [offset]);
+
   useEffect(() => {
     const loadGames = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const fetchedGames = await fetchGames(offset, 30, {
-          type: "livecasino",
-        });
-        if (offset === 0) {
-          setGames(fetchedGames);
-        } else {
-          setGames((prev) => [...prev, ...fetchedGames]);
-        }
-        setTotalGames(158); // Simulated total games count
-      } catch (err) {
-        setError(err.message || "Failed to load games.");
+        const response = await fetchGames(offset, 20, { category: "playtech" });
+        setGames(response.data);
+        setTotalGames(response.pagination?.total);
+      } catch (error) {
+        console.error("Failed to load games:", error);
       } finally {
         setLoading(false);
       }
     };
 
     loadGames();
-  }, [offset]);
+  }, []);
 
   const handleGameLaunch = async (gameId) => {
     setGameLoading((prev) => ({ ...prev, [gameId]: true }));
@@ -124,7 +141,7 @@ export const SearchGames = () => {
         <h3 className="text-primary-yellow font-semibold mt-5 lg:text-xl text-lg">Latest Games</h3>
         {games && games.length ? (
           <div className={`${"grid lg:grid-cols-4 grid-cols-3 gap-4 pt-5"}`}>
-            {games?.map((game) => (
+            {games?.slice(0, limit)?.map((game) => (
               <div
                 key={game.gameId}
                 className="relative bg-[#242424] overflow-hidden shadow-lg hover:shadow-2xl transform transition-all"
