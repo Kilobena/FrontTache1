@@ -14,6 +14,7 @@ const UserActionsModal = ({ user, logout, setIsUserActionsModalOpen }) => {
         }
       `}</style>
       <Modal
+        isOpen={setIsUserActionsModalOpen}
         onClose={() => setIsUserActionsModalOpen(false)}
         className="w-full h-screen modal-user-action"
         title={

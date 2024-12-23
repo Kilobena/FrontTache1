@@ -33,7 +33,11 @@ const AccountSettings = ({ logout, user }) => {
               <ul>
                 <li className="flex items-center gap-2 hover:text-primary-yellow">
                   <span className="w-7">
-                    <img className="w-6 h-6" src={item.image} alt={item.title} />
+                    <img
+                      className="w-6 h-6"
+                      src={item.image}
+                      alt={item.title}
+                    />
                   </span>
                   {item.title}
                 </li>
@@ -54,9 +58,10 @@ const AccountSettings = ({ logout, user }) => {
       {/* My Account Modal */}
       {isMyAccountModalOpen && (
         <Modal
+          isOpen={isMyAccountModalOpen}
+          onClose={() => setIsMyAccountModalOpen(false)}
           className="h-[calc(100vh-40px)] w-full max-w-[60rem] overflow-y-auto "
           title={<h2 className="font-bold text-2xl"></h2>}
-          onClose={() => setIsMyAccountModalOpen(false)}
         >
           <MyAccount />
         </Modal>
