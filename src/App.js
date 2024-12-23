@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/css/global.css";
 import "./assets/styles/css/tailwind.css";
+import "./assets/styles/css/range-picker.css";
 
 function App() {
   return (

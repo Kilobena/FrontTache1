@@ -1,0 +1,82 @@
+
+.trasnfer-history{
+.css-13cnpq9-MuiPickersLayout-root{
+  .MuiPickersLayout-toolbar{
+    display: none;
+  }
+} 
+.css-1xy8njy-MuiPickersLayout-root{
+
+  .MuiPickersLayout-toolbar{
+    display: none;
+  }
+} 
+.css-1i3tsf3-MuiTypography-root{
+  color: black;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+}
+.css-1chuxo2-MuiPickersCalendarHeader-label {
+  color: black;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  margin-right: 0 !important;
+}
+.MuiDayCalendar-header{
+  .MuiTypography-root{
+
+    color: black;
+    font-weight: 600;
+    font-size: 15px;
+  }
+}
+.css-u3u290-MuiPickersSlideTransition-root-MuiDayCalendar-slideTransition:not(.MuiDateRangeCalendar-dayDragging){
+  .MuiDateRangePickerDay-dayOutsideRangeInterval{
+    color: #242424;
+    font-size: 15px;
+  }
+} 
+.css-1xy8njy-MuiPickersLayout-root
+{
+
+  .MuiPickersLayout-actionBar{
+    display: none;
+  }
+} 
+.css-jef1b6-MuiDateRangeCalendar-container:not(:last-of-type){
+  border-right: none !important;
+}
+.css-a4o5u-MuiButtonBase-root-MuiPickersDay-root-MuiDateRangePickerDay-day.Mui-selected{
+  background-color: #f2c41a !important;
+  color:white !important;
+}
+ .css-f8wito-MuiDateRangePickerDay-root{
+  
+  background-color: #f2c41a !important;
+  color: white;
+} 
+
+ .css-1ny3jyh-MuiDateRangePickerDay-root{
+  background-color: #f2c41a !important;
+  color: white;
+  
+} 
+.css-1jt0kfk-MuiDateRangePickerDay-root{
+  background-color: #f2c41a !important;
+  color: white;
+  
+}
+.css-u8vfpj-MuiButtonBase-root-MuiPickersDay-root-MuiDateRangePickerDay-day.Mui-selected{
+  background-color: #f2c41a !important;
+  
+}
+.css-1exd0lh-MuiButtonBase-root-MuiPickersDay-root-MuiDateRangePickerDay-day.Mui-selected{
+  background-color: #f2c41a !important;
+  color: white !important;
+  
+}
+.css-10m9jqs-MuiButtonBase-root-MuiPickersDay-root-MuiDateRangePickerDay-day:not(.Mui-selected){
+  border:none !important;
+  font-weight: 600;
+}
+}

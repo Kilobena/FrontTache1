@@ -12,6 +12,7 @@ import TransferReport from "./pages/Admin/TransferReport";
 import GamingReport from "./pages/Admin/GamingReport";
 import SportBetBook from "./pages/Admin/SportBetBook";
 import CasinoBets from "./pages/Admin/CasinoBets";
+import AdminCasinoBets from "./pages/Admin/AdminCasinoBets";
 import LandingPage from "./pages/User/LandingPage";
 import Betting from "./pages/User/Betting";
 import GamesCategoryHeader from "./pages/User/Games/GamesCategoryHeader";
@@ -64,6 +65,7 @@ function AppRoutes() {
     "/gaming-report",
     "/sportsbook-bets",
     "/casino-bets",
+    "/admin-casino-bets",
   ];
 
   const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
@@ -173,6 +175,7 @@ function AppRoutes() {
           <Route path="/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
           <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
           <Route path="/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
+          <Route path="/admin-casino-bets" element={isAuthenticated && !isUserRole ? <AdminCasinoBets /> : <Navigate to="/home" replace />} />
         </Route>
 
         {/* Fallback Route */}

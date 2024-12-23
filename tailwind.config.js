@@ -23,5 +23,14 @@ module.exports = {
     require("@tailwindcss/forms"), // For better form styling
     require("@tailwindcss/aspect-ratio"), // For aspect ratio controls (e.g., images)
     require("@tailwindcss/typography"), // For better typography control
+    function ({ addComponents }) {
+      addComponents({
+        '.custom-focus-reset': {
+          '@apply focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent': {},
+        },
+      });
+    },
   ],
 };
+
+

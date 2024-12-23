@@ -2,34 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import dayjs from 'dayjs';
-import { styled } from '@mui/material/styles'
 import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
 import SelectDropDown from "../../components/ui/SelectDropDown";
-import { FaCalendar } from "react-icons/fa";
 import { pickersLayoutClasses } from '@mui/x-date-pickers/PickersLayout';
 
-
-
-
-
-
-const GamingReport = () => {
+const CasinoBets = () => {
     const selectRef = useRef(null);
 
     const [selectedDate, setSelectedDate] = useState("today");
-    const [selecteGroupBy, setSelectedGroupBy] = useState("agent");
     const [chosenDate, setChosenDate] = useState("");
-    const [transferOptions, setTransferOptions] = useState([]);
     const [selectedUser, setSelectedUser] = useState("Super Agent");
     const [transfers, setTransfers] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
     const [selectedSuperAgentOption, setSuperAgentSelectedOption] = useState(null);
-    const [value, setValue] = useState([null, null]);
 
 
-    const today = new Date().toISOString().split("T")[0];
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
@@ -53,10 +40,6 @@ const GamingReport = () => {
             ),
             value: "custom"
         },];
-    const groupByOptions = [
-        { label: "Agent", value: "agent" },
-        { label: "Provider", value: "provider" },
-        { label: "Date", value: "date" },];
 
     const options = [
         { value: "agent", label: "Agent" },
@@ -89,11 +72,11 @@ const GamingReport = () => {
 
 
     return (
-        <div className="flex flex-col w-full trasnfer-history">
+        <div className="flex flex-col  w-full trasnfer-history">
             {" "}
             {/* Ensure full height */}
             <header className="rounded-lg bg-[#474747] text-white w-full p-3">
-                <h1 className="text-2xl font-bold">Gaming Report
+                <h1 className="text-2xl font-bold">Transfers Report
                 </h1>
             </header>
             <div className="flex-1 sm:pt-3">
@@ -133,19 +116,16 @@ const GamingReport = () => {
                             ))}
                         </div>
                     </div>
+
                     {/* Custom Date Picker Section */}
                     {selectedDate === "custom" && (
                         <div className="mb-8">
                             <div className="flex flex-row justify-center gap-4">
+
+
+                                {/* Calendar Months */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <StaticDateRangePicker
-                                        value={value}
-                                        onChange={(newValue) => setValue(newValue)}
-                                        slotProps={{
-                                            actionBar: { actions: [] },
-                                        }}
-                                        calendars={2}
-                                    />
+
                                     <StaticDateRangePicker
                                         // defaultValue={[dayjs('2022-04-17'), dayjs('2022-04-21')]}
                                         sx={{
@@ -155,8 +135,40 @@ const GamingReport = () => {
                                         }}
                                     />
                                 </LocalizationProvider>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                </LocalizationProvider>
+
+                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <div className="p-4 bg-white  rounded-lg">
+                    <StyledStaticDatePicker
+                      slots={{
+                        actionBar: () => null,
+                      }}
+                      defaultValue={dayjs('2024-10-17')}
+                      orientation="landscape"
+                      className="text-black font-bold"
+                    />
+                  </div>
+                  <div className="p-4 bg-white  rounded-lg">
+                    <StyledStaticDatePicker
+                      slots={{
+                        actionBar: () => null,
+                      }}
+                      defaultValue={dayjs('2024-11-17')}
+                      orientation="landscape"
+                      className="text-black font-bold"
+                    />
+                  </div>
+                  <div className="p-4 bg-white  rounded-lg">
+                    <StyledStaticDatePicker
+                      slots={{
+                        actionBar: () => null,
+                      }}
+                      orientation="landscape"
+                      className="text-black font-bold"
+                    />
+                  </div>
+                </LocalizationProvider> */}
+
+
                             </div>
                             {/* Buttons */}
                             <div className="flex justify-center mt-4 space-x-4">
@@ -167,18 +179,28 @@ const GamingReport = () => {
                                     CLEAR
                                 </button>
                             </div>
+                            {/* <label className="block font-medium mb-2 text-gray-800 text-lg">
+                Select a Date
+              </label>
+              <input
+                type="date"
+                value={chosenDate}
+                onChange={(e) => setChosenDate(e.target.value)}
+                max={today}
+                className="p-2 border border-gray-300 rounded bg-white w-full"
+              /> */}
+
                         </div>
                     )}
+
                     {/* Transfer To / From Selection Section */}
                     {/* <div className="flex flex-wrap justify-center"> */}
                     <div className="flex flex-col lg:flex-row space-x-0 space-y-2 lg:space-x-2 lg:space-y-0 w-full rtl:space-x-reverse">
+
                         <div className="flex flex-row lg:flex-row w-full 
                     flex-wrap gap-3 rtl:space-x-reverse">
-                            <div className=" w-full    sm:w-[10%] lg:w-[48%] 2xl:w-[49%]">
-                                <SelectDropDown label="Game" selectedOption={selectedSuperAgentOption} ref={selectRef} styles={customStyles} options={options} handleChange={handleSuperAgentChange} />
-                            </div>
 
-                            <div className=" w-full sm:w-[10%] lg:w-[48%] 2xl:w-[49%]">
+                            <div className=" w-full sm:w-[10%] lg:w-[48%] 2xl:w-[32%]">
                                 <label
                                     htmlFor="user-select"
                                     className="block text-md ml-3  text-[#242424]"
@@ -196,100 +218,31 @@ const GamingReport = () => {
                                     className="text-black text-sm custom-focus-reset border  shadow-none rounded-md mt-1 !focus:outline-none !focus:ring-0"
                                 />
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col lg:flex-row space-x-0 rtl:space-x-reverse space-y-2 lg:space-x-4 lg:space-y-0 py-2.5 lg:py-4 w-full ">
-                        <div className="flex-col items-center">
-                            <label className="block  font-normal mt-2 ml-2  text-gray-800 text-sm">
-                                Group By
-                            </label>
-                            <div className="flex items-center space-x-0.5">
+                            <div className=" w-[100%]   sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+                                <SelectDropDown label="Game" selectedOption={selectedSuperAgentOption} ref={selectRef} styles={customStyles} options={options} handleChange={handleSuperAgentChange} />
 
-                                {groupByOptions.map((option, index) => (
-                                    <label
-                                        key={option.value}
-                                        className={`flex items-center cursor-pointer ltr:rounded-l-lg rtl:rounded-r-lg py-2 px-4 min-w-[33.33%] lg:min-w-[120px] space-x-1.5 rtl:space-x-reverse  ${selecteGroupBy === option.value
-                                            ? "bg-yellow-400 text-black shadow-md"
-                                            : "bg-[#e2e2e2] text-gray-700"
-                                            } ${index === 0
-                                                ? "rounded-tl-lg rounded-bl-lg"
-                                                : index === 2 ? "rounded-tr-lg rounded-br-lg" : ""
-                                            }`}
-                                    >
-                                        <input
-                                            type="radio"
-                                            name="groupby"
-                                            value={option.value}
-                                            checked={selecteGroupBy === option.value}
-                                            onChange={() => {
-                                                setSelectedGroupBy(option.value);
-
-                                            }}
-                                            className="form-radio h-3 w-3"
-                                        />
-                                        <span className="font-bold text-sm ml-2 w-full">{option.label}</span>
-                                    </label>
-                                ))}
+                            </div>
+                            <div className=" w-[100%]   sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+                                <label className="block text-md ml-3  text-[#242424]">Bet Id</label>
+                                <input  name="betID" id="betID" autocomplete="false" data-1p-ignore="true"  className="text-black w-full rounded border-black mt-1 px-2 py-1.5"/>
                             </div>
 
-                        </div>
-                        <div className="w-full">
-                            <div className="flex flex-col lg:flex-row space-x-0 space-y-2 lg:space-x-2 lg:space-y-0 w-full rtl:space-x-reverse">
-                                <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 w-full 
-                    lg:space-x-4 rtl:space-x-reverse">
-                                    <div className="w-full lg:w-[48%] 2xl:w-[32%]">
-                                        <SelectDropDown
-                                            label="Super Agent"
-                                            selectedOption={selectedSuperAgentOption}
-                                            ref={selectRef}
-                                            styles={customStyles}
-                                            options={options}
-                                            handleChange={handleSuperAgentChange}
-                                        />
-                                    </div>
-                                    <div className="w-full lg:w-[48%] 2xl:w-[32%]">
-                                        <SelectDropDown
-                                            label="Agent"
-                                            selectedOption={selectedSuperAgentOption}
-                                            ref={selectRef}
-                                            styles={customStyles}
-                                            options={options}
-                                            handleChange={handleSuperAgentChange}
-                                        />
-                                    </div>
-                                    <div className="w-full lg:w-[48%] 2xl:w-[32%]">
-                                        <SelectDropDown
-                                            label="Player"
-                                            selectedOption={selectedSuperAgentOption}
-                                            ref={selectRef}
-                                            styles={customStyles}
-                                            options={options}
-                                            handleChange={handleSuperAgentChange}
-                                        />
 
-                                    </div>
-                                </div>
+
+                            <div className=" w-[100%]    sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+                                <SelectDropDown label="Super Agent" selectedOption={selectedSuperAgentOption} ref={selectRef} styles={customStyles} options={options} handleChange={handleSuperAgentChange} />
+
+                            </div>
+                            <div className=" w-[100%]   sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+                                <SelectDropDown label="Agent" selectedOption={selectedSuperAgentOption} ref={selectRef} styles={customStyles} options={options} handleChange={handleSuperAgentChange} />
+
+                            </div>
+                            <div className=" w-[100%]   sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+                                <SelectDropDown label="Player" selectedOption={selectedSuperAgentOption} ref={selectRef} styles={customStyles} options={options} handleChange={handleSuperAgentChange} />
+
                             </div>
                         </div>
-
                     </div>
-                    {/* <div className="flex-col lg:flex-row w-full lg:w-[35%]">
-              <label
-                htmlFor="user-select"
-                className="block text-md ml-3  text-[#242424]"
-              >
-                Transfer To / From
-              </label>
-              <Select
-                options={trasnfOptions}
-                value={trasnfOptions.find((option) => option.value === selectedUser)}
-                onChange={handleSelectTransOptChange}
-                placeholder="Select an option"
-                styles={customStyles}
-                isSearchable={false}
-                className="text-black text-sm custom-focus-reset border rounded-md mt-1 !focus:outline-none !focus:ring-0 !ring-0"
-              />
-            </div> */}
                     {/* Action Buttons */}
                     <div className="lg:flex gap-3 mb-8 mt-7">
                         <button
@@ -396,4 +349,4 @@ const GamingReport = () => {
     );
 };
 
-export default GamingReport;
+export default CasinoBets;
