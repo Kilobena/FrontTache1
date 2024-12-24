@@ -56,15 +56,15 @@ function AppRoutes() {
   };
 
   const excludedHeaderRoutes = [
-    "/transfer",
-    "/transfer-history",
-    "/user-management",
-    "/regitreP",
-    "/registre",
-    "/tranfer_report",
-    "/gaming-report",
+    "/agent/transfer",
+    "/agent/transfer-history",
+    "/agent/user-management",
+    "agent/register-partner",
+    "/agent/register-user",
+    "/agent/transfer-report",
+    "/agent/gaming-report",
     "/sportsbook-bets",
-    "/casino-bets",
+    "/agent/casino-bets",
   ];
 
   const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname === route);
@@ -125,7 +125,15 @@ function AppRoutes() {
         <Route
           path="/user"
           element={
-            isAuthenticated ? isUserRole ? <Navigate to="/home" replace /> : <Navigate to="/transfer" replace /> : <Navigate to="/home" replace />
+            isAuthenticated ? (
+              isUserRole ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/agent/transfer" replace />
+              )
+            ) : (
+              <Navigate to="/home" replace />
+            )
           }
         />
 
@@ -133,16 +141,16 @@ function AppRoutes() {
         <Route path="/game-history" element={<GameHistory />} />
 
         <Route element={<DashboardLayout excludeGameCategoryHeader={excludeGameCategoryHeader} user={user} logout={logout} />}>
-          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transfer") : "/home"} replace />} />
-          <Route path="/transfer" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
-          <Route path="/transfer-history" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
-          <Route path="/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
-          <Route path="/regitreP" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
-          <Route path="/registre" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />
-          <Route path="/tranfer_report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
-          <Route path="/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
+          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/agent/transfer") : "/home"} replace />} />
+          <Route path="/agent/transfer" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/transfer-history" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
+          <Route path="agent/register-partner" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/register-user" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/transfer-report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
           <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
-          <Route path="/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
         </Route>
 
         {/* Fallback Route */}

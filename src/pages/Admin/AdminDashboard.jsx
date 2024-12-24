@@ -25,28 +25,28 @@ const AdminDashboard = ({ user }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-4/5 md:w-2/3 lg:w-1/2">
             <div
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/registre")}
+              onClick={() => navigate("/agent/register-user")}
             >
               Registration
             </div>
 
             <div
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/user-management")}
+              onClick={() => navigate("/agent/user-management")}
             >
               User Management
             </div>
 
             <div
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/transfer")}
+              onClick={() => navigate("/agent/transfer")}
             >
               Transfer Action
             </div>
 
             <div
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/transfer-history")}
+              onClick={() => navigate("/agent/transfer-history")}
             >
               Transfer History
             </div>

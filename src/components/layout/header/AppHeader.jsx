@@ -96,7 +96,7 @@ const AppHeader = ({ excludeGameCategoryHeader, onLoginClick, onRegisterClick, i
                     <BalanceDropDown user={user} />
                     {user && !isUserRole ? (
                       <Link
-                        to="/transfer"
+                        to="/agent/transfer"
                         className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light"
                       >
                         {user && user?.role ? user?.role : "Guest"}
@@ -116,7 +116,7 @@ const AppHeader = ({ excludeGameCategoryHeader, onLoginClick, onRegisterClick, i
                       </span>
                       {!isUserRole && (
                         <Link
-                          to="/transfer"
+                          to="/agent/transfer"
                           className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light"
                         >
                           {user && user?.role ? user?.role : "Guest"}

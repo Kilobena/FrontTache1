@@ -74,9 +74,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             {/* Transfer Section */}
             <li
               className={`flex items-center w-full p-2  rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold ${
-                isActive("/transfer") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/transfer") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/transfer")}
+              onClick={() => handleMenuClick("/agent/transfer")}
             >
               <FaMoneyCheckAlt className="mr-3 ml-3" />
               Transfer
@@ -84,9 +84,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={` cursor-pointer p-2    flex items-center w-full   rounded-lg transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/transfer-history") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/transfer-history") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/transfer-history")}
+              onClick={() => handleMenuClick("/agent/transfer-history")}
             >
               <FaHistory className="mr-3 ml-3" />
               Transfers History
@@ -99,7 +99,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               className={` cursor-pointer p-2  rounded-lg flex items-center w-full    transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
                 isActive("/transfers_report") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/tranfer_report")}
+              onClick={() => handleMenuClick("/agent/transfer-report")}
             >
               <FaChartBar className="mr-3 ml-3" />
               Transfers Report
@@ -107,9 +107,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/gaming-report") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/gaming-report") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/gaming-report")}
+              onClick={() => handleMenuClick("/agent/gaming-report")}
             >
               <FaGamepad className="mr-3 ml-3" />
               Gaming Report
@@ -128,9 +128,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/casino-bets") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/casino-bets") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/casino-bets")}
+              onClick={() => handleMenuClick("/agent/casino-bets")}
             >
               <FaWallet className="mr-3 ml-3" />
               Casino Bets
@@ -141,9 +141,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             {/* User Management Section */}
             <li
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/user-management") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/user-management") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/user-management")}
+              onClick={() => handleMenuClick("/agent/user-management")}
             >
               <FaUsers className="mr-3 ml-3" />
               Manage Users
@@ -151,9 +151,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/registre") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/register-user") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/registre")}
+              onClick={() => handleMenuClick("/agent/register-user")}
             >
               <FaUserPlus className="mr-3 ml-3" />
               Register User
