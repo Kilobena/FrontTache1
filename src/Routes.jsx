@@ -22,6 +22,7 @@ import Footer from "./components/layout/Footer";
 import BottomBar from "./components/layout/BottomBar";
 import Modal from "./components/ui/Modal";
 import { GAMES_CATEGORY_NAV } from "./routes/routes_data";
+import GameHistory from "./pages/User/Games/GameHistory";
 
 function AppRoutes() {
   const location = useLocation();
@@ -164,6 +165,8 @@ function AppRoutes() {
         />
 
         {/* Protected Routes for Admin/Other Roles */}
+        <Route path="/game-history" element={<GameHistory />} />
+
         <Route element={<DashboardLayout excludeAppHeader={excludeAppHeader} user={user} logout={logout} />}>
           <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transferaction") : "/home"} replace />} />
           <Route path="/transferaction" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
