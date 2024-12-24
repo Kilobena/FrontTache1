@@ -25,12 +25,11 @@ module.exports = {
     require("@tailwindcss/typography"), // For better typography control
     function ({ addComponents }) {
       addComponents({
-        '.custom-focus-reset': {
-          '@apply focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent': {},
+        ".custom-focus-reset": {
+          "@apply focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent":
+            {},
         },
       });
     },
   ],
 };
-
-
