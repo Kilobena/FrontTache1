@@ -146,7 +146,7 @@ const TransferHistory = () => {
               {dateOptions.map((option, index) => (
                 <label
                   key={option.value}
-                  className={`flex md:flex-1 w-full md:gap-3 items-center ml-0.5 p-2.5 cursor-pointer md:first:rounded-tlmd:-lg first:rounded-bl-lg md:last:rounded-tr-lg md:last:rounded-br-lg  ${
+                  className={`flex md:flex-1 w-full md:gap-3 items-center ml-0.5 p-2.5 cursor-pointer md:first:rounded-tl md:-lg first:rounded-bl-lg md:last:rounded-tr-lg md:last:rounded-br-lg  ${
                     selectedDate === option.value ? "bg-yellow-400 text-black shadow-md" : "bg-[#e2e2e2] text-gray-700"
                   }`}
                 >

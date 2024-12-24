@@ -26,8 +26,7 @@ module.exports = {
     function ({ addComponents }) {
       addComponents({
         ".custom-focus-reset": {
-          "@apply focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent":
-            {},
+          "@apply focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent": {},
         },
       });
     },

@@ -12,7 +12,7 @@ const DashboardLayout = ({ user, logout }) => {
   }, []);
 
   return (
-    <div className="flex flex-col lg:h-full lg:min-h-screen">
+    <div className="flex flex-col lg:h-full">
       {/* Pass the isSidebarOpen state and toggleSidebar function to Header */}
       {/* <HeaderAdmin toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} /> */}
 
