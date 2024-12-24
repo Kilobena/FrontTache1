@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../providers/AuthContext";
-import { fetchGames, fetchGameUrl } from "../../../service/gameService";
+import { fetchAllGames, fetchGames, fetchGameUrl } from "../../../service/gameService";
 import GameFullscreen from "./GameFullscreen";
 
 export const SearchGames = () => {
@@ -45,7 +45,7 @@ export const SearchGames = () => {
     const loadGames = async () => {
       setLoading(true);
       try {
-        const response = await fetchGames(offset, 20, { category: "playtech" });
+        const response = await fetchAllGames();
         setGames(response.data);
         setTotalGames(response.pagination?.total);
       } catch (error) {

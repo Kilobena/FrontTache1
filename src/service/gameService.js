@@ -72,3 +72,16 @@ export const fetchGames = async (offset = 0, limit = 30, filters = {}) => {
     throw new Error("Failed to fetch games from the database.");
   }
 };
+
+export const fetchAllGames = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/get-all-games`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log("[DEBUG] API response:", response.data); // Debug API response
+    return response?.data || [];
+  } catch (error) {
+    console.error("Error fetching games from database:", error.response || error);
+    throw new Error("Failed to fetch games from the database.");
+  }
+};

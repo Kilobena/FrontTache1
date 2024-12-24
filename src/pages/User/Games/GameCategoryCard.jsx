@@ -5,6 +5,7 @@ import { useAuth } from "../../../providers/AuthContext";
 import { fetchGames, fetchGameUrl } from "../../../service/gameService";
 import GamesCategoryFilters from "./GamesCategoryFilters";
 import GameFullscreen from "./GameFullscreen";
+import { PROVIDER_OPTIONS, SORT_OPTIONS } from "./GAMES_FILTERS_DATA";
 
 const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOnMobile = false }) => {
   const { user } = useAuth();
@@ -17,17 +18,21 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
   const [gameLoading, setGameLoading] = useState({});
   const [offset, setOffset] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [providerFilter, setProviderFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("popular");
+  const [providerFilter, setProviderFilter] = useState(PROVIDER_OPTIONS[0]);
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
   const [isGameFullscreenOpen, setIsGameFullscreenOpen] = useState(false);
   const [gameUrl, setGameUrl] = useState("");
 
   useEffect(() => {
     const loadGames = async (append = false) => {
       setLoading(true);
+      const filters = {
+        ...(data?.type ? { type: data.type } : {}),
+        ...(data?.category ? { category: data.category } : {}),
+        ...(sortBy.value === "asc" || sortBy.value === "desc" ? { sortOrder: sortBy.value } : { sortBy: sortBy.value }),
+      };
       try {
-        const response = await fetchGames(offset, limit || append ? 16 : 32, data?.type ? { type: data.type } : { category: data.category });
+        const response = await fetchGames(offset, limit || append ? 16 : 32, filters);
         setGames((prevGames) => (append ? [...prevGames, ...response.data] : response.data)); // Append only when `append` is true
         setTotalGames(response.pagination?.total);
       } catch (error) {
@@ -42,7 +47,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
     } else {
       loadGames(true); // Append for load more
     }
-  }, [offset, limit, data]);
+  }, [offset, limit, data, sortBy, providerFilter]);
 
   const handleLoadMore = (e) => {
     e.preventDefault();
@@ -90,7 +95,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
       return 0;
     });
 
-  const displayedGames = limit ? filteredGames.slice(0, limit) : filteredGames;
+  const displayedGames = limit ? games.slice(0, limit) : games;
 
   if (!showAllCategories && loading && offset === 0) {
     return (
@@ -110,11 +115,7 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
       </div>
     );
   }
-  if (!loading && games.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-white mb-4">No games available at the moment.</div>
-    );
-  }
+
   return (
     <>
       <div className="bg-[#2E2E2E] md:rounded-lg lg:p-4 p-3 md:mb-4 mb-0">
@@ -146,106 +147,110 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
               <GamesCategoryFilters
                 setSelectedProviderFilter={setProviderFilter}
                 selectedProviderFilter={providerFilter}
-                selectedSortByFilter={sortBy}
                 setSelectedSortByFilter={setSortBy}
+                selectedSortByFilter={sortBy}
               />
             )}
           </div>
         )}
-        <>
-          <div
-            className={`${
-              horizontalOnMobile
-                ? "md:grid md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 gap-4 hidden"
-                : "grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
-            }`}
-          >
-            {displayedGames.map((game) => (
-              <div
-                key={game.gameId}
-                className="relative bg-[#242424] rounded overflow-hidden shadow-lg hover:shadow-2xl"
-                style={{
-                  aspectRatio: "1",
-                }}
-                onClick={() => handleGameLaunch(game.gameId)}
-              >
-                <img src={game.image} alt={game.name} className="w-full h-auto" />
-                <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                  <button className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition">
-                    <img alt="play game" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
-                  </button>
+        {games && games.length ? (
+          <>
+            <div
+              className={`${
+                horizontalOnMobile
+                  ? "md:grid md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 gap-4 hidden"
+                  : "grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+              }`}
+            >
+              {displayedGames.map((game) => (
+                <div
+                  key={game.gameId}
+                  className="relative bg-[#242424] rounded overflow-hidden shadow-lg hover:shadow-2xl"
+                  style={{
+                    aspectRatio: "1",
+                  }}
+                  onClick={() => handleGameLaunch(game.gameId)}
+                >
+                  <img src={game.image} alt={game.name} className="w-full h-auto" />
+                  <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                    <button className=" px-4 py-2 rounded-full text-gray-900 font-bold  shadow-lg transition">
+                      <img alt="play game" src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {horizontalOnMobile && (
+              <div className="md:hidden">
+                <div
+                  className="grid auto-cols-[124px] grid-rows-2 gap-2 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
+                  style={{
+                    display: "grid",
+                    gridAutoFlow: "column",
+                    WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
+                  }}
+                >
+                  <style jsx="true">{`
+                    .hide-scrollbar {
+                      -ms-overflow-style: none;
+                      scrollbar-width: none;
+                      scroll-snap-type: x mandatory;
+                      scroll-behavior: smooth;
+                    }
+                    .hide-scrollbar::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}</style>
+                  {displayedGames.map((game) => (
+                    <div
+                      key={game.gameId}
+                      className="relative bg-[#242424] rounded overflow-hidden shadow-lg will-change-transform"
+                      style={{
+                        aspectRatio: "1",
+                        scrollSnapAlign: "start",
+                      }}
+                      onClick={() => handleGameLaunch(game.gameId)}
+                    >
+                      <img
+                        src={game.image || "default-image-url.png"}
+                        alt={game.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
+                        <button className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform">
+                          <img
+                            alt="Play"
+                            src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
+                            className="w-full h-full"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            )}
 
-          {horizontalOnMobile && (
-            <div className="md:hidden">
-              <div
-                className="grid auto-cols-[124px] grid-rows-2 gap-2 px-4 overflow-x-auto overflow-y-hidden pb-2 hide-scrollbar scroll-smooth"
-                style={{
-                  display: "grid",
-                  gridAutoFlow: "column",
-                  WebkitOverflowScrolling: "touch", // For smooth iOS scrolling
-                }}
-              >
-                <style jsx="true">{`
-                  .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                    scroll-snap-type: x mandatory;
-                    scroll-behavior: smooth;
-                  }
-                  .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}</style>
-                {displayedGames.map((game) => (
-                  <div
-                    key={game.gameId}
-                    className="relative bg-[#242424] rounded overflow-hidden shadow-lg will-change-transform"
-                    style={{
-                      aspectRatio: "1",
-                      scrollSnapAlign: "start",
-                    }}
-                    onClick={() => handleGameLaunch(game.gameId)}
-                  >
-                    <img
-                      src={game.image || "default-image-url.png"}
-                      alt={game.name}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-60 hidden lg:flex items-center justify-center opacity-0 active:opacity-100 transition-opacity duration-200">
-                      <button className="w-10 h-10 flex items-center justify-center active:scale-95 transition-transform">
-                        <img
-                          alt="Play"
-                          src="https://bet24.gg/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fplay.fee186f3.svg&amp;w=160&amp;q=75"
-                          className="w-full h-full"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+            {!limit && games.length < totalGames && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={handleLoadMore}
+                  className="bg-[#1C1C1C] duration-300  cursor-pointer md:text-lg rtl:space-x-reverse font-semibold p-1.5 px-12 text-white py-2 rounded-lg shadow hover:bg-[#494949] transition"
+                >
+                  Load More
+                </button>
+                <p className="text-gray-300 mt-2">
+                  Showing {games.length} of {totalGames}
+                </p>
               </div>
-            </div>
-          )}
-
-          {!limit && games.length < totalGames && (
-            <div className="text-center mt-8">
-              <button
-                onClick={handleLoadMore}
-                className="bg-[#1C1C1C] duration-300  cursor-pointer md:text-lg rtl:space-x-reverse font-semibold p-1.5 px-12 text-white py-2 rounded-lg shadow hover:bg-[#494949] transition"
-              >
-                Load More
-              </button>
-              <p className="text-gray-300 mt-2">
-                Showing {games.length} of {totalGames}
-              </p>
-            </div>
-          )}
-        </>
+            )}
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-white mb-4">No games available at the moment.</div>
+        )}
       </div>
       {isGameFullscreenOpen && (
         <GameFullscreen onClose={() => setIsGameFullscreenOpen(false)}>
