@@ -128,9 +128,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/admin-casino-bets") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/casino-bets") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/admin-casino-bets")}
+              onClick={() => handleMenuClick("/casino-bets")}
             >
               <FaWallet className="mr-3 ml-3" />
               Casino Bets

@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select from "react-select";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import dayjs from "dayjs";
-import { styled } from "@mui/material/styles";
-import { StaticDateRangePicker } from "@mui/x-date-pickers-pro/StaticDateRangePicker";
+import React, { useState, useRef } from "react";
 import SelectDropDown from "../../components/ui/SelectDropDown";
-import { FaCalendar } from "react-icons/fa";
-import { pickersLayoutClasses } from "@mui/x-date-pickers/PickersLayout";
+import CustomDateRangePicker from "../../components/ui/DateRangePicker";
+import { format } from "date-fns";
 
 const TransferReport = () => {
   const selectRef = useRef(null);
@@ -23,6 +16,14 @@ const TransferReport = () => {
   const [value, setValue] = useState([null, null]);
 
   const today = new Date().toISOString().split("T")[0];
+  const [dateRangeState, setDateRangeState] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -106,7 +107,15 @@ const TransferReport = () => {
                     }}
                     className="form-radio h-3 w-3"
                   />
-                  <span className="font-bold text-sm ml-2 w-full">{option.label}</span>
+                  <span className="font-bold text-sm ml-2 w-full">
+                    {selectedDate === option.value && option.value === "custom" ? (
+                      <span>
+                        Custom: {`${format(dateRangeState[0]?.startDate, "dd-MM-yyyy")} - ${format(dateRangeState[0]?.endDate, "dd-MM-yyyy")}`}
+                      </span>
+                    ) : (
+                      option.label
+                    )}
+                  </span>
                 </label>
               ))}
             </div>
@@ -117,58 +126,7 @@ const TransferReport = () => {
             <div className="mb-8">
               <div className="flex flex-row justify-center gap-4">
                 {/* Calendar Months */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <StaticDateRangePicker
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
-                    slotProps={{
-                      actionBar: { actions: [] },
-                    }}
-                    calendars={2}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <StaticDateRangePicker
-                    // defaultValue={[dayjs('2022-04-17'), dayjs('2022-04-21')]}
-                    sx={{
-                      [`.${pickersLayoutClasses.contentWrapper}`]: {
-                        alignItems: "center",
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
-
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <div className="p-4 bg-white  rounded-lg">
-                    <StyledStaticDatePicker
-                      slots={{
-                        actionBar: () => null,
-                      }}
-                      defaultValue={dayjs('2024-10-17')}
-                      orientation="landscape"
-                      className="text-black font-bold"
-                    />
-                  </div>
-                  <div className="p-4 bg-white  rounded-lg">
-                    <StyledStaticDatePicker
-                      slots={{
-                        actionBar: () => null,
-                      }}
-                      defaultValue={dayjs('2024-11-17')}
-                      orientation="landscape"
-                      className="text-black font-bold"
-                    />
-                  </div>
-                  <div className="p-4 bg-white  rounded-lg">
-                    <StyledStaticDatePicker
-                      slots={{
-                        actionBar: () => null,
-                      }}
-                      orientation="landscape"
-                      className="text-black font-bold"
-                    />
-                  </div>
-                </LocalizationProvider> */}
+                <CustomDateRangePicker dateRangeState={dateRangeState} setDateRangeState={setDateRangeState} />
               </div>
               {/* Buttons */}
               <div className="flex justify-center mt-4 space-x-4">

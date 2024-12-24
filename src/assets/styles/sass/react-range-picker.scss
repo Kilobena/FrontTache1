@@ -101,18 +101,29 @@
     }
     .rdrDays {
       font-size: inherit;
-      button {
+
+      .rdrDay {
         padding: 0;
         margin: 0;
         line-height: 0;
-        border: 0;
+        border: 0 !important;
+        outline: 0 !important;
         height: 4em;
         &.rdrDayStartPreview,
         &.rdrDayEndPreview {
           display: none !important;
         }
+        &.rdrDayPassive {
+          opacity: 0;
+        }
+        &.rdrDayDisabled {
+          background: none !important;
+          opacity: 0.25 !important;
+        }
+
         > span:first-child {
           border: 0 !important;
+          outline: 0 !important;
           &.rdrStartEdge.rdrEndEdge {
             border-radius: 100px;
             border: 0 !important;
@@ -129,27 +140,43 @@
           }
           &.rdrInRange {
             border-radius: 0 !important;
+            + .rdrDayNumber span {
+              color: white !important;
+            }
+          }
+          &.rdrStartEdge.rdrEndEdge,
+          &.rdrStartEdge,
+          &.rdrEndEdge,
+          &.rdrInRange {
+            + .rdrDayNumber span {
+              color: white !important;
+              outline: 0 !important;
+              border: 0 !important;
+              box-shadow: none !important;
+            }
           }
         }
-
-        .rdrDayNumber {
-          font-size: 1rem;
+        > span:last-child {
+          font-size: 1.1rem;
           font-weight: 400;
           border-radius: 50px;
           position: relative !important;
           z-index: 1;
-          top: 0 !important;
+          top: 0;
+          color: black;
+          outline: 0 !important;
+          border: 0 !important;
           span {
-            color: black !important;
             &:after {
               display: none;
             }
           }
         }
-        &.rdrDayHovered,
         &:hover {
           border: 0 !important;
+          outline: 0 !important;
           span {
+            outline: 0 !important;
             border: 0 !important;
           }
           > span:first-child {
@@ -179,10 +206,11 @@
             }
           }
         }
-        &:focus {
+        &:focus-within {
           &:hover {
             span {
               border: 0 !important;
+              outline: 0 !important;
             }
           }
         }
