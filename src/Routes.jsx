@@ -56,8 +56,8 @@ function AppRoutes() {
   };
 
   const excludedHeaderRoutes = [
-    "/transferaction",
-    "/transferhistory",
+    "/transfer",
+    "/transfer-history",
     "/user-management",
     "/regitreP",
     "/registre",
@@ -67,32 +67,10 @@ function AppRoutes() {
     "/casino-bets",
   ];
 
-  const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
+  const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname === route);
 
   // Determine if the Header should be displayed
-  const excludeAppHeader =
-    location.pathname === "/casino" ||
-    location.pathname === "/slots" ||
-    location.pathname === "/crash" ||
-    location.pathname === "/providers" ||
-    location.pathname === "/livecasino" ||
-    location.pathname === "/amatic" ||
-    location.pathname === "/pragmatic" ||
-    location.pathname === "/featured" ||
-    location.pathname === "/other-games" ||
-    location.pathname === "/new";
-
-  const excludeGameCategoryHeader =
-    location.pathname === "/casino" ||
-    location.pathname === "/slots" ||
-    location.pathname === "/crash" ||
-    location.pathname === "/providers" ||
-    location.pathname === "/livecasino" ||
-    location.pathname === "/amatic" ||
-    location.pathname === "/pragmatic" ||
-    location.pathname === "/featured" ||
-    location.pathname === "/other-games" ||
-    location.pathname === "/new";
+  const excludeGameCategoryHeader = GAMES_CATEGORY_NAV.some(({ path }) => location.pathname === path);
 
   return (
     <div className="bg-[#242424] text-white min-h-screen">
@@ -100,7 +78,7 @@ function AppRoutes() {
       {!isExcludedRoute && (
         <AppHeader
           user={user}
-          excludeAppHeader={excludeAppHeader}
+          excludeGameCategoryHeader={excludeGameCategoryHeader}
           onLoginClick={handleLoginClick}
           onRegisterClick={handleLoginClick}
           onLogout={logout}
@@ -147,25 +125,17 @@ function AppRoutes() {
         <Route
           path="/user"
           element={
-            isAuthenticated ? (
-              isUserRole ? (
-                <Navigate to="/home" replace />
-              ) : (
-                <Navigate to="/transferaction" replace />
-              )
-            ) : (
-              <Navigate to="/home" replace />
-            )
+            isAuthenticated ? isUserRole ? <Navigate to="/home" replace /> : <Navigate to="/transfer" replace /> : <Navigate to="/home" replace />
           }
         />
 
         {/* Protected Routes for Admin/Other Roles */}
         <Route path="/game-history" element={<GameHistory />} />
 
-        <Route element={<DashboardLayout excludeAppHeader={excludeAppHeader} user={user} logout={logout} />}>
-          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transferaction") : "/home"} replace />} />
-          <Route path="/transferaction" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
-          <Route path="/transferhistory" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
+        <Route element={<DashboardLayout excludeGameCategoryHeader={excludeGameCategoryHeader} user={user} logout={logout} />}>
+          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/transfer") : "/home"} replace />} />
+          <Route path="/transfer" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
+          <Route path="/transfer-history" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
           <Route path="/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
           <Route path="/regitreP" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
           <Route path="/registre" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />

@@ -74,9 +74,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             {/* Transfer Section */}
             <li
               className={`flex items-center w-full p-2  rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold ${
-                isActive("/transferaction") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/transfer") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/transferaction")}
+              onClick={() => handleMenuClick("/transfer")}
             >
               <FaMoneyCheckAlt className="mr-3 ml-3" />
               Transfer
@@ -84,9 +84,9 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
             <li
               className={` cursor-pointer p-2    flex items-center w-full   rounded-lg transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/transferhistory") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/transfer-history") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
-              onClick={() => handleMenuClick("/transferhistory")}
+              onClick={() => handleMenuClick("/transfer-history")}
             >
               <FaHistory className="mr-3 ml-3" />
               Transfers History

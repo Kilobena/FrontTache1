@@ -34,7 +34,7 @@ const Login = ({ onLoginSuccess }) => {
         if (response.user.role === "User") {
           navigate("/user");
         } else {
-          navigate("/transferaction");
+          navigate("/transfer");
         }
       } else {
         setErrorMessage(response.message || "Failed to login. Please try again.");

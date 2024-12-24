@@ -39,14 +39,14 @@ const AdminDashboard = ({ user }) => {
 
             <div
               className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/transferaction")}
+              onClick={() => navigate("/transfer")}
             >
               Transfer Action
             </div>
 
             <div
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-6 px-4 rounded-lg shadow-lg flex items-center justify-center cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => navigate("/transferhistory")}
+              onClick={() => navigate("/transfer-history")}
             >
               Transfer History
             </div>

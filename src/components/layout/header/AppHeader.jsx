@@ -8,7 +8,7 @@ import UserActionsModal from "./UserActionsModal";
 import { HiMiniBars3 } from "react-icons/hi2";
 // import { IoCloseOutline } from "react-icons/io5";
 
-const AppHeader = ({ excludeAppHeader, onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar }) => {
+const AppHeader = ({ excludeGameCategoryHeader, onLoginClick, onRegisterClick, isSidebarOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const [activeItem, setActiveItem] = useState("home");
   const { user, logout } = useAuth(); // Access user and logout from AuthContext
@@ -96,7 +96,7 @@ const AppHeader = ({ excludeAppHeader, onLoginClick, onRegisterClick, isSidebarO
                     <BalanceDropDown user={user} />
                     {user && !isUserRole ? (
                       <Link
-                        to="/transferaction"
+                        to="/transfer"
                         className="bg-yellow-500 hover:bg-yellow-400 uppercase py-2 px-4 text-sm transition duration-300 rounded-lg text-black font-light"
                       >
                         {user && user?.role ? user?.role : "Guest"}
@@ -116,7 +116,7 @@ const AppHeader = ({ excludeAppHeader, onLoginClick, onRegisterClick, isSidebarO
                       </span>
                       {!isUserRole && (
                         <Link
-                          to="/transferaction"
+                          to="/transfer"
                           className="px-2 py-1 bg-yellow-500 text-[12px] hover:bg-yellow-400 uppercase  text-sm transition duration-300 rounded-lg text-black font-light"
                         >
                           {user && user?.role ? user?.role : "Guest"}
@@ -159,7 +159,7 @@ const AppHeader = ({ excludeAppHeader, onLoginClick, onRegisterClick, isSidebarO
         </div>
       </header>
       {/*  && */}
-      {isMobile && user && !isUserRole && !excludeAppHeader && (
+      {isMobile && user && !isUserRole && !excludeGameCategoryHeader && (
         <div className="p-5">
           <div className="flex justify-between">
             <div className="flex flex-col justify-start float-start gap-1">
