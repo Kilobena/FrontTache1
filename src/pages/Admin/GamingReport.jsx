@@ -94,7 +94,7 @@ const GamingReport = () => {
         <div className="w-full    rounded-lg ">
           {/* Date Filter Section */}
           <div className="mb-8 mt-3 sm:mt-0">
-            <label className="block font-normal ml-2  text-gray-800 text-lg">Transaction Date</label>
+            <label className="block font-normal ml-2  text-gray-800 text-lg">Settlement Date</label>
             <div className="flex flex-wrap gap-2 sm:gap-0  w-full">
               {dateOptions.map((option, index) => (
                 <label

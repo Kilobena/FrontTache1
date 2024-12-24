@@ -65,38 +65,34 @@ function AppRoutes() {
     "/gaming-report",
     "/sportsbook-bets",
     "/casino-bets",
-    "/admin-casino-bets",
   ];
 
   const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname.startsWith(route));
 
   // Determine if the Header should be displayed
   const excludeAppHeader =
-    // GAMES_CATEGORY_NAV.map(
-    //   ({ path }) => location.pathname.startsWith(path === "casino") && location.pathname.startsWith(path)
-    // );
-    location.pathname.startsWith("/casino") ||
-    location.pathname.startsWith("/slots") ||
-    location.pathname.startsWith("/crash") ||
-    location.pathname.startsWith("/providers") ||
-    location.pathname.startsWith("/livecasino") ||
-    location.pathname.startsWith("/amatic") ||
-    location.pathname.startsWith("/pragmatic") ||
-    location.pathname.startsWith("/featured") ||
-    location.pathname.startsWith("/other-games") ||
-    location.pathname.startsWith("/new");
+    location.pathname === "/casino" ||
+    location.pathname === "/slots" ||
+    location.pathname === "/crash" ||
+    location.pathname === "/providers" ||
+    location.pathname === "/livecasino" ||
+    location.pathname === "/amatic" ||
+    location.pathname === "/pragmatic" ||
+    location.pathname === "/featured" ||
+    location.pathname === "/other-games" ||
+    location.pathname === "/new";
 
   const excludeGameCategoryHeader =
-    location.pathname.startsWith("/casino") ||
-    location.pathname.startsWith("/slots") ||
-    location.pathname.startsWith("/crash") ||
-    location.pathname.startsWith("/providers") ||
-    location.pathname.startsWith("/livecasino") ||
-    location.pathname.startsWith("/amatic") ||
-    location.pathname.startsWith("/pragmatic") ||
-    location.pathname.startsWith("/featured") ||
-    location.pathname.startsWith("/other-games") ||
-    location.pathname.startsWith("/new");
+    location.pathname === "/casino" ||
+    location.pathname === "/slots" ||
+    location.pathname === "/crash" ||
+    location.pathname === "/providers" ||
+    location.pathname === "/livecasino" ||
+    location.pathname === "/amatic" ||
+    location.pathname === "/pragmatic" ||
+    location.pathname === "/featured" ||
+    location.pathname === "/other-games" ||
+    location.pathname === "/new";
 
   return (
     <div className="bg-[#242424] text-white min-h-screen">
