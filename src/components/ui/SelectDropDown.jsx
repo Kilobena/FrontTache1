@@ -7,6 +7,7 @@ const SelectDropDown = ({
   options,
   styles,
   selectRef,
+  isSearchable = false,
   ...props
 }) => {
   const customStyles = {

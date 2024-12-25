@@ -157,12 +157,12 @@ const CasinoBets = () => {
                   Prooduct
                 </label>
 
-                <Select
+                <SelectDropDown
+                  isSearchable
                   options={productOptionsMap}
                   onChange={handleSelectTransOptChange}
                   placeholder="Select an option"
                   styles={customStyles}
-                  isSearchable
                   className="text-black text-sm custom-focus-reset border  shadow-none rounded-md mt-1 !focus:outline-none !focus:ring-0"
                 />
               </div>
