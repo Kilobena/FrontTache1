@@ -21,7 +21,12 @@ const CustomDateRangePicker = ({ dateRangeState, setDateRangeState, months = 3, 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
   console.log(dateRangeState[0], "dateRangeState");
+  const handleDateChange = (item)=>{
+    setDateRangeState([item.selection])
+
+  }
   return (
     <DateRangePicker
       {...props}
@@ -29,13 +34,14 @@ const CustomDateRangePicker = ({ dateRangeState, setDateRangeState, months = 3, 
       direction="horizontal"
       calendarFocus="backwards"
       ranges={dateRangeState}
-      onChange={(item) => setDateRangeState([item.selection])}
+      onChange={(item) => handleDateChange(item)}
       rangeColors={["#f2c41a"]}
       // minDate={addDays(new Date(), -90)}
       maxDate={addDays(new Date(), 0)}
       months={isMobile ? 1 : isTablet ? 2 : months}
       showSelectionPreview={false}
       preventSnapRefocus={true}
+      
       moveRangeOnFirstSelection={false}
       showMonthAndYearPickers={false}
       showDateDisplay={false}

@@ -58,14 +58,14 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
       {/* Sidebar Menu */}
       <div
-        className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-64 lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
+        className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-[16.5rem] lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
           isSidebarOpen ? "lg:translate-x-0 top-full" : "lg:translate-x-full h-0"
         } `}
       >
-        <div className="pr-3">
+        <div className="p-3">
           <div className="flex items-center agentMenuBorderBottom">
-            <div className="hidden lg:flex px-3 py-2  flex-col space-y-2 agentToolPadding">
-              <div className="text-lg font-bold mb-2 uppercase">Agent Menu</div>
+            <div className="hidden lg:flex px-2 py-2  flex-col space-y-2 agentToolPadding">
+              <div className="text-lg font-bold uppercase">Agent Menu</div>
               <div className="text-sm mb-4 opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</div>
             </div>
           </div>
@@ -97,7 +97,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             {/* Reports Section */}
             <li
               className={` cursor-pointer p-2  rounded-lg flex items-center w-full    transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/transfers_report") ? "bg-[#f2c41a] text-black" : "text-white"
+                isActive("/agent/transfer-report") ? "bg-[#f2c41a] text-black" : "text-white"
               }`}
               onClick={() => handleMenuClick("/agent/transfer-report")}
             >

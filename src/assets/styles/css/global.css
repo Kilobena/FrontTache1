@@ -10,3 +10,9 @@ svg.icon-yellow {
     bottom: -1rem !important;
   }
 }
+input[type='radio']:focus{
+  box-shadow: none !important;
+}
+input[type='text']{
+  box-shadow: none !important;
+}

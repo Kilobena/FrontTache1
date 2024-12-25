@@ -195,7 +195,7 @@ const TransferForm = () => {
 
   return (
     <div className="flex flex-col">
-      <header className="bg-[#474747] font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg text-center ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
+      <header className="bg-[#474747] font-bold text-agentToolHeaderText bg-agentToolHeaderBg rounded-lg py-3 px-4 text-lg  ltr:lg:text-left rtl:lg:text-right lg:text-2xl">
         <h1 className="lg:text-2xl font-bold">Transfer</h1>
       </header>
 
@@ -203,7 +203,7 @@ const TransferForm = () => {
         <div className="max-w-lg rounded-lg">
           {/* User Selection Input */}
           <div className="relative mb-4" ref={suggestionBoxRef}>
-            <span className="font-medium text-[#242424] ml-2">Search for user</span>
+            <span className="font-normal text-[#242424] ml-2">Choose User</span>
             <input
               type="text"
               className="border-slate-800 border p-1.5 rounded w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 text-black"

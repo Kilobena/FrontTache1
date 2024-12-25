@@ -12,7 +12,7 @@ const DashboardLayout = ({ user, logout }) => {
   }, []);
 
   return (
-    <div className="flex flex-col lg:h-full">
+    <div className="flex flex-col ">
       {/* Pass the isSidebarOpen state and toggleSidebar function to Header */}
       {/* <HeaderAdmin toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} /> */}
 
@@ -20,12 +20,12 @@ const DashboardLayout = ({ user, logout }) => {
 
       {/* Sidebar and main content */}
 
-      <div className="lg:p-5 p-4 sm:p-0  flex flex-col sm:flex-row w-full flex-1">
+      <div className="lg:p-5 p-2 sm:p-0  flex flex-col sm:flex-row w-full flex-1">
         {/* Sidebar can be toggled */}
         <Sidebar user={user} logout={logout} isSidebarOpen={isSidebarOpen} toggleSidebar={setIsSidebarOpen} />
 
         {/* Main content */}
-        <div className="flex-1 lg:p-5 p-3 bg-[#fff] rounded-xl ltr:lg:rounded-r-xl ltr:lg:rounded-l-none rtl:lg:rounded-l-xl rtl:lg:rounded-r-none">
+        <div className="flex-1 lg:p-5 p-3 bg-[#fff] rounded-lg md:rounded-none lg:rounded-tr-lg lg:rounded-br-lg ltr:lg:rounded-r-xl ltr:lg:rounded-l-none rtl:lg:rounded-l-xl rtl:lg:rounded-r-none">
           <Outlet />
         </div>
       </div>
