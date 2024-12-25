@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../../providers/AuthContext";
-import Auth from "../../../service/Auth";
-import TransferService from "../../../service/Transfer";
+import { useAuth } from "../../providers/AuthContext";
+import Auth from "../../service/Auth";
+import TransferService from "../../service/Transfer";
 
 const TransferForm = () => {
   const { user, updateUser } = useAuth();

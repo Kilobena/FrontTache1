@@ -1,5 +1,32 @@
 import GamesCategoryPage from "../pages/User/Games/GamesCategoryPage";
+
+// ICONS GAME CATEGORY
 import IconLobby from "../assets/icons/icon-lobby.svg";
+import IconFeatured from "../assets/icons/icon-featured.svg";
+import IconNew from "../assets/icons/icon-new.svg";
+import IconSlots from "../assets/icons/icon-slots.svg";
+import IconCrash from "../assets/icons/icon-crash.svg";
+import IconProviders from "../assets/icons/icon-providers.svg";
+import IconLiveCasino from "../assets/icons/icon-live-casino.svg";
+import IconAmatic from "../assets/icons/icon-amatic.svg";
+import IconPragmatic from "../assets/icons/icon-pragmatic.svg";
+import IconOtherGames from "../assets/icons/icon-other-games.svg";
+
+// ICONS USER MENU
+import IconMyAccount from "../assets/icons/icon-my-account.svg";
+import IconTransactionsHistory from "../assets/icons/icon-transactions-history.svg";
+import IconVerifyAccount from "../assets/icons/icon-verify-account.svg";
+
+// ICONS SIDEBAR
+import IconTransfer from "../assets/icons/icon-transfer.svg";
+import IconTransferHistory from "../assets/icons/icon-transfer-history.svg";
+import IconTransferReport from "../assets/icons/icon-transfer-report.svg";
+import IconGamingReport from "../assets/icons/icon-gaming-report.svg";
+import IconSportbookBets from "../assets/icons/icon-sportsbook-bets.svg";
+import IconCasinoBets from "../assets/icons/icon-casino-bets.svg";
+import IconManageUsers from "../assets/icons/icon-manage-users.svg";
+import IconRegisterUser from "../assets/icons/icon-register-user.svg";
+import IconLogout from "../assets/icons/icon-logout.svg";
 
 export const GAMES_CATEGORY_NAV = [
   {
@@ -13,63 +40,63 @@ export const GAMES_CATEGORY_NAV = [
     path: "/featured",
     component: <GamesCategoryPage />,
     category: "evolution",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_featured.svg&w=160&q=75",
+    icon: IconFeatured,
   },
   {
     label: "New",
     path: "/new",
     component: <GamesCategoryPage />,
     category: "playtech",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_new%20(1).svg&w=160&q=75",
+    icon: IconNew,
   },
   {
     label: "Slots",
     path: "/slots",
     component: <GamesCategoryPage />,
     category: "Novomatic",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_slots.svg&w=160&q=75",
+    icon: IconSlots,
   },
   {
     label: "Crash",
     path: "/crash",
     component: <GamesCategoryPage />,
     category: "Gamzix",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Crash.svg&w=160&q=75",
+    icon: IconCrash,
   },
   {
     label: "Providers",
     path: "/providers",
     component: <GamesCategoryPage />,
     category: "pragmatic play",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_providers.svg&w=160&q=75",
+    icon: IconProviders,
   },
   {
     label: "Live Casino",
     path: "/livecasino",
     component: <GamesCategoryPage />,
     type: "livecasino",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Live%20Casino.svg&w=160&q=75",
+    icon: IconLiveCasino,
   },
   {
     label: "Amatic",
     path: "/amatic",
     component: <GamesCategoryPage />,
     category: "Real Dealer Studios",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_amatic.svg&w=160&q=75",
+    icon: IconAmatic,
   },
   {
     label: "Pragmatic",
     path: "/pragmatic",
     component: <GamesCategoryPage />,
     category: "pragmatic play",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Fcasino_pragmatic.svg&w=160&q=75",
+    icon: IconPragmatic,
   },
   {
     label: "Other Games",
     path: "/other-games",
     component: <GamesCategoryPage />,
     category: "playtech",
-    icon: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fcasino_Keno.svg&w=160&q=75",
+    icon: IconOtherGames,
   },
 ];
 
@@ -100,26 +127,74 @@ export const USER_ACTIONS = [
   {
     title: "My Account",
     path: "my-account",
-    image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_My%20account.svg&w=640&q=75",
+    image: IconMyAccount,
   },
   {
     title: "Casino Bets",
     path: "casino-bets",
-    image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_Casino%20bets.svg&w=1920&q=75",
+    image: IconCasinoBets,
   },
   {
     title: "Sports Bets",
     path: "sports-bets",
-    image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fwinlira%2Fmenus%2Faccount_Sports%20bet.svg&w=1920&q=75",
+    image: IconSportbookBets,
   },
   {
-    title: "Transaction History",
+    title: "Transactions History",
     path: "transaction-history",
-    image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Faccount_Payment%20History.svg&w=1920&q=75",
+    image: IconTransactionsHistory,
   },
   {
     title: "Verify Account",
     path: "verify-account",
-    image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Faccount_Verify%20Account.svg&w=160&q=75",
+    image: IconVerifyAccount,
+  },
+];
+
+export const ADMIN_NAV = [
+  {
+    title: "Transfer",
+    path: "/agent/transfer",
+    image: IconTransfer,
+  },
+  {
+    title: "Transfer History",
+    path: "/agent/transfer-history",
+    image: IconTransferHistory,
+  },
+  {
+    title: "Transfers Report",
+    path: "/agent/transfers-report",
+    image: IconTransferReport,
+  },
+  {
+    title: "Gaming Report",
+    path: "/agent/gaming-report",
+    image: IconGamingReport,
+  },
+  {
+    title: "Sportsbook Bets",
+    path: "/agent/sportsbook-bets",
+    image: IconSportbookBets,
+  },
+  {
+    title: "Casino Bets",
+    path: "/agent/casino-bets",
+    image: IconCasinoBets,
+  },
+  {
+    title: "Manage Users",
+    path: "/agent/manage-users",
+    image: IconManageUsers,
+  },
+  {
+    title: "Transaction History",
+    path: "/agent/register-user",
+    image: IconRegisterUser,
+  },
+  {
+    title: "Logout",
+    path: "/home",
+    image: IconLogout,
   },
 ];

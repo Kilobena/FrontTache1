@@ -5,8 +5,8 @@ import RegisterForm from "./pages/Auth/Register";
 import Login from "./pages/Auth/LoginPage";
 import RegisterPartner from "./pages/Auth/RegistrePartner";
 import ManageUser from "./pages/Auth/ManageUser";
-import TransferHistory from "./pages/Admin/Transactions/TransferHistory";
-import TransferForm from "./pages/Admin/Transactions/TransferAction";
+import TransferHistory from "./pages/Admin/TransferHistory";
+import TransferForm from "./pages/Admin/TransferAction";
 import DashboardLayout from "./pages/Admin/DashboardLayout";
 import TransferReport from "./pages/Admin/TransferReport";
 import GamingReport from "./pages/Admin/GamingReport";
@@ -61,7 +61,7 @@ function AppRoutes() {
     "/agent/user-management",
     "agent/register-partner",
     "/agent/register-user",
-    "/agent/transfer-report",
+    "/agent/transfers-report",
     "/agent/gaming-report",
     "/sportsbook-bets",
     "/agent/casino-bets",
@@ -147,7 +147,7 @@ function AppRoutes() {
           <Route path="/agent/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
           <Route path="agent/register-partner" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
           <Route path="/agent/register-user" element={isAuthenticated && !isUserRole ? <RegisterForm /> : <Navigate to="/home" replace />} />
-          <Route path="/agent/transfer-report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/transfers-report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
           <Route path="/agent/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
           <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
           <Route path="/agent/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />

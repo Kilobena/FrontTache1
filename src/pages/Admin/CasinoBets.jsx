@@ -3,8 +3,8 @@ import Select from "react-select";
 import SelectDropDown from "../../components/ui/SelectDropDown";
 import CustomDateRangePicker from "../../components/ui/DateRangePicker";
 import { format } from "date-fns";
-import SelectedDates from "../../components/ui/SelectedTransactionDates";
-import {trasnferData} from '../../config/data'
+import SelectedDates from "./FilterFormComponents/SelectedTransactionDates";
+import { trasnferData } from "../../config/data";
 
 const CasinoBets = () => {
   const selectRef = useRef(null);
@@ -17,7 +17,6 @@ const CasinoBets = () => {
   const [transfers, setTransfers] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedSuperAgentOption, setSuperAgentSelectedOption] = useState(null);
- 
 
   const customStyles = {
     control: (provided, state) => ({
@@ -57,8 +56,8 @@ const CasinoBets = () => {
     console.log("Selected User:", selectedOption);
   };
   const fetchTransferHistory = () => {
-    setShowTransferHistoryData(true)
-  }
+    setShowTransferHistoryData(true);
+  };
 
   return (
     <div className="flex flex-col  w-full trasnfer-history">
@@ -69,13 +68,18 @@ const CasinoBets = () => {
       </header>
       <div className="flex-1 pt-4">
         <div className="w-full    rounded-lg ">
-          <SelectedDates title="Transaction Date" setShowTransferHistoryData={setShowTransferHistoryData} setSelectedDate={setSelectedDate} selectedDate={selectedDate}/>
+          <SelectedDates
+            title="Transaction Date"
+            setShowTransferHistoryData={setShowTransferHistoryData}
+            setSelectedDate={setSelectedDate}
+            selectedDate={selectedDate}
+          />
           <div className="flex flex-col lg:flex-row space-x-0 space-y-2 lg:space-x-2 lg:space-y-0 w-full rtl:space-x-reverse">
             <div
               className="flex flex-row lg:flex-row w-full 
                     flex-wrap lg:gap-4 rtl:space-x-reverse"
             >
-               <div className=" w-[100%] sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
+              <div className=" w-[100%] sm:w-[10%] lg:w-[48%] 2xl:w-[31%]">
                 <SelectDropDown
                   label="Bet Status"
                   selectedOption={selectedSuperAgentOption}
@@ -140,10 +144,14 @@ const CasinoBets = () => {
           </div>
           {/* Action Buttons */}
           <div className="lg:flex gap-3 mb-8 mt-7">
-          <button disabled={!selectedSuperAgentOption} onClick={fetchTransferHistory}  className={`bg-[#f2c41a] hover:bg-[#ccaa00] p-2  text-black w-full lg:max-w-40 font-bold lg:py-2 px-11 rounded-lg ${selectedSuperAgentOption
-                  ? " text-black cursor-pointer"
-                  : "bg-[#f2c41a] text-black cursor-not-allowed opacity-50"
-                }`} type="button">
+            <button
+              disabled={!selectedSuperAgentOption}
+              onClick={fetchTransferHistory}
+              className={`bg-[#f2c41a] hover:bg-[#ccaa00] p-2  text-black w-full lg:max-w-40 font-bold lg:py-2 px-11 rounded-lg ${
+                selectedSuperAgentOption ? " text-black cursor-pointer" : "bg-[#f2c41a] text-black cursor-not-allowed opacity-50"
+              }`}
+              type="button"
+            >
               SEARCH
             </button>
             <button
@@ -154,10 +162,10 @@ const CasinoBets = () => {
                 setChosenDate("");
                 setTransfers([]);
                 setErrorMessage(null);
-                setShowTransferHistoryData(false)
-                setSelectedUser(null)
-                setSuperAgentSelectedOption(null)
-                console.log(selectedUser,"ssss")
+                setShowTransferHistoryData(false);
+                setSelectedUser(null);
+                setSuperAgentSelectedOption(null);
+                console.log(selectedUser, "ssss");
               }}
             >
               RESET
@@ -172,7 +180,14 @@ const CasinoBets = () => {
               <div class="pb-3">
                 <span class="flex text-sm text-black">Sort by:</span>
                 <label for="sortByUser" class="space-x-2 pr-3 ml-2">
-                  <input type="radio" name="sortByBalances" checked id="sortByUser" value="alphabetically" class="focus:ring-2 peer focus:ring-blue-500" />
+                  <input
+                    type="radio"
+                    name="sortByBalances"
+                    checked
+                    id="sortByUser"
+                    value="alphabetically"
+                    class="focus:ring-2 peer focus:ring-blue-500"
+                  />
                   <span className="text-black text-lg font-semibold">Alphabetically</span>
                 </label>
                 <label for="sortByBalance" class="space-x-2">
@@ -237,9 +252,8 @@ const CasinoBets = () => {
                             </span>
                           </td>
                         </tr>
-                      )
+                      );
                     })}
-
                   </tbody>
                   <tfoot class="bg-[#808080]  text-white text-sm text-left font-semibold uppercase py-2 px-4">
                     <tr>

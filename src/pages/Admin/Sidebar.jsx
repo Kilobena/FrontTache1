@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaUserPlus,
-  FaUsers,
-  FaMoneyCheckAlt,
-  FaHistory,
-  FaSignOutAlt,
-  FaBars,
-  FaTimes,
-  FaGamepad,
-  FaChartBar,
-  FaTrophy,
-  FaWallet,
-} from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ADMIN_NAV } from "../../routes/routes_data";
+import IconLogout from "../../assets/icons/icon-logout.svg";
 
 const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
   const location = useLocation();
@@ -54,11 +43,16 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
 
   return (
     <>
-      {/* Toggle icon for sidebar */}
+      <style jsx="true">{`
+        .sidebar-nav li.active img,
+        .sidebar-nav li:hover img {
+          filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(343deg) brightness(105%) contrast(109%) !important;
+        }
+      `}</style>
 
       {/* Sidebar Menu */}
       <div
-        className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-[16.5rem] lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
+        className={`w-full overflow-y-hidden bg-[#242424] text-white z-40 transform transition-transform duration-300 static lg:w-[17.25rem] lg:h-full lg:right-0 lg:mt-0 lg:overflow-y-auto ${
           isSidebarOpen ? "lg:translate-x-0 top-full" : "lg:translate-x-full h-0"
         } `}
       >
@@ -70,107 +64,35 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             </div>
           </div>
           <hr className="border-gray-700 mb-4" />
-          <ul className="flex flex-col space-y-3 mb-3">
-            {/* Transfer Section */}
-            <li
-              className={`flex items-center w-full p-2  rounded-md transition duration-300 group-hover:text-agentToolSelected font-semibold ${
-                isActive("/agent/transfer") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/transfer")}
-            >
-              <FaMoneyCheckAlt className="mr-3 ml-3" />
-              Transfer
-            </li>
-
-            <li
-              className={` cursor-pointer p-2    flex items-center w-full   rounded-lg transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/transfer-history") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/transfer-history")}
-            >
-              <FaHistory className="mr-3 ml-3" />
-              Transfers History
-            </li>
-
-            <hr className="border-gray-700" />
-
-            {/* Reports Section */}
-            <li
-              className={` cursor-pointer p-2  rounded-lg flex items-center w-full    transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/transfer-report") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/transfer-report")}
-            >
-              <FaChartBar className="mr-3 ml-3" />
-              Transfers Report
-            </li>
-
-            <li
-              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/gaming-report") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/gaming-report")}
-            >
-              <FaGamepad className="mr-3 ml-3" />
-              Gaming Report
-            </li>
-
-            {/* Betting Section */}
-            <li
-              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/sportsbook-bets") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/sportsbook-bets")}
-            >
-              <FaTrophy className="mr-3 ml-3" />
-              Sportsbook Bets
-            </li>
-
-            <li
-              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/casino-bets") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/casino-bets")}
-            >
-              <FaWallet className="mr-3 ml-3" />
-              Casino Bets
-            </li>
-
-            <hr className="border-gray-700" />
-
-            {/* User Management Section */}
-            <li
-              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/user-management") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/user-management")}
-            >
-              <FaUsers className="mr-3 ml-3" />
-              Manage Users
-            </li>
-
-            <li
-              className={`cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500 ${
-                isActive("/agent/register-user") ? "bg-[#f2c41a] text-black" : "text-white"
-              }`}
-              onClick={() => handleMenuClick("/agent/register-user")}
-            >
-              <FaUserPlus className="mr-3 ml-3" />
-              Register User
-            </li>
-
-            <hr className="border-gray-700" />
+          <ul className="sidebar-nav flex flex-col space-y-3 mb-3">
+            {ADMIN_NAV.map((item, index) => {
+              return (
+                <>
+                  <li
+                    className={`cursor-pointer px-[14px] py-2 rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black  hover:bg-primary-yellow text-[17px] font-semibold ${
+                      isActive(item.path) ? "bg-primary-yellow text-black" : "text-white"
+                    }`}
+                    onClick={() => handleMenuClick(item.path)}
+                  >
+                    <img src={item.image} alt={item.label} className={`w-6 h-6 mr-3 ${isActive(item.path) ? "active" : "icon-white"}`} />
+                    {/* <FaChartBar className="mr-3 ml-3" /> */}
+                    {item.title}
+                  </li>
+                  {index === 1 || index === 7 || index === 8 ? <hr className="border-white/10 !my-1" /> : null}
+                </>
+              );
+            })}
 
             {/* Logout Section */}
-            <li
-              className="cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 group-hover:text-agentToolSelected font-semibold hover:text-black  hover:bg-yellow-500"
+            {/* <li
+              className="cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black hover:bg-primary-yellow"
               onClick={logout}
             >
-              <FaSignOutAlt className="mr-3 ml-3" />
+              <img src={IconLogout} alt="logout" className={`mr-3 icon-white`} />
               Logout
-            </li>
+            </li> */}
           </ul>
-          <hr className="border-gray-700" />
+          {/* <hr className="border-gray-700" /> */}
 
           {/* User Info */}
           <div className="p-4 text-xs flex flex-col space-y-1 opacity-70 mb-5">
