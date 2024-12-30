@@ -63,7 +63,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               <div className="text-sm mb-4 opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</div>
             </div>
           </div>
-          <hr className="border-gray-700 mb-4" />
+          <hr className="border-white/10 mb-3" />
           <ul className="sidebar-nav flex flex-col space-y-3 mb-3">
             {ADMIN_NAV.map((item, index) => {
               return (
@@ -82,7 +82,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
                     {/* <FaChartBar className="mr-3 ml-3" /> */}
                     {item.title}
                   </li>
-                  {index === 1 || index === 7 || index === 8 ? <hr className="border-white/10 !my-1" /> : null}
+                  {index === 1 || index === 5 ? <hr className="border-white/10" /> : null}
                 </>
               );
             })}
@@ -98,7 +98,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               Logout
             </li>
           </ul>
-          {/* <hr className="border-gray-700" /> */}
+          <hr className="border-white/10" />
 
           {/* User Info */}
           <div className="p-4 text-xs flex flex-col space-y-1 opacity-70 mb-5">
