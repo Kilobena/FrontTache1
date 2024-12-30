@@ -88,6 +88,8 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             })}
 
             {/* Logout Section */}
+            <hr className="border-white/10" />
+
             <li
               className={`cursor-pointer px-[14px] py-2 rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black  hover:bg-primary-yellow text-[17px] `}
               onClick={logout}

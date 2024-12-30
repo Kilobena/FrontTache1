@@ -25,12 +25,15 @@ import IconGamingReport from "../assets/icons/icon-gaming-report.svg";
 import IconSportbookBets from "../assets/icons/icon-sportsbook-bets.svg";
 import IconCasinoBets from "../assets/icons/icon-casino-bets.svg";
 import IconManageUsers from "../assets/icons/icon-manage-users.svg";
+import IconRegisterUser from "../assets/icons/icon-register-user.svg";
+
 import TransferForm from "../pages/Admin/TransferAction";
 import TransferHistory from "../pages/Admin/TransferHistory";
 import TransferReport from "../pages/Admin/TransferReport";
 import GamingReport from "../pages/Admin/GamingReport";
 import CasinoBets from "../pages/Admin/CasinoBets";
 import ManageUser from "../pages/Auth/ManageUser";
+import RegisterForm from "../pages/Auth/Register";
 
 export const GAMES_CATEGORY_NAV = [
   {
@@ -198,12 +201,12 @@ export const ADMIN_NAV = [
     component: <ManageUser />,
     image: IconManageUsers,
   },
-  // {
-  //   title: "Transaction History",
-  //   path: "/register-user",
-  //   component: <TransactionsHistory />,
-  //   image: IconRegisterUser,
-  // },
+  {
+    title: "Register User",
+    path: "/register-user",
+    component: <RegisterForm />,
+    image: IconRegisterUser,
+  },
   // {
   //   title: "Logout",
   //   path: "/home",
