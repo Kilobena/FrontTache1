@@ -63,8 +63,8 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               <div className="text-sm mb-4 opacity-70">{`${formattedDate} - ${formattedTime} Africa/Tunis`}</div>
             </div>
           </div>
-          <hr className="border-white/10 mb-3" />
-          <ul className="sidebar-nav flex flex-col space-y-3 mb-3">
+          <ul className="sidebar-nav flex flex-col space-y-2">
+            <hr className="border-white/10 mb-2" />
             {ADMIN_NAV.map((item, index) => {
               return (
                 <>
@@ -98,7 +98,7 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               Logout
             </li>
           </ul>
-          <hr className="border-white/10" />
+          <hr className="border-white/10 my-2" />
 
           {/* User Info */}
           <div className="p-4 text-xs flex flex-col space-y-1 opacity-70 mb-5">
