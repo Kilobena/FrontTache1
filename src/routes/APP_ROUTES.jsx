@@ -31,7 +31,6 @@ import TransferReport from "../pages/Admin/TransferReport";
 import GamingReport from "../pages/Admin/GamingReport";
 import CasinoBets from "../pages/Admin/CasinoBets";
 import ManageUser from "../pages/Auth/ManageUser";
-import TransactionsHistory from "../pages/Admin/TransactionsHistory";
 
 export const GAMES_CATEGORY_NAV = [
   {
