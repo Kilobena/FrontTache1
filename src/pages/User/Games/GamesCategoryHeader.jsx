@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
+import { GAMES_CATEGORY_NAV } from "../../../routes/APP_ROUTES";
 import "../../../assets/styles/css/game-header.css";
 
 const GamesCategoryHeader = ({ openSearchModal }) => {

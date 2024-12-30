@@ -27,6 +27,13 @@ import IconCasinoBets from "../assets/icons/icon-casino-bets.svg";
 import IconManageUsers from "../assets/icons/icon-manage-users.svg";
 import IconRegisterUser from "../assets/icons/icon-register-user.svg";
 import IconLogout from "../assets/icons/icon-logout.svg";
+import TransferForm from "../pages/Admin/TransferAction";
+import TransferHistory from "../pages/Admin/TransferHistory";
+import TransferReport from "../pages/Admin/TransferReport";
+import GamingReport from "../pages/Admin/GamingReport";
+import CasinoBets from "../pages/Admin/CasinoBets";
+import ManageUser from "../pages/Auth/ManageUser";
+import TransactionsHistory from "../pages/Admin/TransactionsHistory";
 
 export const GAMES_CATEGORY_NAV = [
   {
@@ -154,47 +161,55 @@ export const USER_ACTIONS = [
 export const ADMIN_NAV = [
   {
     title: "Transfer",
-    path: "/agent/transfer",
+    path: "/transfer",
+    component: <TransferForm />,
     image: IconTransfer,
   },
   {
     title: "Transfer History",
-    path: "/agent/transfer-history",
+    path: "/transfer-history",
+    component: <TransferHistory />,
     image: IconTransferHistory,
   },
   {
     title: "Transfers Report",
-    path: "/agent/transfers-report",
+    path: "/transfers-report",
+    component: <TransferReport />,
     image: IconTransferReport,
   },
   {
     title: "Gaming Report",
-    path: "/agent/gaming-report",
+    path: "/gaming-report",
+    component: <GamingReport />,
     image: IconGamingReport,
   },
   {
     title: "Sportsbook Bets",
-    path: "/agent/sportsbook-bets",
+    path: "/sportsbook-bets",
+    component: <></>,
     image: IconSportbookBets,
   },
   {
     title: "Casino Bets",
-    path: "/agent/casino-bets",
+    path: "/casino-bets",
+    component: <CasinoBets />,
     image: IconCasinoBets,
   },
   {
     title: "Manage Users",
-    path: "/agent/manage-users",
+    path: "/manage-users",
+    component: <ManageUser />,
     image: IconManageUsers,
   },
   {
     title: "Transaction History",
-    path: "/agent/register-user",
+    path: "/register-user",
+    component: <TransactionsHistory />,
     image: IconRegisterUser,
   },
-  {
-    title: "Logout",
-    path: "/home",
-    image: IconLogout,
-  },
+  // {
+  //   title: "Logout",
+  //   path: "/home",
+  //   image: IconLogout,
+  // },
 ];

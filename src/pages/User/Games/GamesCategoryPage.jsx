@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { GAMES_CATEGORY_NAV } from "../../../routes/routes_data";
+import { GAMES_CATEGORY_NAV } from "../../../routes/APP_ROUTES";
 import GamesCategoryCard from "./GameCategoryCard";
 
 const GamesCategoryPage = () => {

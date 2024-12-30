@@ -3,7 +3,7 @@ import { FaBars, FaDice, FaStar, FaRocket, FaTable, FaVideo } from "react-icons/
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/AuthContext";
 import Login from "../../pages/Auth/LoginPage"; // Import the Login component
-import { GAMES_CATEGORY_NAV, SPORTS_NAV } from "../../routes/routes_data";
+import { GAMES_CATEGORY_NAV, SPORTS_NAV } from "../../routes/APP_ROUTES";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const BottomBar = ({ openSearchModal }) => {

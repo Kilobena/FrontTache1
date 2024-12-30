@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ADMIN_NAV } from "../../routes/routes_data";
+import { ADMIN_NAV } from "../../routes/APP_ROUTES";
 import IconLogout from "../../assets/icons/icon-logout.svg";
 
 const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
@@ -69,12 +69,16 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
               return (
                 <>
                   <li
-                    className={`cursor-pointer px-[14px] py-2 rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black  hover:bg-primary-yellow text-[17px] font-semibold ${
-                      isActive(item.path) ? "bg-primary-yellow text-black" : "text-white"
+                    className={`cursor-pointer px-[14px] py-2 rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black  hover:bg-primary-yellow text-[17px] ${
+                      isActive("/agent" + "" + item.path) ? "bg-primary-yellow text-black" : "text-white"
                     }`}
-                    onClick={() => handleMenuClick(item.path)}
+                    onClick={() => handleMenuClick("/agent" + "" + item.path)}
                   >
-                    <img src={item.image} alt={item.label} className={`w-6 h-6 mr-3 ${isActive(item.path) ? "active" : "icon-white"}`} />
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className={`w-6 h-6 mr-3 ${isActive("/agent" + "" + item.path) ? "active" : "icon-white"}`}
+                    />
                     {/* <FaChartBar className="mr-3 ml-3" /> */}
                     {item.title}
                   </li>
@@ -84,13 +88,13 @@ const Sidebar = ({ isSidebarOpen, logout, toggleSidebar, user }) => {
             })}
 
             {/* Logout Section */}
-            {/* <li
-              className="cursor-pointer p-2  rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black hover:bg-primary-yellow"
+            <li
+              className={`cursor-pointer px-[14px] py-2 rounded-lg flex items-center w-full transition duration-300 font-semibold hover:text-black  hover:bg-primary-yellow text-[17px] `}
               onClick={logout}
             >
               <img src={IconLogout} alt="logout" className={`mr-3 icon-white`} />
               Logout
-            </li> */}
+            </li>
           </ul>
           {/* <hr className="border-gray-700" /> */}
 

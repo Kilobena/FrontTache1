@@ -20,8 +20,8 @@ import AppHeader from "./components/layout/header/AppHeader";
 import Footer from "./components/layout/Footer";
 import BottomBar from "./components/layout/BottomBar";
 import Modal from "./components/ui/Modal";
-import { GAMES_CATEGORY_NAV } from "./routes/routes_data";
 import GameHistory from "./pages/User/Games/GameHistory";
+import { GAMES_CATEGORY_NAV, ADMIN_NAV } from "./routes/APP_ROUTES";
 
 function AppRoutes() {
   const location = useLocation();
@@ -55,21 +55,20 @@ function AppRoutes() {
     setIsLoginModalOpen(false);
   };
 
-  const excludedHeaderRoutes = [
-    "/agent/transfer",
-    "/agent/transfer-history",
-    "/agent/user-management",
-    "agent/register-partner",
-    "/agent/register-user",
-    "/agent/transfers-report",
-    "/agent/gaming-report",
-    "/sportsbook-bets",
-    "/agent/casino-bets",
-  ];
-
-  const isExcludedRoute = excludedHeaderRoutes.some((route) => location.pathname === route);
+  // const excludedHeaderRoutes = [
+  //   "/agent/transfer",
+  //   "/agent/transfer-history",
+  //   "/agent/user-management",
+  //   "agent/register-partner",
+  //   "/agent/register-user",
+  //   "/agent/transfers-report",
+  //   "/agent/gaming-report",
+  //   "/sportsbook-bets",
+  //   "/agent/casino-bets",
+  // ];
 
   // Determine if the Header should be displayed
+  const isExcludedRoute = ADMIN_NAV.some(({ path }) => location.pathname === "/agent" + "" + path);
   const excludeGameCategoryHeader = GAMES_CATEGORY_NAV.some(({ path }) => location.pathname === path);
 
   return (
@@ -138,11 +137,18 @@ function AppRoutes() {
         />
 
         {/* Protected Routes for Admin/Other Roles */}
+        <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/agent/transfer") : "/home"} replace />} />
         <Route path="/game-history" element={<GameHistory />} />
-
         <Route element={<DashboardLayout excludeGameCategoryHeader={excludeGameCategoryHeader} user={user} logout={logout} />}>
-          <Route path="/" element={<Navigate to={isAuthenticated ? (isUserRole ? "/home" : "/agent/transfer") : "/home"} replace />} />
-          <Route path="/agent/transfer" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
+          {ADMIN_NAV.map((item) => (
+            <Route
+              key={item.label}
+              path={"/agent" + "" + item.path}
+              element={isAuthenticated && !isUserRole ? item.component : <Navigate to="/home" replace />}
+            />
+          ))}
+
+          {/* <Route path="/agent/transfer" element={isAuthenticated && !isUserRole ? <TransferForm /> : <Navigate to="/home" replace />} />
           <Route path="/agent/transfer-history" element={isAuthenticated && !isUserRole ? <TransferHistory /> : <Navigate to="/home" replace />} />
           <Route path="/agent/user-management" element={isAuthenticated && !isUserRole ? <ManageUser /> : <Navigate to="/home" replace />} />
           <Route path="agent/register-partner" element={isAuthenticated && !isUserRole ? <RegisterPartner /> : <Navigate to="/home" replace />} />
@@ -150,7 +156,7 @@ function AppRoutes() {
           <Route path="/agent/transfers-report" element={isAuthenticated && !isUserRole ? <TransferReport /> : <Navigate to="/home" replace />} />
           <Route path="/agent/gaming-report" element={isAuthenticated && !isUserRole ? <GamingReport /> : <Navigate to="/home" replace />} />
           <Route path="/sportsbook-bets" element={isAuthenticated && !isUserRole ? <SportBetBook /> : <Navigate to="/home" replace />} />
-          <Route path="/agent/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} />
+          <Route path="/agent/casino-bets" element={isAuthenticated && !isUserRole ? <CasinoBets /> : <Navigate to="/home" replace />} /> */}
         </Route>
 
         {/* Fallback Route */}

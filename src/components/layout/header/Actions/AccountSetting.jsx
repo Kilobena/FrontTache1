@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { USER_ACTIONS } from "../../../../routes/routes_data";
+import { USER_ACTIONS } from "../../../../routes/APP_ROUTES";
 import Modal from "../../../ui/Modal";
 import MyAccount from "../../../../pages/User/AccountSetting/MyAccount";
 import { RiLogoutBoxRLine } from "react-icons/ri";
