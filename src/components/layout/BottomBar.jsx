@@ -39,7 +39,7 @@ const BottomBar = ({ openSearchModal }) => {
     },
     {
       label: "Sports",
-      path: "/sports",
+      path: "/sports-betting",
       image: "https://www.bet24.gg/_next/image?url=https%3A%2F%2Fassets.bet24.gg%2Fsites%2Fbet24%2Fmenus%2Fmobile_bottom_Sports.svg&w=160&q=75",
     },
     {
