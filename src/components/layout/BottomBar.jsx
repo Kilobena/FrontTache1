@@ -5,6 +5,7 @@ import { useAuth } from "../../providers/AuthContext";
 import Login from "../../pages/Auth/LoginPage"; // Import the Login component
 import { GAMES_CATEGORY_NAV, SPORTS_NAV } from "../../routes/APP_ROUTES";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { isImageUrl } from "../../helpers/functions";
 
 const BottomBar = ({ openSearchModal }) => {
   const navigate = useNavigate();
@@ -143,9 +144,7 @@ const BottomBar = ({ openSearchModal }) => {
           {/* Casino Section */}
           <div className="px-2">
             <span
-              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white mb-2 ${
-                isCasinoMenu ? "bg-[#494949]" : ""
-              }`}
+              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white ${isCasinoMenu ? "bg-[#494949]" : ""}`}
               onClick={() => setIsCasinoMenu(!isCasinoMenu)}
             >
               Casino <ChevronDownIcon aria-hidden="true" className={`size-6 text-white ${isCasinoMenu ? "rotate-180 " : ""}`} />
@@ -158,13 +157,13 @@ const BottomBar = ({ openSearchModal }) => {
                     to={item.path}
                     onClick={() => handleNavigation(item.path)}
                     className={({ isActive }) =>
-                      `flex items-center gap-2 py-2  px-3 font-light ${
+                      `flex items-center gap-2 py-2 px-3 font-light ${
                         isActive ? " text-primary-yellow active" : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
                       }`
                     }
                   >
                     <span role="img" aria-label={item.label} className="icon transition-transform">
-                      {item?.icon?.includes("http") ? <img src={item?.icon} alt={item.label} className="w-5 h-5" /> : null}
+                      {isImageUrl(item.icon) ? <img src={item?.icon} alt={item.label} className="w-6 h-5" /> : null}
                     </span>
                     <span className="text-center">{item.label}</span>
                   </NavLink>
@@ -176,9 +175,7 @@ const BottomBar = ({ openSearchModal }) => {
           {/* Sports Section */}
           <div className="px-2 mb-4">
             <span
-              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white mb-2 ${
-                isSportsMenu ? "bg-[#494949]" : ""
-              }`}
+              className={`rounded-lg py-2 px-3 flex items-center justify-between text-sm uppercase text-white ${isSportsMenu ? "bg-[#494949]" : ""}`}
               onClick={() => setIsSportsMenu(!isSportsMenu)}
             >
               Sports <ChevronDownIcon aria-hidden="true" className={`size-6 text-white ${isSportsMenu ? "rotate-180 " : ""}`} />
@@ -191,7 +188,7 @@ const BottomBar = ({ openSearchModal }) => {
                     to={item.path}
                     onClick={() => handleNavigation(item.path)}
                     className={({ isActive }) =>
-                      `flex items-center gap-2 py-2  px-3 font-light ${
+                      `flex items-center gap-2 py-2 px-3 font-light ${
                         isActive ? " text-primary-yellow active" : "text-white hover:text-yellow-400 hover:bg-[#1c1c1c]"
                       }`
                     }
