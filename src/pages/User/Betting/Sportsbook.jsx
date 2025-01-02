@@ -1,54 +1,176 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { cmsSportbook, initCmsSportBook } from "./cmssportsbook";
+import { cmsSportbook } from "./cmssportsbook";
 import { SPORTSBOOK_CLIENT_KEY } from "../../../helpers/constants";
+
+// Utility function for debounce
+const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
 const Sportsbook = () => {
   const location = useLocation();
+  const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const isInitialized = useRef(false); // Ref to prevent duplicate initializations
 
-  const [isTablet, setIsTablet] = useState(window?.innerWidth <= 1024);
-  const [isMobile, setIsMobile] = useState(window?.innerWidth <= 640);
+  // Fetch CMS Token
+  const fetchCMSToken = async () => {
+    console.log("Calling fetchCMSToken...");
+    try {
+      console.log("CMS Token Request: Sending POST request to https://catch-me.bet/get-cms-token");
+      const response = await fetch("https://catch-me.bet/get-cms-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      const rawText = await response.text();
+      console.log("Raw CMS Token Response:", rawText);
+
+      const data = JSON.parse(rawText);
+      console.log("Parsed CMS Token Response:", data);
+
+      if (data.success) {
+        console.log("CMS Token fetched successfully:", data.token);
+        return data.token;
+      } else {
+        throw new Error(`Failed to fetch CMS token: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error fetching CMS token:", error);
+      return null;
+    }
+  };
+
+  // Login User
+  const userLogin = async (userId, currency, type) => {
+    console.log("Calling userLogin...");
+    try {
+      console.log("User Login Request: Payload sent to backend:", { userId, currency, type });
+      const response = await fetch("https://catch-me.bet/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, currency, type }),
+      });
+
+      const rawText = await response.text();
+      console.log("Raw User Login Response:", rawText);
+
+      const data = JSON.parse(rawText);
+      console.log("Parsed User Login Response:", data);
+
+      if (data.success) {
+        console.log("User logged in successfully:", data.token);
+        return data.token;
+      } else {
+        throw new Error(`Login failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error during user login:", error);
+      return null;
+    }
+  };
+
+  // Handle Resize with Debouncing
   useEffect(() => {
     const handleResize = () => {
-      setIsTablet(window.innerWidth <= 1024);
-      setIsMobile(window.innerWidth <= 480);
+      const isTabletNow = window.innerWidth <= 1024;
+      const isMobileNow = window.innerWidth <= 640;
+
+      // Update state only if values have changed
+      setIsTablet((prev) => (prev !== isTabletNow ? isTabletNow : prev));
+      setIsMobile((prev) => (prev !== isMobileNow ? isMobileNow : prev));
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    const debounceResize = debounce(handleResize, 300);
+    window.addEventListener("resize", debounceResize);
+
+    return () => {
+      window.removeEventListener("resize", debounceResize);
+    };
   }, []);
 
+  // Initialize Sportbook
   useEffect(() => {
-    const platform = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
-    if (location) {
+    const initializeSportbook = async () => {
+      if (isInitialized.current) {
+        console.log("Sportbook already initialized. Skipping...");
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      const platform = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
+      console.log("Initializing Sportbook with platform:", platform);
+
       const defaultPage = location.pathname.startsWith("/sports-betting")
         ? "sport"
         : "live";
 
-      const SPORTBOOK_DTO = {
-        platform,
-        user: "guest",
-        lang: "en-US",
-        token: SPORTSBOOK_CLIENT_KEY || "",
-        defaultPage,
-      };
+      try {
+        // Fetch CMS Token
+        const cmsToken = await fetchCMSToken();
+        console.log("fetchCMSToken returned:", cmsToken);
+        if (!cmsToken) throw new Error("CMS Token not available.");
 
-      cmsSportbook.startSportbook(
-        SPORTBOOK_DTO.platform,
-        SPORTBOOK_DTO.user,
-        SPORTBOOK_DTO.lang,
-        SPORTBOOK_DTO.token,
-        SPORTBOOK_DTO.defaultPage
-      );
-    }
-  }, [location]);
+        // Login User
+        const userToken = await userLogin(1853141, "USD", "player");
+        console.log("userLogin returned:", userToken);
+        if (!userToken) throw new Error("User Token not available.");
+
+        // Prepare SPORTBOOK DTO
+        const SPORTBOOK_DTO = {
+          platform,
+          user: userToken,
+          lang: "en-US",
+          token: SPORTSBOOK_CLIENT_KEY || cmsToken,
+          defaultPage,
+        };
+        console.log("SPORTBOOK DTO:", SPORTBOOK_DTO);
+
+        // Start Sportbook
+        cmsSportbook.startSportbook(
+          SPORTBOOK_DTO.platform,
+          SPORTBOOK_DTO.user,
+          SPORTBOOK_DTO.lang,
+          SPORTBOOK_DTO.token,
+          SPORTBOOK_DTO.defaultPage
+        );
+
+        console.log("Sportbook initialized successfully.");
+        isInitialized.current = true; // Mark as initialized
+      } catch (error) {
+        console.error("Error initializing Sportbook:", {
+          errorMessage: error.message,
+          stack: error.stack,
+        });
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeSportbook();
+  }, [isMobile, isTablet, location]);
 
   return (
-    <>
-      <div id="appcontent">
-        {/* Sportsbook content will be injected here */}
-      </div>
-    </>
+    <div id="appcontent" style={{ position: "relative" }}>
+      {loading && <div className="loading-spinner">Loading...</div>}
+      {error && <div className="error-message">{error}</div>}
+    </div>
   );
 };
 
