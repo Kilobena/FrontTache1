@@ -47,7 +47,6 @@ export const SearchGames = () => {
       try {
         const response = await fetchAllGames();
         setGames(response.data);
-        console.log("images",response);
         setTotalGames(response.pagination?.total);
       } catch (error) {
         console.error("Failed to load games:", error);
