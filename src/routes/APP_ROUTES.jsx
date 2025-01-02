@@ -109,23 +109,23 @@ export const GAMES_CATEGORY_NAV = [
 
 export const SPORTS_NAV = [
   {
-    path: "/",
+    path: "/sports-betting",
     label: "Prelive Events",
   },
   {
-    path: "/",
+    path: "/live-betting",
     label: "Live Events",
   },
   {
-    path: "/",
+    path: "/sports-betting",
     label: "Soccer",
   },
   {
-    path: "/",
+    path: "/sports-betting",
     label: "Basketball",
   },
   {
-    path: "/",
+    path: "/sports-betting",
     label: "Tennis",
   },
 ];

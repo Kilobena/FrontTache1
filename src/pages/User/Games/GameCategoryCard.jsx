@@ -99,18 +99,22 @@ const GamesCategoryCard = ({ data, showAllCategories, limit = null, horizontalOn
 
   if (!showAllCategories && loading && offset === 0) {
     return (
-      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] mb-4">
+      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] mb-4 rounded">
         <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
   if (showAllCategories && loading && offset === 0) {
-    <div className="flex items-center justify-center py-4 bg-[#2E2E2E] text-white mb-4"> </div>;
+    return (
+      <div className="flex items-center justify-center py-4 bg-[#2E2E2E] text-white mb-4 rounded">
+        {/* <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div> */}
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-red-500">
+      <div className="flex items-center justify-center h-[calc(100vh-400px)] bg-[#2E2E2E] text-red-500 rounded">
         {error.includes("Failed to fetch games") ? "Unable to load games. Please try again later." : error}
       </div>
     );
