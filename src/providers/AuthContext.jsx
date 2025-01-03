@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import Auth from "../service/Auth";
-import Cookies from "js-cookie"; // Importing js-cookie for handling cookies
+import Cookies from "js-cookie";
+import io from "socket.io-client";
 
-// Create the AuthContext
 const AuthContext = createContext();
 
-// AuthProvider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
@@ -17,29 +15,43 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  const auth = new Auth();
+  const socket = React.useRef(null);
 
-  // Function to get a new access token using the refresh token
+  useEffect(() => {
+    // Initialize Socket.IO connection
+    socket.current = io("https://catch-me.bet"); // Replace with your backend URL
 
+    // Listen for balance updates
+    socket.current.on("balanceUpdated", (data) => {
+      if (data.userId === user?._id) {
+        console.log("Real-time balance update received:", data);
+        updateUser({ balance: data.newBalance });
+      }
+    });
 
-  // Function to handle login
+    // Cleanup socket connection
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, [user]);
+
   const login = (userData) => {
     try {
-      Cookies.set("token", userData.token); // Set the token in cookies
-      Cookies.set("user", JSON.stringify(userData)); // Set the user data in cookies
+      Cookies.set("token", userData.token);
+      Cookies.set("user", JSON.stringify(userData));
       setUser(userData);
     } catch (error) {
       console.error("Error storing user data during login:", error);
     }
   };
 
-  // Function to update user data
   const updateUser = (updatedUserData) => {
     try {
       setUser((prevUser) => {
         const newUser = { ...prevUser, ...updatedUserData };
-        Cookies.set("token", newUser.token); // Update token in cookies
-        Cookies.set("user", JSON.stringify(newUser)); // Update user data in cookies
+        Cookies.set("user", JSON.stringify(newUser));
         return newUser;
       });
     } catch (error) {
@@ -47,34 +59,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Function to logout
   const logout = () => {
     try {
-      Cookies.remove("user"); // Remove user from cookies
-      Cookies.remove("token"); // Remove token from cookies
-      Cookies.remove("refreshToken"); // Remove refresh token from cookies
+      Cookies.remove("user");
+      Cookies.remove("token");
       setUser(null);
     } catch (error) {
       console.error("Error during logout:", error);
     }
   };
 
-  // Check if the token has expired and refresh it periodically
-
   return (
-      <AuthContext.Provider value={{ user, login, logout, updateUser }}>
-        {children}
-      </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
-// Custom Hook for Auth
 export const useAuth = () => {
   const context = useContext(AuthContext);
-
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-
   return context;
 };

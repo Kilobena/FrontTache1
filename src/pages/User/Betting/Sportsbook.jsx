@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { cmsSportbook } from "./cmssportsbook";
 import { SPORTSBOOK_CLIENT_KEY } from "../../../helpers/constants";
+import { useAuth } from "../../../providers/AuthContext";
 
 // Utility function for debounce
 const debounce = (func, delay) => {
@@ -19,8 +20,14 @@ const Sportsbook = () => {
   const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth(); // Get the current user from the Auth context
+
   const [error, setError] = useState(null);
   const isInitialized = useRef(false); // Ref to prevent duplicate initializations
+  useEffect(() => {
+    console.log("Current user in Sportsbook:", user); // Debug log
+  }, [user]);
+
 
   // Fetch CMS Token
   const fetchCMSToken = async () => {
@@ -51,6 +58,8 @@ const Sportsbook = () => {
       return null;
     }
   };
+
+  console.log("cms user",user.c_id);
 
   // Login User
   const userLogin = async (userId, currency, type) => {
@@ -127,7 +136,7 @@ const Sportsbook = () => {
         if (!cmsToken) throw new Error("CMS Token not available.");
 
         // Login User
-        const userToken = await userLogin(1853141, "USD", "player");
+        const userToken = await userLogin(user.c_id, "USD", "player");
         console.log("userLogin returned:", userToken);
         if (!userToken) throw new Error("User Token not available.");
 
@@ -168,8 +177,8 @@ const Sportsbook = () => {
 
   return (
     <div id="appcontent" style={{ position: "relative" }}>
-      {loading && <div className="loading-spinner">Loading...</div>}
-      {error && <div className="error-message">{error}</div>}
+  
+      
     </div>
   );
 };

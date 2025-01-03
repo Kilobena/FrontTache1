@@ -248,7 +248,7 @@ class Auth {
     async getBalance(username) {
         try {
             const token = Cookies.get('token');
-            const response = await this.api.post("/auth/getBalance",
+            const response = await this.api.post("/auth/updatebalance",
                 { username: username ?? "" },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
