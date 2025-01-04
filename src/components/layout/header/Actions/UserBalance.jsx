@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { MenuItem, MenuItems } from "@headlessui/react";
 
 const UserBalance = ({ user }) => {
   const totalBalance = (user?.balance || 0) + (user?.sportsbookBonus || 165) + (user?.casinoBonus || 435);
@@ -29,39 +29,25 @@ const UserBalance = ({ user }) => {
 
   return (
     <>
-      {userBalanceData.map((item, index) => (
-        <a
-          key={index}
-          href="#"
-          className="border-b border-gray-900 block px-4 py-2 text-sm text-white hover:text-primary-yellow"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <img className="w-6 h-6" src={item.image} alt={item.title} />
-              <span>{item.title}</span>
+      {userBalanceData.map((item, index) => {
+        return (
+          <a key={index} href="#" className="border-b border-gray-900 block px-4 py-2 text-sm  text-white ">
+            <div className="flex items-center gap-2 justify-between">
+              <ul>
+                <li className="flex items-center gap-2 hover:text-primary-yellow">
+                  <span className="w-7">
+                    <img className="w-6 h-6" src={item.image} alt={item.title} />
+                  </span>
+                  {item.title}
+                </li>
+              </ul>
+              <span>{item?.cash?.toFixed(2)} د.ت</span>
             </div>
-            <span>{item.cash.toFixed(2)} د.ت</span>
-          </div>
-        </a>
-      ))}
+          </a>
+        );
+      })}
     </>
   );
-};
-
-UserBalance.propTypes = {
-  user: PropTypes.shape({
-    balance: PropTypes.number,
-    sportsbookBonus: PropTypes.number,
-    casinoBonus: PropTypes.number,
-  }),
-};
-
-UserBalance.defaultProps = {
-  user: {
-    balance: 0,
-    sportsbookBonus: 165,
-    casinoBonus: 435,
-  },
 };
 
 export default UserBalance;

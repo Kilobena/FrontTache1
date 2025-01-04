@@ -9,11 +9,9 @@ export const cmsSportbook = {
   defaultPage: "sport",
   integration: "",
   setUserToken: function (token) {
-    console.log("Setting User Token:", token);
     this.userToken = token;
   },
   setCulture: function (culture) {
-    
     this.culture = culture;
   },
   setPlatform: function (platform) {
@@ -35,7 +33,7 @@ export const cmsSportbook = {
   },
   createIframe: function () {
     var iframe = document.createElement("iframe");
-    iframe.setAttribute("src", this.iframeUrl); 
+    iframe.setAttribute("src", this.iframeUrl);
     iframe.setAttribute("id", "ifrContent");
     iframe.setAttribute("width", "100%");
     iframe.setAttribute("height", "100%");

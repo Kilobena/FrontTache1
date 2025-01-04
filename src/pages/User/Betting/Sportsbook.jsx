@@ -15,6 +15,14 @@ const debounce = (func, delay) => {
   };
 };
 
+
+const Loader = () => (
+  <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-[#2E2E2E]">
+    <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+
 const Sportsbook = () => {
   const location = useLocation();
   const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
@@ -175,11 +183,17 @@ const Sportsbook = () => {
     initializeSportbook();
   }, [isMobile, isTablet, location]);
 
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <div id="appcontent" style={{ position: "relative" }}>
-  
-      
-    </div>
+    <>
+      <div id="appcontent">
+        {/* Sportsbook content will be injected here */}
+      </div>
+    </>
   );
 };
 

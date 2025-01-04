@@ -7,6 +7,9 @@ class Auth {
             baseURL: baseURL || "https://catch-me.bet/",  // Ensure this is your correct backend URL
         });
 
+        this.lastModified = null; // Store Last-Modified timestamp
+
+
         // Add an interceptor to handle token refresh
         this.api.interceptors.request.use(
             (config) => {
@@ -248,7 +251,7 @@ class Auth {
     async getBalance(username) {
         try {
             const token = Cookies.get('token');
-            const response = await this.api.post("/auth/updatebalance",
+            const response = await this.api.post("/auth/getBalance",
                 { username: username ?? "" },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -276,6 +279,65 @@ class Auth {
             }
         }
     }
+
+    async updateBalance(headers = {}) {
+        try {
+          const token = Cookies.get("token");
+    
+          // Add If-Modified-Since header if we have a cached Last-Modified value
+          if (this.lastModified) {
+            headers["If-Modified-Since"] = this.lastModified;
+          }
+    
+          const response = await this.api.get("/auth/ubalance", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              ...headers,
+            },
+          });
+    
+          // Save Last-Modified header if available
+          if (response.headers["last-modified"]) {
+            this.lastModified = response.headers["last-modified"];
+          }
+    
+          return {
+            success: true,
+            status: response.status,
+            balance: response.data.balance,
+            lastModified: this.lastModified,
+          };
+        } catch (error) {
+          console.error("Error fetching user balance:", error);
+    
+          if (error.response) {
+            // Handle 304 Not Modified status
+            if (error.response.status === 304) {
+              return {
+                success: true,
+                status: 304,
+                message: "Balance not modified",
+              };
+            }
+    
+            return {
+              success: false,
+              status: error.response.status,
+              message: error.response.data.message || "Error retrieving balance",
+            };
+          } else {
+            return {
+              success: false,
+              status: 500,
+              message: "Network error or server is unreachable.",
+            };
+          }
+        }
+      }
+      
+
+    
+      
 
     // Method to get users by creator ID
     async getUsersByCreatorId(creatorId) {
